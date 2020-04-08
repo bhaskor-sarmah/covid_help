@@ -38,7 +38,7 @@
                             <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No" id="mobile"/>
                             <span class="errorSpan" id="mobileError"></span>
                         </div>
-                        
+
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">Email<br/>আপোনাৰ ইমেইল লিখক</label>
@@ -65,7 +65,7 @@
                             <input type="text" class="form-control" name="pincode" placeholder="Enter Pin Code" id="pincode" onblur="doGetState(this.value);"/>
                             <span class="errorSpan" id="pincodeError"></span>
                         </div>
-                       <div class="clearfix"></div>
+                        <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">State: </label>
                             <label class="ass" style='font-size: small;'>State (ৰাজ্য): </label>
@@ -107,6 +107,12 @@
                                 <option value="SHELTER">SHELTER</option>
                             </select>
                             <span class="errorSpan" id="type_of_helpError"></span>
+                        </div>
+                        <div class="col-xs-9 col-md-6">
+                            <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
+                            <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
+                            <span class="errorSpan" id="captchaError"></span>
+                            <img src="./CaptchaServlet" id="captchaImage"/>&nbsp;<a href="#" onclick="reloadCaptcha();"><i class="glyphicon glyphicon-refresh"></i></a>
                         </div>
                         <div class="clearfix"></div>
                         <input type="hidden" class="form-control" name="type" id="type" value="${type}"/>
@@ -155,13 +161,11 @@
                 $("#mobileError").html("Enter a valid Mobile No.");
                 $("#mobileError").show();
                 return false;
-            } 
-//            else if ($("#gender").val()) {
-//                $("#searchError").html("Enter a valid Pin Code");
-//                $("#searchError").show();
-//                return false;
-//            } 
-            else if (isNaN($("#age").val())) {
+            } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
+                $("#captchaError").html("Enter a valid Captcha Code");
+                $("#captchaError").show();
+                return false;
+            } else if (isNaN($("#age").val())) {
                 $("#ageError").html("Enter a valid Age");
                 $("#ageError").show();
                 return false;
@@ -169,7 +173,7 @@
                 $("#ageError").html("Enter a valid Age");
                 $("#ageError").show();
                 return false;
-            }else if (!$("#pincode").val().match(/[1-9][0-9]{5}/)) {
+            } else if (!$("#pincode").val().match(/[1-9][0-9]{5}/)) {
                 $("#pincodeError").html("Enter a valid Pin Code");
                 $("#pincodeError").show();
                 return false;
@@ -181,11 +185,11 @@
                 $("#localityError").html("Enter Locality");
                 $("#localityError").show();
                 return false;
-            }else if ($("#road").val() === "") {
+            } else if ($("#road").val() === "") {
                 $("#roadError").html("Enter Road/Street");
                 $("#roadError").show();
                 return false;
-            }else if ($("#house_no").val() === "") {
+            } else if ($("#house_no").val() === "") {
                 $("#house_noError").html("Enter House No");
                 $("#house_noError").show();
                 return false;
@@ -197,6 +201,10 @@
 //            return true;
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
             return pattern.test(emailAddress);
+        }
+
+        function reloadCaptcha() {
+            $("#captchaImage").attr("src", "./CaptchaServlet?t=" + new Date().getTime());
         }
     </script>
 </body>

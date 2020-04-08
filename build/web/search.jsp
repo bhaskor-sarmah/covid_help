@@ -33,7 +33,12 @@
                             <th>District<br/>জিলা</th>
                             <th>Address<br/>ঠিকনা</th>
                             <th>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</th>
-                            <th>Action</th>
+                            <th>
+                                Action<br/>
+                                <c:if test="${searchType == 'PINCODE'}">
+                                    <button class="btn btn-sm btn-primary" onclick="doContactAll('${pin}', '${mobile}', '${captcha}', '${type}');">Contact All</button>
+                                </c:if>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +54,8 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact();">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}');">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top: 5px;">View In Map</button>
                                     </td>
                                 </c:if>
                                 <c:if test="${obj.src == 'POR'}">
@@ -61,7 +67,7 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact();">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}');">Contact</button>
                                     </td>
                                 </c:if>
                             </tr>
@@ -70,7 +76,7 @@
                 </table>
             </div>
             <div class="col-sm-12 col-md-6">
-                <iframe src="http://3.6.23.223:8080/covid19/" height="800px;" width="100%" id="mapFrame"/>
+                <iframe src="http://3.6.23.223:8080/covid19/" height="800px;" width="100%" id="mapFrame"></iframe>
             </div>
         </div>
     </div>
@@ -79,17 +85,47 @@
         $(document).ready(function() {
             $("#myTable").dataTable();
         });
-        function doContact(str) {
+        function doContact(mm, str, c) {
+//            alert("Hi");
             $.ajax({
                 url: './Contact',
                 type: 'POST',
-                data: 'm=' + str,
+                data: 'mm=' + mm + '&m=' + str + '&c=' + c,
                 success: function(data) {
                     //called when successful
+                    $.alert({
+                        title: "Success",
+                        content: "Selected Person contacted By SMS successfully",
+                        type: "green",
+                        typeAnimated: true
+                    });
                 },
                 error: function(e) {
                 }
             });
+        }
+        function doContactAll(pin, str, c, t) {
+            $.ajax({
+                url: './ContactAll',
+                type: 'POST',
+                data: 'p=' + pin + '&m=' + str + '&c=' + c + '&t=' + t,
+                success: function(data) {
+                    //called when successful
+                    $.alert({
+                        title: "Success",
+                        content: "All Person's contacted By SMS successfully",
+                        type: "green",
+                        typeAnimated: true
+                    });
+                },
+                error: function(e) {
+                }
+            });
+        }
+        
+        function doViewInMap(mob){
+            var url = "http://3.6.23.223:8080/StateMap/GetMap?mno=";
+            $("#mapFrame").attr("src",url+mob);
         }
     </script>
 </body>

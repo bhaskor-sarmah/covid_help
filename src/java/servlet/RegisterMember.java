@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Member;
 import model.PinPojo;
 
@@ -35,43 +36,51 @@ public class RegisterMember extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name").toUpperCase();
-        String mobile = request.getParameter("mobile");
-        String ps = request.getParameter("ps").toUpperCase();
-        String locality = request.getParameter("locality").toUpperCase();
-        String road = request.getParameter("road").toUpperCase();
-        String house = request.getParameter("house_no").toUpperCase();
-        String pin = request.getParameter("pincode");
-        String sex = request.getParameter("gender").toUpperCase();
-        String age = request.getParameter("age");
-        String email = request.getParameter("email");
+        String captcha = request.getParameter("captcha");
+        HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
-        String type_of_help = request.getParameter("type_of_help").toUpperCase();
-        PinPojo p = dao.getState(pin);
-        Member m = new Member();
-        m.setName(name);
-        m.setPolice_station(ps);
-        m.setPincode(pin);
-        m.setLocality(locality);
-        m.setRoad(road);
-        m.setHouse_no(house);
-        m.setAge(age);
-        m.setCircle("");
-        m.setDistrict(p.getDistrict());
-        m.setEmail(email);
-        m.setMobile(mobile);
-        m.setSex(sex);
-        m.setState(p.getState());
-        m.setType(type);
-        m.setType_of_help(type_of_help);
-
-        if (dao.saveMember(m)) {
-            request.setAttribute("msg", "<div class=\"alert alert-success\">Registration Successful !</div>");
-            request.getRequestDispatcher("./index.jsp").forward(request, response);
-        } else {
+        if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
+            request.setAttribute("msg", "<div class=\"alert alert-danger\">Invalid Captcha Code</div>");
             request.setAttribute("type", type);
-            request.setAttribute("msg", "<span style=\"color: reg\">Failed Saving Member</span>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
+        } else {
+            String name = request.getParameter("name").toUpperCase();
+            String mobile = request.getParameter("mobile");
+            String ps = request.getParameter("ps").toUpperCase();
+            String locality = request.getParameter("locality").toUpperCase();
+            String road = request.getParameter("road").toUpperCase();
+            String house = request.getParameter("house_no").toUpperCase();
+            String pin = request.getParameter("pincode");
+            String sex = request.getParameter("gender").toUpperCase();
+            String age = request.getParameter("age");
+            String email = request.getParameter("email");
+            String type_of_help = request.getParameter("type_of_help").toUpperCase();
+            PinPojo p = dao.getState(pin);
+            Member m = new Member();
+            m.setName(name);
+            m.setPolice_station(ps);
+            m.setPincode(pin);
+            m.setLocality(locality);
+            m.setRoad(road);
+            m.setHouse_no(house);
+            m.setAge(age);
+            m.setCircle("");
+            m.setDistrict(p.getDistrict());
+            m.setEmail(email);
+            m.setMobile(mobile);
+            m.setSex(sex);
+            m.setState(p.getState());
+            m.setType(type);
+            m.setType_of_help(type_of_help);
+
+            if (dao.saveMember(m)) {
+                request.setAttribute("msg", "<div class=\"alert alert-success\">Registration Successful !</div>");
+                request.getRequestDispatcher("./index.jsp").forward(request, response);
+            } else {
+                request.setAttribute("type", type);
+                request.setAttribute("msg", "<span style=\"color: reg\">Failed Saving Member</span>");
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+            }
         }
     }
 

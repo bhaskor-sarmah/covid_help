@@ -30,18 +30,51 @@
     <jsp:include page="./template/header.jsp"/>
     <div class="container mainContainerDiv">
 
+        <div class="row"  style="margin-top: 10px;">
+            <div class="col-sm-0 col-md-3"></div>
+            <div class="col-sm-12 col-md-6">
+                <form action="./Register" method="POST">
+                    <input type="hidden" name="type" value="HELP SEEKER" />
+                    <div class="col-xs-12 col-md-6" style="margin-top:10px;">
+                        <button type="submit" class="btn btn-primary" style="height:120px;width:250px;">
+                            <span>
+                                <p>Register for Seeking help</p>
+                                <p class="ass">সহায় বিচাৰিবৰ<br/>বাবে নিবন্ধন কৰক</p>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+                <form action="./Register" method="POST">
+                    <input type="hidden" name="type" value="HELP GIVER" />
+                    <div class="col-xs-12 col-md-6" style="margin-top:10px;">
+                        <button type="submit" class="btn btn-primary" style="height:120px;width:250px;">
+                            <span>
+                                <p>Register for Giving help</p>
+                                <p class="ass">সহায় কৰিবৰ<br/>বাবে নিবন্ধন কৰক</p>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-0 col-md-3"></div>
+        </div>
+
         <form action="./SearchByPin" method="POST" onsubmit="return doValidateForm();" autocomplete="off">
-            <div class="row">
+            <div class="row" style="margin-top: 40px;">
                 <div class="col-xs-12 col-md-6 text-center">
-                    <div class="alert alert-info">
-                        <label>You Need Help (Select the radio button below)<br/>আপোনাক সহায়ৰ প্ৰয়োজন</label>
-                        <p><input type="radio" id="needHelp" value="HELP SEEKER" name="type" />&nbsp;Search for Help by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰিবলৈ বাচি লওঁক </p>
+                    <div class="col-xs-11 text-center messageDiv">
+                        <div class="">
+                            <label>You Need Help (Select the radio button below)<br/>আপোনাক সহায়ৰ প্ৰয়োজন</label>
+                            <p><input type="radio" id="needHelp" value="HELP GIVER" name="type" />&nbsp;Search for Help by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰিবলৈ বাচি লওঁক </p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-6 text-center">
-                    <div class="alert alert-info">
-                        <label>You Are a Help Provider (Select the radio button below)<br/>আপুনি এজন সহায়কাৰী</label>
-                        <p><input type="radio" id="giveHelp" value="HELP GIVER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
+                <div class="col-xs-12 col-md-6 text-center" style="margin-bottom: 20px;">
+                    <div class="col-xs-11 text-center messageDiv">
+                        <div class="">
+                            <label>You Are a Help Provider (Select the radio button below)<br/>আপুনি এজন সহায়কাৰী</label>
+                            <p><input type="radio" id="giveHelp" value="HELP SEEKER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12" class="errorSpan" id="radionErrorDiv">
@@ -60,11 +93,27 @@
                             <span class="errorSpan" id="searchError"></span>
                         </div>
                         <div class="col-xs-9">
+                            <label class="eng">Enter Your Mobile<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
+                            <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No here" id="mobile"/>
+                            <span class="errorSpan" id="mobileError"></span>
+                        </div>
+                        <div class="col-xs-9" style="margin-top: 10px;">
+                            <input type="radio" id="pinRadio" value="PINCODE" name="state" />&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
+                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন কোডৰ জেলাৰে অনুসন্ধান কৰক</label>
+<!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
+                            <select class="form-control" id="state" name="state">
+                                <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
+                                <option value="DISTRICT">DISTRICT (জিলা)</option>
+                                <option value="STATE">STATE (ৰাজ্য)</option>
+                            </select>-->
+                            <span class="stateSpan" id="searchError"></span>
+                        </div>
+                        <div class="col-xs-9">
                             <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
-                            <span class="errorSpan" id="searchError"></span>
+                            <span class="errorSpan" id="captchaError"></span>
                             <img src="./CaptchaServlet" id="captchaImage"/>&nbsp;<a href="#" onclick="reloadCaptcha();"><i class="glyphicon glyphicon-refresh"></i></a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="Go" style="width:50px;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="Search" >
                         </div>
                     </div>
                 </div>
@@ -81,40 +130,13 @@
             </c:if>
 
         </form>
-        <div class="row"  style="margin-top: 50px;">
-            <div class="col-sm-0 col-md-3"></div>
-            <div class="col-sm-12 col-md-6">
-                <form action="./Register" method="POST">
-                    <input type="hidden" name="type" value="HELP SEEKER" />
-                    <div class="col-xs-12 col-md-6">
-                        <button type="submit" class="btn btn-primary" style="height:100px;width:200px;">
-                            <span>
-                                <p>Register for Seeking help</p>
-                                <p class="ass">সহায় বিচাৰিবৰ<br/>বাবে নিবন্ধন কৰক</p>
-                            </span>
-                        </button>
-                    </div>
-                </form>
-                <form action="./Register" method="POST">
-                    <input type="hidden" name="type" value="HELP GIVER" />
-                    <div class="col-xs-12 col-md-6" style="margin-top:10px;">
-                        <button type="submit" class="btn btn-primary" style="height:100px;width:200px;">
-                            <span>
-                                <p>Register for Giving help</p>
-                                <p class="ass">সহায় কৰিবৰ<br/>বাবে নিবন্ধন কৰক</p>
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-0 col-md-3"></div>
-        </div>
     </div>
     <jsp:include page='./template/footer.jsp' />
     <script type="text/javascript">
         $(document).ready(function() {
             $(".errorSpan").hide();
             $("#needHelp").prop("checked", true);
+            $("#pinRadio").prop("checked", true);
 //            $("#langSelect").val("eng");
 //            $(".ass").hide();
         });
@@ -134,7 +156,11 @@
                 $("#searchError").html("Enter a valid Pin Code");
                 $("#searchError").show();
                 return false;
-            } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
+            } else if (!$("#mobile").val().match(/^\d{10}$/)) {
+                $("#mobileError").html("Enter a valid Mobile No");
+                $("#mobileError").show();
+                return false;
+            }else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 $("#captchaError").html("Enter a valid Captcha Code");
                 $("#captchaError").show();
                 return false;

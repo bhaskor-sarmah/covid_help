@@ -44,24 +44,35 @@ public class SearchByPin extends HttpServlet {
         } else {
             String type = request.getParameter("type");
             String pin = request.getParameter("search");
+            String mobile = request.getParameter("mobile");
+            String state = request.getParameter("state");
+            dao.doSaveSearchDetails(pin, mobile, state, type, captcha);
             if (type.equals("HELP SEEKER")) {
-                List<Member> memberList = dao.getMemberByPinCode(pin, type);
+                List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
                 if (memberList == null || memberList.isEmpty()) {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("memberList", memberList);
                     request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Seeker at pincode - " + pin + "</div>");
+                    request.setAttribute("mobile", mobile);
+                    request.setAttribute("searchType", state);
+                    request.setAttribute("pin", pin);
+                    request.setAttribute("type", type);
                     request.getRequestDispatcher("./search.jsp").forward(request, response);
                 }
             } else if (type.equals("HELP GIVER")) {
-                List<Member> memberList = dao.getMemberByPinCode(pin, type);
+                List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
                 if (memberList == null || memberList.isEmpty()) {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("memberList", memberList);
                     request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Giver at pincode - " + pin + "</div>");
+                    request.setAttribute("mobile", mobile);
+                    request.setAttribute("searchType", state);
+                    request.setAttribute("pin", pin);
+                    request.setAttribute("type", type);
                     request.getRequestDispatcher("./search.jsp").forward(request, response);
                 }
             } else {

@@ -23,7 +23,7 @@ import util.Encryption;
  */
 public class MemberDao {
 
-    public List<Member> getMemberByPinCode(String pin, String type) {
+    public List<Member> getMemberByPinCode(String pin, String type, String state) {
         Connection conn = null;
         PreparedStatement ps = null, ps1 = null;
         ResultSet rs = null, rs1 = null;
@@ -33,10 +33,31 @@ public class MemberDao {
         } catch (Exception e) {
             System.out.println("Connection Exception : " + e.getMessage());
         }
+        String pin_str = pin;
+        boolean multiple = false;
+        if (state.equals("DISTRICT") || state.equals("STATE")) {
+            List<String> pinList = getAllPin(pin, state);
+            pin_str = "";
+            for (String s : pinList) {
+                pin_str += "'" + s + "',";
+            }
+            pin_str = pin_str.substring(0, pin_str.length() - 1);
+            multiple = true;
+        }
+
         try {
-            ps = conn.prepareStatement("SELECT * FROM member WHERE pincode = ? AND type = ?");
-            ps.setString(1, pin);
-            ps.setString(2, type);
+            if (multiple) {
+                if (pin_str.equals("")) {
+                } else {
+                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN (?) AND type = ?");
+                    ps.setString(1, pin_str);
+                    ps.setString(2, type);
+                }
+            } else {
+                ps = conn.prepareStatement("SELECT * FROM member WHERE pincode = ? AND type = ?");
+                ps.setString(1, pin_str);
+                ps.setString(2, type);
+            }
             System.out.println(ps);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -44,7 +65,7 @@ public class MemberDao {
                 m.setName(rs.getString("name"));
                 m.setSex(rs.getString("gender"));
                 m.setAge(rs.getString("age"));
-                m.setMobile(Encryption.encrypt(rs.getString("mobile"),AppSettings.KEY));
+                m.setMobile(Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
                 m.setEmail(rs.getString("email"));
                 m.setHouse_no(rs.getString("house_no"));
                 m.setLocality(rs.getString("locality"));
@@ -79,16 +100,30 @@ public class MemberDao {
             }
         }
         try {
-            if (type.equals("HELP SEEKER")) {
-                ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
-                ps.setString(1, pin);
-                ps.setString(2, "1");
+            if (multiple) {
+                if (pin_str.equals("")) {
+                } else {
+                    if (type.equals("HELP SEEKER")) {
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (?) AND help_required = ?");
+                        ps.setString(1, pin_str);
+                        ps.setString(2, "1");
+                    } else {
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (?) AND willing_to_volunteer = ?");
+                        ps.setString(1, pin_str);
+                        ps.setString(2, "1");
+                    }
+                }
             } else {
-                ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
-                ps.setString(1, pin);
-                ps.setString(2, "1");
+                if (type.equals("HELP SEEKER")) {
+                    ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
+                    ps.setString(1, pin);
+                    ps.setString(2, "1");
+                } else {
+                    ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
+                    ps.setString(1, pin);
+                    ps.setString(2, "1");
+                }
             }
-
             System.out.println(ps);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -97,7 +132,7 @@ public class MemberDao {
                 m.setName(rs.getString("name").toUpperCase());
                 m.setSex(rs.getString("gender"));
                 m.setAge(rs.getString("age"));
-                m.setMobile(Encryption.encrypt(rs.getString("mobile"),AppSettings.KEY));
+                m.setMobile(Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
 //                m.setEmail(rs.getString("email"));
 //                m.setHouse_no(rs.getString("house_no"));
                 m.setLocality(rs.getString("locality").toUpperCase());
@@ -256,6 +291,186 @@ public class MemberDao {
             ps.setString(index++, m.getCircle());
             ps.setString(index++, m.getType());
             ps.setString(index++, m.getType_of_help());
+            System.out.println(ps);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return false;
+    }
+
+    public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            int index = 1;
+            ps = conn.prepareStatement("INSERT INTO `search_details` \n"
+                    + "	(`id`, \n"
+                    + "	`pin`, \n"
+                    + "	`mobile`, \n"
+                    + "	`search_type`, \n"
+                    + "	`search_for`, \n"
+                    + "	`captcha`, \n"
+                    + "	`flag`\n"
+                    + "	)\n"
+                    + "	VALUES\n"
+                    + "	(NULL, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	NOW(), \n"
+                    + " NULL\n"
+                    + "	)");
+            ps.setString(index++, pin);
+            ps.setString(index++, mobile);
+            ps.setString(index++, search_type);
+            ps.setString(index++, search_for);
+            ps.setString(index++, captcha);
+            System.out.println(ps);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return false;
+    }
+
+    public List<String> getAllPin(String pin, String type) {
+        System.out.println("RECEIVED PARAMETER - " + type);
+        PinPojo p = getState(pin);
+        List<String> pinList = new ArrayList<String>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            if (type.equals("STATE")) {
+                ps = conn.prepareStatement("SELECT DISTINCT pincode FROM pincode WHERE statename = ?");
+                ps.setString(1, p.getState());
+            } else {
+                ps = conn.prepareStatement("SELECT DISTINCT pincode FROM pincode WHERE Districtname = ?");
+                ps.setString(1, p.getDistrict());
+            }
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                pinList.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return pinList;
+    }
+
+    public boolean doSaveContactDetails(String mobile_no, String receiver_mobile, String type) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            int index = 1;
+            ps = conn.prepareStatement("INSERT INTO `contact_details` \n"
+                    + "	(`id`, \n"
+                    + "	`contact_by`, \n"
+                    + "	`contact_to`, \n"
+                    + "	`contact_type`, \n"
+                    + "	`datetime`, \n"
+                    + "	`flag`\n"
+                    + "	)\n"
+                    + "	VALUES\n"
+                    + "	(NULL, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	?, \n"
+                    + "	NOW(), \n"
+                    + "	NULL\n"
+                    + "	)");
+            ps.setString(index++, mobile_no);
+            ps.setString(index++, receiver_mobile);
+            ps.setString(index++, type);
             System.out.println(ps);
             ps.executeUpdate();
             return true;

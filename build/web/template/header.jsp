@@ -4,11 +4,11 @@
     <div class="navbar-header" style="width:100%;padding-right: 20px;">
         <div class="row">
             <div class="col-sm-12 col-md-2 text-center" style="padding-left: 50px;">
-                <img src="images/Covirudh_PNG_Logo.png" height="70px"/>
+                <img src="images/Covirudh_PNG_Logo.png" height="75px"/>
             </div>
             <div class="col-sm-12 col-md-7 navtext" style="" >
                 <center class="text-center" style="padding-top: 18px;padding-left: 30px;font-size: small;">
-                    <span style=""><b>An Initiative by Assam Police....  &nbsp;&nbsp;<i> Let’s Help Each Other</i></b></span>
+                    <span style=""><b><span style="font-size: large">An Initiative by Assam Police....</span>&nbsp;&nbsp;<i> Let’s Help Each Other</i></b></span>
                 </center>
             </div>
             <div class="col-sm-12 col-md-3 text-center navtext" style="padding-top: 25px;font-size: small;">

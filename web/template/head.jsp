@@ -24,6 +24,7 @@
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="font-awesome/font-awesome-4.2.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/jquery-confirm.css">
         <style>
             .loader {
                 position: fixed;
