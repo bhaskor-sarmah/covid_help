@@ -32,7 +32,7 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type = request.getParameter("type");
-        if (type.equals("doner") || type.equals("receiver")) {
+        if (type.equals("HELP GIVER") || type.equals("HELP SEEKER")) {
             request.setAttribute("type", type);
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else{

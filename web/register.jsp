@@ -14,17 +14,6 @@
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
     <div class="container" style="margin-top: 5px;">
-        <div class="row" style="margin-bottom: 10px;">
-            <div class="col-sm-0 col-md-10"></div>
-            <div class="col-sm-12 col-md-2">
-                <label class="eng">Site Language: </label>
-                <label class="ass">Site Language: </label>
-                <select class="form-control" id="langSelect" onchange="doChangeRadio(this.value);">
-                    <option value="eng">ENGLISH</option>
-                    <option value="ass">ASSAMESE</option>
-                </select>
-            </div>
-        </div>
         <c:if test="${not empty msg}">
             <div class="row">
                 <div class="col-sm-0 col-md-3"></div>
@@ -40,28 +29,24 @@
                 <div class="row">
                     <form action="./RegisterMember" method="POST" onsubmit="return doValidateForm()">
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Enter Name</label>
-                            <label class="ass" style='font-size: small;'>Enter Name</label>
+                            <span class="mandetory">*</span><label class="eng">Enter Name<br/>আপোনাৰ নাম লিখক</label>
                             <input type="text" class="form-control" name="name" placeholder="Enter Name" id="name"/>
                             <span class="errorSpan" id="nameError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Mobile No</label>
-                            <label class="ass" style='font-size: small;'>Mobile No</label>
+                            <span class="mandetory">*</span><label class="eng">Mobile No<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
                             <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No" id="mobile"/>
                             <span class="errorSpan" id="mobileError"></span>
                         </div>
                         
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">Email</label>
-                            <label class="ass" style='font-size: small;'>Email</label>
+                            <label class="eng">Email<br/>আপোনাৰ ইমেইল লিখক</label>
                             <input type="text" class="form-control" name="email" placeholder="Enter Email" id="email"/>
                             <span class="errorSpan" id="emailError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Gender</label>
-                            <label class="ass" style='font-size: small;'>Gender</label>
+                            <span class="mandetory">*</span><label class="eng">Gender<br/>আপোনাৰ লিংগ নির্বাচন কৰক</label>
                             <select class="form-control" id="gender" name="gender">
                                 <option value="MALE" selected="selected">MALE</option>
                                 <option value="FEMALE">FEMALE</option>
@@ -71,49 +56,62 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Age</label>
-                            <label class="ass" style='font-size: small;'>Age</label>
+                            <span class="mandetory">*</span><label class="eng">Age<br/>আপোনাৰ বয়স লিখক</label>
                             <input type="text" class="form-control" name="age" placeholder="Enter Age" id="age"/>
                             <span class="errorSpan" id="ageError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Pin Code</label>
-                            <label class="ass" style='font-size: small;'>Pin Code</label>
+                            <span class="mandetory">*</span><label class="eng">Pin Code<br/>আপোনাৰ পিন ক'ড লিখক</label>
                             <input type="text" class="form-control" name="pincode" placeholder="Enter Pin Code" id="pincode" onblur="doGetState(this.value);"/>
                             <span class="errorSpan" id="pincodeError"></span>
                         </div>
                        <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">State: </label>
-                            <label class="ass" style='font-size: small;'>State: </label>
+                            <label class="ass" style='font-size: small;'>State (ৰাজ্য): </label>
                             <label id="state">---</label>
                         </div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">District: </label>
-                            <label class="ass" style='font-size: small;'>District: </label>
+                            <label class="ass" style='font-size: small;'>District (জিলা): </label>
                             <label id="district">---</label>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Address</label>
-                            <label class="ass" style='font-size: small;'>Address</label>
-                            <textarea name="address" class="form-control" id="address"></textarea>
-                            <span class="errorSpan" id="addressError"></span>
+                            <span class="mandetory">*</span><label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
+                            <input type="text" class="form-control" name="ps" placeholder="Enter PS" id="ps"/>
+                            <span class="errorSpan" id="psError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Type of Help</label>
-                            <label class="ass" style='font-size: small;'>Type of Help</label>
+                            <span class="mandetory">*</span><label class="eng">Locality<br/>আপনি থাকা স্থান</label>
+                            <input type="text" class="form-control" name="locality" placeholder="Enter Locality" id="locality"/>
+                            <span class="errorSpan" id="localityError"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-9 col-md-6">
+                            <span class="mandetory">*</span><label class="eng">Road/Street<br/>পথ</label>
+                            <input type="text" class="form-control" name="road" placeholder="Enter Road/Street" id="road"/>
+                            <span class="errorSpan" id="roadError"></span>
+                        </div>
+                        <div class="col-xs-9 col-md-6">
+                            <span class="mandetory">*</span><label class="eng">House No<br/>ঘৰ নং</label>
+                            <input type="text" class="form-control" name="house_no" placeholder="Enter House No" id="house_no"/>
+                            <span class="errorSpan" id="house_noError"></span>
+                        </div>
+                        <div class="clearfix"></div> 
+                        <div class="col-xs-9 col-md-6">
+                            <span class="mandetory">*</span><label class="eng">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
                             <select class="form-control" id="type_of_help" name="type_of_help">
                                 <option value="FOOD" selected="selected">FOOD</option>
-                                <option value="GROCERY">GROCERY</option>
-                                <option value="MONEY">MONEY</option>
+                                <option value="MEDICINE">MEDICINE</option>
+                                <option value="SHELTER">SHELTER</option>
                             </select>
                             <span class="errorSpan" id="type_of_helpError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <input type="hidden" class="form-control" name="type" id="type" value="${type}"/>
                         <div class="col-xs-9 col-md-12 text-center" style="margin-top: 10px;">
-                            <input type="submit" name="submit" class="btn btn-success" value="Register" />
+                            <input type="submit" name="submit" class="btn btn-success" value="Register(ৰেজিষ্টাৰ)" />
                         </div>
                     </form>
                 </div>
@@ -124,9 +122,7 @@
     <jsp:include page='./template/footer.jsp' />
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#langSelect").val("eng");
             $(".errorSpan").hide();
-            $(".ass").hide();
         });
         function doGetState(str) {
             $.ajax({
@@ -177,11 +173,23 @@
                 $("#pincodeError").html("Enter a valid Pin Code");
                 $("#pincodeError").show();
                 return false;
-            } else if ($("#address").val().length < 6) {
-                $("#addressError").html("Enter a valid Address");
-                $("#addressError").show();
+            } else if ($("#ps").val() === "") {
+                $("#psError").html("Enter Police Station");
+                $("#psError").show();
                 return false;
-            } 
+            } else if ($("#locality").val() === "") {
+                $("#localityError").html("Enter Locality");
+                $("#localityError").show();
+                return false;
+            }else if ($("#road").val() === "") {
+                $("#roadError").html("Enter Road/Street");
+                $("#roadError").show();
+                return false;
+            }else if ($("#house_no").val() === "") {
+                $("#house_noError").html("Enter House No");
+                $("#house_noError").show();
+                return false;
+            }
             return true;
         }
 

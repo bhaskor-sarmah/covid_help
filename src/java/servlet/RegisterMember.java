@@ -37,7 +37,10 @@ public class RegisterMember extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name").toUpperCase();
         String mobile = request.getParameter("mobile");
-        String address = request.getParameter("address").toUpperCase();
+        String ps = request.getParameter("ps").toUpperCase();
+        String locality = request.getParameter("locality").toUpperCase();
+        String road = request.getParameter("road").toUpperCase();
+        String house = request.getParameter("house_no").toUpperCase();
         String pin = request.getParameter("pincode");
         String sex = request.getParameter("gender").toUpperCase();
         String age = request.getParameter("age");
@@ -47,11 +50,11 @@ public class RegisterMember extends HttpServlet {
         PinPojo p = dao.getState(pin);
         Member m = new Member();
         m.setName(name);
-        m.setPolice_station("");
-        m.setPincode("");
-        m.setLocality("");
-        m.setRoad("");
-        m.setHouse_no("");
+        m.setPolice_station(ps);
+        m.setPincode(pin);
+        m.setLocality(locality);
+        m.setRoad(road);
+        m.setHouse_no(house);
         m.setAge(age);
         m.setCircle("");
         m.setDistrict(p.getDistrict());

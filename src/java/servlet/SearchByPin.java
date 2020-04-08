@@ -43,17 +43,27 @@ public class SearchByPin extends HttpServlet {
             request.getRequestDispatcher("./index.jsp").forward(request, response);
         } else {
             String type = request.getParameter("type");
+            String pin = request.getParameter("search");
             if (type.equals("HELP SEEKER")) {
-                List<Member> memberList = dao.getMemberByPinCode(request.getParameter("search"), type);
+                List<Member> memberList = dao.getMemberByPinCode(pin, type);
                 if (memberList == null || memberList.isEmpty()) {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("memberList", memberList);
+                    request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Seeker at pincode - " + pin + "</div>");
                     request.getRequestDispatcher("./search.jsp").forward(request, response);
                 }
             } else if (type.equals("HELP GIVER")) {
-
+                List<Member> memberList = dao.getMemberByPinCode(pin, type);
+                if (memberList == null || memberList.isEmpty()) {
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
+                    request.getRequestDispatcher("./index.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("memberList", memberList);
+                    request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Giver at pincode - " + pin + "</div>");
+                    request.getRequestDispatcher("./search.jsp").forward(request, response);
+                }
             } else {
                 request.setAttribute("msg", "<div class=\"alert alert-danger\">Some Error has ocurred</div>");
                 request.getRequestDispatcher("./index.jsp").forward(request, response);

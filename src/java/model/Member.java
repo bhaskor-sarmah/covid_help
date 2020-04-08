@@ -26,6 +26,9 @@ public class Member {
     private String email;
     private String type;
     private String type_of_help;
+    private String lon;
+    private String lat;
+    private String src;
 
     public Member() {
     }
@@ -150,4 +153,29 @@ public class Member {
         this.age = age;
     }
 
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    
 }

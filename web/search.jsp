@@ -13,49 +13,7 @@
 <body style="overflow-x: scroll;margin-bottom: 55px;">
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
-    <div class="container" style="margin-top: 10px;">
-        <div class="row" style="margin-bottom: 50px;">
-            <div class="col-sm-0 col-md-10"></div>
-            <div class="col-sm-12 col-md-2">
-                <label class="eng">Site Language: </label>
-                <label class="ass">Site Language: </label>
-                <select class="form-control" id="langSelect" onchange="doChangeRadio(this.value);">
-                    <option value="eng">ENGLISH</option>
-                    <option value="ass">ASSAMESE</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Mobile</th>
-                            <th>Pin</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Address</th>
-                            <th>Helper/Seeker</th>
-                            <th>Type of Help</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="obj" items="${memberList}">
-                            <tr>
-                                <td>${obj.name}</td>
-                                <td>${obj.mobile}</td>
-                                <td>${obj.pin}</td>
-                                <td>${obj.state}</td>
-                                <td>${obj.district}</td>
-                                <td>${obj.circle}</td>
-                                <td>${obj.address}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="container-fluid" style="margin-top: 10px;">
         <c:if test="${not empty msg}">
             <div class="row">
                 <div class="col-sm-0 col-md-3"></div>
@@ -65,24 +23,73 @@
                 <div class="col-sm-0 col-md-3"></div>
             </div>
         </c:if>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-striped table-responsive" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Name<br/>নাম</th>
+                            <th>State<br/>ৰাজ্য</th>
+                            <th>District<br/>জিলা</th>
+                            <th>Address<br/>ঠিকনা</th>
+                            <th>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="obj" items="${memberList}">
+                            <tr>
+                                <td>${obj.name}</td>
+                                <td>${obj.state}</td>
+                                <td>${obj.district}</td>
+                                <c:if test="${obj.src == 'APP'}">
+                                    <td>
+                                        ${obj.locality},&nbsp;
+                                        ${obj.road}
+                                    </td>
+                                    <td>${obj.type_of_help}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact();">Contact</button>
+                                    </td>
+                                </c:if>
+                                <c:if test="${obj.src == 'POR'}">
+                                    <td>
+                                        PS - ${obj.police_station}<br/>
+                                        ${obj.locality},&nbsp;
+                                        ${obj.road},&nbsp;
+                                        ${obj.house_no},&nbsp;
+                                    </td>
+                                    <td>${obj.type_of_help}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact();">Contact</button>
+                                    </td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <iframe src="http://3.6.23.223:8080/covid19/" height="800px;" width="100%" id="mapFrame"/>
+            </div>
+        </div>
     </div>
     <jsp:include page='./template/footer.jsp' />
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#langSelect").val("eng");
-            $(".ass").hide();
             $("#myTable").dataTable();
         });
-        function doChangeRadio(str) {
-            $(".loader").show();
-            if (str === "eng") {
-                $(".eng").show();
-                $(".ass").hide();
-            } else {
-                $(".eng").hide();
-                $(".ass").show();
-            }
-            $(".loader").hide();
+        function doContact(str) {
+            $.ajax({
+                url: './Contact',
+                type: 'POST',
+                data: 'm=' + str,
+                success: function(data) {
+                    //called when successful
+                },
+                error: function(e) {
+                }
+            });
         }
     </script>
 </body>

@@ -8,11 +8,11 @@
             </div>
             <div class="col-sm-12 col-md-7 navtext" style="" >
                 <center class="text-center" style="padding-top: 18px;padding-left: 30px;font-size: small;">
-                    <span style=""><b>Office of the State Govt. Assam</b></span>
+                    <span style=""><b>An Initiative by Assam Police....  &nbsp;&nbsp;<i> Let’s Help Each Other</i></b></span>
                 </center>
             </div>
             <div class="col-sm-12 col-md-3 text-center navtext" style="padding-top: 25px;font-size: small;">
-                <label><a href="./Index" class="navtext" style="color:white;text-decoration: underline;">Home Page</a></label>
+                <label><a href="./Index" class="navtext" style="color:white;text-decoration: underline;">Home Page<br/>মুখ্য পৃষ্ঠা</a></label>
             </div>
             <!--            <div class="col-sm-12 col-md-3 text-center navtext" style="padding-top: 25px;font-size: small;">
                             <p style="font-size: x-small;">Covid Help  : Ver 1.0</p>
