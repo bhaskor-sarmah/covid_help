@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/CovidHelp">
+<Resource
+        auth="Container"
+        driverClassName="com.mysql.jdbc.Driver"
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        initialSize="10"
+        maxActive="30"
+        maxIdle="20"
+        minEvictableIdleTimeMillis="55000"
+        minIdle="20"
+        name="jdbc/covid_help"
+        password="root"
+        removeAbandoned="true"
+        removeAbandonedTimeout="55"
+        testOnBorrow="true"
+        timeBetweenEvictionRunsMillis="34000"
+        type="javax.sql.DataSource"
+        url="jdbc:mysql://localhost:3306/bsurvey?characterEncoding=UTF-8"
+        username="root"
+        validationInterval="34000"
+        validationQuery="SELECT
+1"/>
+</Context>

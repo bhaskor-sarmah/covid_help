@@ -1,0 +1,55 @@
+.mainboxshadow{
+    -webkit-box-shadow: 0px 0px 300px -51px rgba(182,215,245,1);
+    -moz-box-shadow: 0px 0px 300px -51px rgba(182,215,245,1);
+    box-shadow: 0px 0px 300px -51px rgba(182,215,245,1);
+}
+.errorSpan{
+    font-size: x-small;
+    font-weight: bold;
+    color: red;
+}
+.redBorder{
+    border: 1px solid red;
+}
+
+.form-div{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left:10px;
+    margin-right:10px;
+    border: 1px solid lightgray;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.mandetory{
+    color: red;
+}
+
+label{
+    margin-top: 5px;
+}
+.ass{
+    font-size: small;
+}
+/*@media(min-width: 400px) {
+  .mainContainerDiv {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 400px) {
+  .mainContainerDiv {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .mainContainerDiv {
+    margin-bottom: 50px;
+    margin-top: 10px;
+  }
+}*/

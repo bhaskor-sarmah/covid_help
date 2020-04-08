@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <resource-ref>
+        <description>DB Connection</description>
+        <res-ref-name>jdbc/covid_help</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    
+    <context-param>
+        <description>Any Parameter</description>
+        <param-name>anyParam</param-name>
+        <param-value>SomeValue</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>initialize.ContextListener</listener-class>
+    </listener>
+    
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorSvr.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorNf.jsp</location>
+    </error-page>
+    
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
