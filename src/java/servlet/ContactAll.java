@@ -51,7 +51,7 @@ public class ContactAll extends HttpServlet {
             String pin = request.getParameter("p");
             String type = request.getParameter("t");
             List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE");
-            if (sms.doFireSms(memberList, mobile)) {
+            if (sms.doFireSms(memberList, mobile, type)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
 //                response.setCharacterEncoding("UTF-8");

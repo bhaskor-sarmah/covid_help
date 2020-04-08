@@ -49,7 +49,8 @@ public class Contact extends HttpServlet {
             String mobile = request.getParameter("m");
             String receiver_mobile = Encryption.decrypt(request.getParameter("mm"), AppSettings.KEY);
             System.out.println(receiver_mobile);
-            if (sms.doFireSms(receiver_mobile.replaceAll("==", ""), mobile)) {
+            String type = request.getParameter("t");
+            if (sms.doFireSms(receiver_mobile.replaceAll("==", ""), mobile, type)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
 //                response.setCharacterEncoding("UTF-8");

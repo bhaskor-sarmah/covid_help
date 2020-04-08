@@ -27,7 +27,7 @@
             <div class="col-sm-0 col-md-2"></div>
             <div class="col-sm-11 col-md-8 form-div">
                 <div class="row">
-                    <form action="./RegisterMember" method="POST" onsubmit="return doValidateForm()">
+                    <form action="./RegisterMember" method="POST" onsubmit="return doValidateForm()"  autocomplete="off">
                         <div class="col-xs-9 col-md-6">
                             <span class="mandetory">*</span><label class="eng">Enter Name<br/>আপোনাৰ নাম লিখক</label>
                             <input type="text" class="form-control" name="name" placeholder="Enter Name" id="name"/>
@@ -83,7 +83,7 @@
                             <span class="errorSpan" id="psError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Locality<br/>আপনি থাকা স্থান</label>
+                            <span class="mandetory">*</span><label class="eng">Locality<br/>আপুনি থকা স্থান</label>
                             <input type="text" class="form-control" name="locality" placeholder="Enter Locality" id="locality"/>
                             <span class="errorSpan" id="localityError"></span>
                         </div>

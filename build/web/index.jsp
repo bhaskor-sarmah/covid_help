@@ -70,13 +70,13 @@
                 <div class="col-sm-12 col-md-6 text-center" style="margin-top: 10px;">
                     <div class="col-sm-11 messageDiv">
                         <label>You Are a Help Provider (Select the radio button below)<br/>আপুনি এজন সহায়কাৰী</label>
-                        <p><input type="radio" value="HELP SEEKER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
+                        <p><input type="radio" id="giveHelp" value="HELP SEEKER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 errorSpan" id="radionErrorDiv">
                     <div class="col-sm-0 col-md-2"></div>
                     <div class="col-sm-12 col-md-10">
-                        <span class="errorSpan" id="radioError"></span>
+                        <span id="radioError"></span>
                     </div>
                     <div class="col-sm-0 col-md-2"></div>
                 </div>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-xs-9" style="margin-top: 10px;">
                             <input type="radio" id="pinRadio" value="PINCODE" name="state" />&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
-                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন কোডৰ জেলাৰে অনুসন্ধান কৰক</label>
+                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন ক'ডৰ জিলাৰে অনুসন্ধান কৰক</label>
                             <!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
                                                         <select class="form-control" id="state" name="state">
                                                             <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
@@ -119,7 +119,7 @@
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
                             <span class="errorSpan" id="captchaError"></span>
                             <img src="./CaptchaServlet" id="captchaImage"/>&nbsp;<a href="#" onclick="reloadCaptcha();"><i class="glyphicon glyphicon-refresh"></i></a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="Search" >
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="Search (সন্ধান)" >
                         </div>
                     </div>
                 </div>

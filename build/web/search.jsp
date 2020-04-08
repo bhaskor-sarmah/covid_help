@@ -54,7 +54,7 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}');">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}');">Contact</button>
                                         <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top: 5px;">View In Map</button>
                                     </td>
                                 </c:if>
@@ -67,7 +67,7 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}');">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}');">Contact</button>
                                     </td>
                                 </c:if>
                             </tr>
@@ -91,13 +91,13 @@
         $(document).ajaxStop(function() {
             $(".loader").fadeOut('slow');
         });
-        function doContact(mm, str, c) {
-            alert(mm);
-            alert(encodeURIComponent(mm));
+        function doContact(mm, str, c, t) {
+            //alert(mm);
+//            alert(encodeURIComponent(mm));
             $.ajax({
                 url: './Contact',
                 type: 'POST',
-                data: 'mm=' + encodeURIComponent(mm) + '&m=' + str + '&c=' + c,
+                data: 'mm=' + encodeURIComponent(mm) + '&m=' + str + '&c=' + c + '&t=' + t,
                 success: function(data) {
                     //called when successful
                     $.alert({
