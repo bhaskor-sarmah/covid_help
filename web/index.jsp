@@ -61,23 +61,19 @@
 
         <form action="./SearchByPin" method="POST" onsubmit="return doValidateForm();" autocomplete="off">
             <div class="row" style="margin-top: 40px;">
-                <div class="col-xs-12 col-md-6 text-center">
-                    <div class="col-xs-11 text-center messageDiv">
-                        <div class="">
-                            <label>You Need Help (Select the radio button below)<br/>আপোনাক সহায়ৰ প্ৰয়োজন</label>
-                            <p><input type="radio" id="needHelp" value="HELP GIVER" name="type" />&nbsp;Search for Help by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰিবলৈ বাচি লওঁক </p>
-                        </div>
+                <div class="col-sm-12 col-md-6 text-center" style="margin-top: 10px;">
+                    <div class="col-sm-11 messageDiv">
+                        <label>You Need Help (Select the radio button below)<br/>আপোনাক সহায়ৰ প্ৰয়োজন</label>
+                        <p><input type="radio" id="needHelp" value="HELP GIVER" name="type" />&nbsp;Search for Help by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰিবলৈ বাচি লওঁক </p>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-6 text-center" style="margin-bottom: 20px;">
-                    <div class="col-xs-11 text-center messageDiv">
-                        <div class="">
-                            <label>You Are a Help Provider (Select the radio button below)<br/>আপুনি এজন সহায়কাৰী</label>
-                            <p><input type="radio" id="giveHelp" value="HELP SEEKER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
-                        </div>
+                <div class="col-sm-12 col-md-6 text-center" style="margin-top: 10px;">
+                    <div class="col-sm-11 messageDiv">
+                        <label>You Are a Help Provider (Select the radio button below)<br/>আপুনি এজন সহায়কাৰী</label>
+                        <p><input type="radio" value="HELP SEEKER" name="type" />&nbsp;Search for Help Seekers by Pin Code<br/>পিন ক'ডৰ জৰিয়তে সহায় বিচাৰোতাৰ সন্ধান কৰিবলৈ নিৰ্ব্বাচন কৰক</p>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-12" class="errorSpan" id="radionErrorDiv">
+                <div class="col-sm-12 col-md-12 errorSpan" id="radionErrorDiv">
                     <div class="col-sm-0 col-md-2"></div>
                     <div class="col-sm-12 col-md-10">
                         <span class="errorSpan" id="radioError"></span>
