@@ -7,12 +7,15 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import util.AppSettings;
+import util.Encryption;
 import util.SmsUtil;
 
 /**
@@ -44,8 +47,9 @@ public class Contact extends HttpServlet {
         } else {
             SmsUtil sms = new SmsUtil();
             String mobile = request.getParameter("m");
-            String receiver_mobile = request.getParameter("mm");
-            if (sms.doFireSms(receiver_mobile, mobile)) {
+            String receiver_mobile = Encryption.decrypt(request.getParameter("mm"), AppSettings.KEY);
+            System.out.println(receiver_mobile);
+            if (sms.doFireSms(receiver_mobile.replaceAll("==", ""), mobile)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
 //                response.setCharacterEncoding("UTF-8");

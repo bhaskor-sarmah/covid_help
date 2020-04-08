@@ -130,6 +130,12 @@
         $(document).ready(function() {
             $(".errorSpan").hide();
         });
+        $(document).ajaxStart(function() {
+            $(".loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $(".loader").fadeOut('slow');
+        });
         function doGetState(str) {
             $.ajax({
                 url: './GetState',

@@ -340,6 +340,7 @@ public class MemberDao {
                     + "	`search_type`, \n"
                     + "	`search_for`, \n"
                     + "	`captcha`, \n"
+                    + "	`datetime`, \n"
                     + "	`flag`\n"
                     + "	)\n"
                     + "	VALUES\n"

@@ -84,6 +84,16 @@
                     </div>
                     <div class="col-sm-0 col-md-2"></div>
                 </div>
+
+                <c:if test="${not empty msg}">
+                    <div class="row">
+                        <div class="col-sm-0 col-md-3"></div>
+                        <div class="col-sm-12 col-md-6">
+                            ${msg}
+                        </div>
+                        <div class="col-sm-0 col-md-3"></div>
+                    </div>
+                </c:if>
                 <div class="col-sm-0 col-md-3"></div>
                 <div class="col-sm-12 col-md-6">
                     <div class="row">
@@ -100,12 +110,12 @@
                         <div class="col-xs-9" style="margin-top: 10px;">
                             <input type="radio" id="pinRadio" value="PINCODE" name="state" />&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
                             <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন কোডৰ জেলাৰে অনুসন্ধান কৰক</label>
-<!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
-                            <select class="form-control" id="state" name="state">
-                                <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
-                                <option value="DISTRICT">DISTRICT (জিলা)</option>
-                                <option value="STATE">STATE (ৰাজ্য)</option>
-                            </select>-->
+                            <!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
+                                                        <select class="form-control" id="state" name="state">
+                                                            <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
+                                                            <option value="DISTRICT">DISTRICT (জিলা)</option>
+                                                            <option value="STATE">STATE (ৰাজ্য)</option>
+                                                        </select>-->
                             <span class="stateSpan" id="searchError"></span>
                         </div>
                         <div class="col-xs-9">
@@ -119,15 +129,6 @@
                 </div>
                 <div class="col-sm-0 col-md-3"></div>
             </div>
-            <c:if test="${not empty msg}">
-                <div class="row">
-                    <div class="col-sm-0 col-md-3"></div>
-                    <div class="col-sm-12 col-md-6">
-                        ${msg}
-                    </div>
-                    <div class="col-sm-0 col-md-3"></div>
-                </div>
-            </c:if>
 
         </form>
     </div>
@@ -160,7 +161,7 @@
                 $("#mobileError").html("Enter a valid Mobile No");
                 $("#mobileError").show();
                 return false;
-            }else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
+            } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 $("#captchaError").html("Enter a valid Captcha Code");
                 $("#captchaError").show();
                 return false;

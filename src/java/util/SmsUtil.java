@@ -18,17 +18,19 @@ public class SmsUtil {
     MemberDao dao = new MemberDao();
     public boolean doFireSms(List<Member> memberList,String mobile){
         for(Member m: memberList){
-            System.out.println("RECEIVER - "+m.getMobile());
-            dao.doSaveContactDetails(mobile,m.getMobile(),"CONTACT ALL");
+            String mobile_no = Encryption.decrypt(m.getMobile(), AppSettings.KEY);
+            mobile_no = mobile_no.replaceAll("==", "");
+            System.out.println("RECEIVER - "+mobile_no);
+            dao.doSaveContactDetails(mobile,mobile_no,"CONTACT ALL");
         }
         return true;
     }
     
     public boolean doFireSms(String receiver_mobile, String mobile){
-        String mobile_no = Encryption.decrypt(receiver_mobile, AppSettings.KEY);
-        mobile_no = mobile_no.replaceAll("==", "");
-        System.out.println("RECEIVER - "+mobile_no);
-        dao.doSaveContactDetails(mobile_no,receiver_mobile,"CONTACT");
+//        String mobile_no = Encryption.decrypt(receiver_mobile, AppSettings.KEY);
+//        mobile_no = mobile_no.replaceAll("==", "");
+        System.out.println("RECEIVER - "+receiver_mobile);
+        dao.doSaveContactDetails(mobile,receiver_mobile,"CONTACT");
         return true;
     }
 }

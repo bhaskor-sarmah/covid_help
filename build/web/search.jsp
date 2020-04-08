@@ -76,7 +76,7 @@
                 </table>
             </div>
             <div class="col-sm-12 col-md-6">
-                <iframe src="http://3.6.23.223:8080/covid19/" height="800px;" width="100%" id="mapFrame"></iframe>
+                <iframe src="http://3.6.23.223:8080/StateMap/index.html" height="800px;" width="100%" id="mapFrame"></iframe>
             </div>
         </div>
     </div>
@@ -85,17 +85,24 @@
         $(document).ready(function() {
             $("#myTable").dataTable();
         });
+        $(document).ajaxStart(function() {
+            $(".loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $(".loader").fadeOut('slow');
+        });
         function doContact(mm, str, c) {
-//            alert("Hi");
+            alert(mm);
+            alert(encodeURIComponent(mm));
             $.ajax({
                 url: './Contact',
                 type: 'POST',
-                data: 'mm=' + mm + '&m=' + str + '&c=' + c,
+                data: 'mm=' + encodeURIComponent(mm) + '&m=' + str + '&c=' + c,
                 success: function(data) {
                     //called when successful
                     $.alert({
                         title: "Success",
-                        content: "Selected Person contacted By SMS successfully",
+                        content: "Selected Person contacted through SMS successfully",
                         type: "green",
                         typeAnimated: true
                     });
@@ -113,19 +120,20 @@
                     //called when successful
                     $.alert({
                         title: "Success",
-                        content: "All Person's contacted By SMS successfully",
+                        content: "All Person's contacted through SMS successfully",
                         type: "green",
                         typeAnimated: true
                     });
                 },
                 error: function(e) {
+                    console.log(e);
                 }
             });
         }
-        
-        function doViewInMap(mob){
+
+        function doViewInMap(mob) {
             var url = "http://3.6.23.223:8080/StateMap/GetMap?mno=";
-            $("#mapFrame").attr("src",url+mob);
+            $("#mapFrame").attr("src", url + mob);
         }
     </script>
 </body>
