@@ -39,7 +39,7 @@ public class MemberDao {
             List<String> pinList = getAllPin(pin, state);
             pin_str = "";
             for (String s : pinList) {
-                pin_str += "'" + s + "',";
+                pin_str += "" + s + ",";
             }
             pin_str = pin_str.substring(0, pin_str.length() - 1);
             multiple = true;
@@ -49,9 +49,9 @@ public class MemberDao {
             if (multiple) {
                 if (pin_str.equals("")) {
                 } else {
-                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN (?) AND type = ?");
-                    ps.setString(1, pin_str);
-                    ps.setString(2, type);
+                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN ("+pin_str+") AND type = ?");
+//                    ps.setString(1, pin_str);
+                    ps.setString(1, type);
                 }
             } else {
                 ps = conn.prepareStatement("SELECT * FROM member WHERE pincode = ? AND type = ?");
@@ -104,13 +104,13 @@ public class MemberDao {
                 if (pin_str.equals("")) {
                 } else {
                     if (type.equals("HELP SEEKER")) {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (?) AND help_required = ?");
-                        ps.setString(1, pin_str);
-                        ps.setString(2, "1");
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN ("+pin_str+") AND help_required = ?");
+//                        ps.setString(1, pin_str);
+                        ps.setString(1, "1");
                     } else {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (?) AND willing_to_volunteer = ?");
-                        ps.setString(1, pin_str);
-                        ps.setString(2, "1");
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN ("+pin_str+") AND willing_to_volunteer = ?");
+//                        ps.setString(1, pin_str);
+                        ps.setString(1, "1");
                     }
                 }
             } else {
@@ -411,7 +411,7 @@ public class MemberDao {
             }
             System.out.println(ps);
             rs = ps.executeQuery();
-            if (rs.next()) {
+            while(rs.next()) {
                 pinList.add(rs.getString(1));
             }
         } catch (Exception e) {

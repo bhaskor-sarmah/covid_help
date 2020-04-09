@@ -13,7 +13,7 @@
 <body style="overflow-x: scroll;margin-bottom: 55px;">
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
-    <div class="container" style="margin-top: 5px;">
+    <div class="container" style="margin-top: 10px;">
         <c:if test="${not empty msg}">
             <div class="row">
                 <div class="col-sm-0 col-md-3"></div>
@@ -23,6 +23,13 @@
                 <div class="col-sm-0 col-md-3"></div>
             </div>
         </c:if>
+        <div class="col-sm-12 col-md-12">
+            <div class="col-sm-0 col-md-1"></div>
+            <div class="col-sm-12 col-md-10 text-center">
+                ${registerMsg}
+            </div>
+            <div class="col-sm-0 col-md-1"></div>
+        </div>
         <div class="row">
             <div class="col-sm-0 col-md-2"></div>
             <div class="col-sm-11 col-md-8 form-div">

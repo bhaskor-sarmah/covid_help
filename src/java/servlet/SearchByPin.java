@@ -54,7 +54,13 @@ public class SearchByPin extends HttpServlet {
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("memberList", memberList);
-                    request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Seeker at pincode - " + pin + "</div>");
+                    if(state.equals("PINCODE")){
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at pincode - " + pin + "</div>");
+                    
+                    }else{
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at parent District of pincode - " + pin + "</div>");
+                    
+                    }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("searchType", state);
                     request.setAttribute("pin", pin);
@@ -68,7 +74,13 @@ public class SearchByPin extends HttpServlet {
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("memberList", memberList);
-                    request.setAttribute("msg", "<div class=\"alert alert-success\">List of Help Giver at pincode - " + pin + "</div>");
+                    if(state.equals("PINCODE")){
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Giver at pincode - " + pin + "</div>");
+                    
+                    }else{
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Giver at parent District of pincode - " + pin + "</div>");
+                    
+                    }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("searchType", state);
                     request.setAttribute("pin", pin);

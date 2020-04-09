@@ -40,7 +40,7 @@ public class RegisterMember extends HttpServlet {
         HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
-            request.setAttribute("msg", "<div class=\"alert alert-danger\">Invalid Captcha Code</div>");
+            request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
             request.setAttribute("type", type);
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
@@ -74,11 +74,11 @@ public class RegisterMember extends HttpServlet {
             m.setType_of_help(type_of_help);
 
             if (dao.saveMember(m)) {
-                request.setAttribute("msg", "<div class=\"alert alert-success\">Registration Successful !</div>");
+                request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
                 request.getRequestDispatcher("./index.jsp").forward(request, response);
             } else {
                 request.setAttribute("type", type);
-                request.setAttribute("msg", "<span style=\"color: reg\">Failed Saving Member</span>");
+                request.setAttribute("msg", "<span style=\"color: reg\"><label>Failed Saving Member</label></span>");
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             }
         }

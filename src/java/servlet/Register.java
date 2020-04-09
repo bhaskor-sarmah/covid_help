@@ -32,8 +32,13 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type = request.getParameter("type");
-        if (type.equals("HELP GIVER") || type.equals("HELP SEEKER")) {
+        if (type.equals("HELP GIVER")) {
             request.setAttribute("type", type);
+            request.setAttribute("registerMsg", "<div class=\"alert alert-info\"><label>Fill up the form below to register as a Help Giver.</label></div>");
+            request.getRequestDispatcher("./register.jsp").forward(request, response);
+        }else if(type.equals("HELP SEEKER")){
+            request.setAttribute("type", type);
+            request.setAttribute("registerMsg", "<div class=\"alert alert-danger\"><label>Fill up the form below to register as a Help Seeker</label></div>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else{
             request.getRequestDispatcher("./error.jsp").forward(request, response);

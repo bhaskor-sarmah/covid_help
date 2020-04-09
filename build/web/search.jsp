@@ -14,16 +14,15 @@
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
     <div class="container-fluid" style="margin-top: 10px;">
-        <c:if test="${not empty msg}">
-            <div class="row">
-                <div class="col-sm-0 col-md-3"></div>
-                <div class="col-sm-12 col-md-6">
-                    ${msg}
-                </div>
-                <div class="col-sm-0 col-md-3"></div>
-            </div>
-        </c:if>
+
         <div class="row">
+            <c:if test="${not empty msg}">
+                <div class="row" style="margin-left: 10px;">
+                    <div class="col-sm-12 col-md-6">
+                        ${msg}
+                    </div>
+                </div>
+            </c:if>
             <div class="col-sm-12 col-md-6">
                 <table class="table table-striped table-responsive" id="myTable">
                     <thead>
@@ -92,8 +91,6 @@
             $(".loader").fadeOut('slow');
         });
         function doContact(mm, str, c, t) {
-            //alert(mm);
-//            alert(encodeURIComponent(mm));
             $.ajax({
                 url: './Contact',
                 type: 'POST',

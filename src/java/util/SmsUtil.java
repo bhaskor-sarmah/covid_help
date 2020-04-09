@@ -7,6 +7,8 @@ package util;
 
 import dao.MemberDao;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +31,14 @@ public class SmsUtil {
             dao.doSaveContactDetails(mobile, mobile_no, "CONTACT ALL");
             if (type.equals("HELP SEEKER")) {
                 String provide_help = mobile + " is willing to help in your locality";
-                String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + mobile_no + "&from=DBICMR&sms=" + provide_help;
+                String encodeURL = "";
+                try {
+                    encodeURL = URLEncoder.encode(provide_help, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    System.out.println("Error Encoding URL - " + e.getMessage());
+                    return false;
+                }
+                String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + mobile_no + "&from=DBICMR&sms=" + encodeURL;
                 try {
                     if (!HttpConnectionMethod.sendGET(url)) {
                         res = false;
@@ -40,7 +49,14 @@ public class SmsUtil {
                 }
             } else if (type.equals("HELP GIVER")) {
                 String seek_help = mobile + " is seeking help in your locality";
-                String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + mobile_no + "&from=DBICMR&sms=" + seek_help;
+                String encodeURL = "";
+                try {
+                    encodeURL = URLEncoder.encode(seek_help, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    System.out.println("Error Encoding URL - " + e.getMessage());
+                    return false;
+                }
+                String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + mobile_no + "&from=DBICMR&sms=" + encodeURL;
                 try {
                     if (!HttpConnectionMethod.sendGET(url)) {
                         res = false;
@@ -59,7 +75,14 @@ public class SmsUtil {
         boolean res = true;
         if (type.equals("HELP SEEKER")) {
             String provide_help = mobile + " is willing to help in your locality";
-            String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + receiver_mobile + "&from=DBICMR&sms=" + provide_help;
+            String encodeURL = "";
+            try {
+                encodeURL = URLEncoder.encode(provide_help, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                System.out.println("Error Encoding URL - " + e.getMessage());
+                return false;
+            }
+            String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + receiver_mobile + "&from=DBICMR&sms=" + encodeURL;
             try {
                 if (!HttpConnectionMethod.sendGET(url)) {
                     res = false;
@@ -70,14 +93,21 @@ public class SmsUtil {
             }
         } else if (type.equals("HELP GIVER")) {
             String seek_help = mobile + " is seeking help in your locality";
-            String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + receiver_mobile + "&from=DBICMR&sms=" + seek_help;
+            String encodeURL = "";
+            try {
+                encodeURL = URLEncoder.encode(seek_help, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                System.out.println("Error Encoding URL - " + e.getMessage());
+                return false;
+            }
+            String url = "http://websms.kcswebtech.com/sms/api?action=send-sms&api_key=apdclda&to=91" + receiver_mobile + "&from=DBICMR&sms=" + encodeURL;
             try {
                 if (!HttpConnectionMethod.sendGET(url)) {
                     res = false;
                 }
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 res = false;
-                Logger.getLogger(SmsUtil.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Error - 0" + ex.getMessage());
             }
         }
         System.out.println("SMS SENT TO - " + receiver_mobile);
