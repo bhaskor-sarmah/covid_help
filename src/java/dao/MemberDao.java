@@ -41,7 +41,9 @@ public class MemberDao {
             for (String s : pinList) {
                 pin_str += "" + s + ",";
             }
-            pin_str = pin_str.substring(0, pin_str.length() - 1);
+            if (pin_str.length() > 1) {
+                pin_str = pin_str.substring(0, pin_str.length() - 1);
+            }
             multiple = true;
         }
 
@@ -49,7 +51,7 @@ public class MemberDao {
             if (multiple) {
                 if (pin_str.equals("")) {
                 } else {
-                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN ("+pin_str+") AND type = ?");
+                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN (" + pin_str + ") AND type = ?");
 //                    ps.setString(1, pin_str);
                     ps.setString(1, type);
                 }
@@ -104,11 +106,11 @@ public class MemberDao {
                 if (pin_str.equals("")) {
                 } else {
                     if (type.equals("HELP SEEKER")) {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN ("+pin_str+") AND help_required = ?");
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND help_required = ?");
 //                        ps.setString(1, pin_str);
                         ps.setString(1, "1");
                     } else {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN ("+pin_str+") AND willing_to_volunteer = ?");
+                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND willing_to_volunteer = ?");
 //                        ps.setString(1, pin_str);
                         ps.setString(1, "1");
                     }
@@ -129,14 +131,17 @@ public class MemberDao {
             while (rs.next()) {
                 Member m = new Member();
                 PinPojo p = getState(rs.getString("pincode"));
-                m.setName(rs.getString("name").toUpperCase());
+                if((rs.getString("name") == null)){
+                    continue;
+                }
+                m.setName((rs.getString("name") == null) ? "" : rs.getString("name").toUpperCase());
                 m.setSex(rs.getString("gender"));
                 m.setAge(rs.getString("age"));
                 m.setMobile(Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
 //                m.setEmail(rs.getString("email"));
 //                m.setHouse_no(rs.getString("house_no"));
-                m.setLocality(rs.getString("locality").toUpperCase());
-                m.setRoad(rs.getString("road").toUpperCase());
+                m.setLocality((rs.getString("locality") == null) ? "" : rs.getString("locality").toUpperCase());
+                m.setRoad((rs.getString("road") == null) ? "" : rs.getString("road").toUpperCase());
 //                m.setPolice_station(rs.getString("police_station"));
                 m.setPincode(rs.getString("pincode"));
                 m.setState(p.getState());
@@ -193,8 +198,8 @@ public class MemberDao {
             System.out.println(ps);
             rs = ps.executeQuery();
             if (rs.next()) {
-                p.setDistrict(rs.getString("Districtname").toUpperCase());
-                p.setState(rs.getString("statename").toUpperCase());
+                p.setDistrict((rs.getString("Districtname") == null) ? "" : rs.getString("Districtname").toUpperCase());
+                p.setState((rs.getString("statename") == null) ? "" : rs.getString("statename").toUpperCase());
             }
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
@@ -411,7 +416,7 @@ public class MemberDao {
             }
             System.out.println(ps);
             rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 pinList.add(rs.getString(1));
             }
         } catch (Exception e) {

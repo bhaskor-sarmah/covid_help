@@ -55,10 +55,10 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if(state.equals("PINCODE")){
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at pincode - " + pin + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at pincode - " + pin + "<br/>এই পিনক'ডটোত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
                     
                     }else{
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at parent District of pincode - " + pin + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at parent District of pincode - " + pin + "<br/>এই পিনক'ডৰ জিলাত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
                     
                     }
                     request.setAttribute("mobile", mobile);
@@ -75,10 +75,10 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if(state.equals("PINCODE")){
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Giver at pincode - " + pin + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at pincode - " + pin + "<br/>এই পিনক'ড টোত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
                     
                     }else{
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Giver at parent District of pincode - " + pin + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at parent District of pincode - " + pin + "</br>এই পিনক'ডৰ জিলাত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
                     
                     }
                     request.setAttribute("mobile", mobile);

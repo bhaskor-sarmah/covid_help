@@ -75,7 +75,7 @@
                 </table>
             </div>
             <div class="col-sm-12 col-md-6">
-                <iframe src="http://3.6.23.223:8080/StateMap/index.html" height="800px;" width="100%" id="mapFrame"></iframe>
+                <iframe src="https://covirudh.in:8443/Map/Map" height="800px;" width="100%" id="mapFrame"></iframe>
             </div>
         </div>
     </div>
@@ -129,7 +129,7 @@
         }
 
         function doViewInMap(mob) {
-            var url = "http://3.6.23.223:8080/StateMap/GetMap?mno=";
+            var url = "https://covirudh.in:8443/Map/GetMap?mno=";
             $("#mapFrame").attr("src", url + mob);
         }
     </script>
