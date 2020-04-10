@@ -22,7 +22,7 @@ import util.Encryption;
  * @author Bhaskor
  */
 public class MemberDao {
-
+    
     public List<Member> getMemberByPinCode(String pin, String type, String state) {
         Connection conn = null;
         PreparedStatement ps = null, ps1 = null;
@@ -46,7 +46,7 @@ public class MemberDao {
             }
             multiple = true;
         }
-
+        
         try {
             if (multiple) {
                 if (pin_str.equals("")) {
@@ -91,14 +91,14 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         try {
@@ -131,25 +131,25 @@ public class MemberDao {
             while (rs.next()) {
                 Member m = new Member();
                 PinPojo p = getState(rs.getString("pincode"));
-                if((rs.getString("name") == null)){
+                if ((rs.getString("name") == null) || rs.getString("name").equals("")) {
                     continue;
                 }
                 m.setName((rs.getString("name") == null) ? "" : rs.getString("name").toUpperCase());
-                m.setSex(rs.getString("gender"));
-                m.setAge(rs.getString("age"));
-                m.setMobile(Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
+                m.setSex((rs.getString("gender") == null) ? "" :rs.getString("gender"));
+                m.setAge((rs.getString("age") == null) ? "" :rs.getString("age"));
+                m.setMobile((rs.getString("mobile") == null) ? "" :Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
 //                m.setEmail(rs.getString("email"));
 //                m.setHouse_no(rs.getString("house_no"));
                 m.setLocality((rs.getString("locality") == null) ? "" : rs.getString("locality").toUpperCase());
                 m.setRoad((rs.getString("road") == null) ? "" : rs.getString("road").toUpperCase());
 //                m.setPolice_station(rs.getString("police_station"));
-                m.setPincode(rs.getString("pincode"));
-                m.setState(p.getState());
-                m.setDistrict(p.getDistrict());
+                m.setPincode((rs.getString("pincode") == null) ? "" :rs.getString("pincode"));
+                m.setState((p.getState() == null) ? "" :p.getState());
+                m.setDistrict((p.getDistrict() == null) ? "" :p.getDistrict());
 //                m.setCircle(rs.getString("circle"));
                 m.setType_of_help(type);
-                m.setLat(rs.getString("lat"));
-                m.setLon(rs.getString("lng"));
+                m.setLat((rs.getString("lat") == null) ? "" :rs.getString("lat"));
+                m.setLon((rs.getString("lng") == null) ? "" :rs.getString("lng"));
                 m.setSrc("APP");
                 memberList.add(m);
             }
@@ -161,27 +161,27 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
-
+        
         try {
             if (conn != null) {
                 conn.close();
             }
         } catch (Exception e) {
-
+            
         }
         return memberList;
     }
-
+    
     public PinPojo getState(String pin) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -209,28 +209,28 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         return p;
     }
-
+    
     public boolean saveMember(Member m) {
-
+        
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -307,27 +307,27 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         return false;
     }
-
-    public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha) {
+    
+    public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha, String name) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -341,6 +341,7 @@ public class MemberDao {
             ps = conn.prepareStatement("INSERT INTO `search_details` \n"
                     + "	(`id`, \n"
                     + "	`pin`, \n"
+                    + "	`name`, \n"
                     + "	`mobile`, \n"
                     + "	`search_type`, \n"
                     + "	`search_for`, \n"
@@ -355,10 +356,12 @@ public class MemberDao {
                     + "	?, \n"
                     + "	?, \n"
                     + "	?, \n"
+                    + "	?, \n"
                     + "	NOW(), \n"
                     + " NULL\n"
                     + "	)");
             ps.setString(index++, pin);
+            ps.setString(index++, name);
             ps.setString(index++, mobile);
             ps.setString(index++, search_type);
             ps.setString(index++, search_for);
@@ -374,26 +377,26 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         return false;
     }
-
+    
     public List<String> getAllPin(String pin, String type) {
         System.out.println("RECEIVED PARAMETER - " + type);
         PinPojo p = getState(pin);
@@ -427,27 +430,27 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         return pinList;
     }
-
-    public boolean doSaveContactDetails(String mobile_no, String receiver_mobile, String type) {
+    
+    public boolean doSaveContactDetails(String mobile_no, String receiver_mobile, String type, String name) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -461,6 +464,7 @@ public class MemberDao {
             ps = conn.prepareStatement("INSERT INTO `contact_details` \n"
                     + "	(`id`, \n"
                     + "	`contact_by`, \n"
+                    + "	`contact_by_name`, \n"
                     + "	`contact_to`, \n"
                     + "	`contact_type`, \n"
                     + "	`datetime`, \n"
@@ -471,10 +475,12 @@ public class MemberDao {
                     + "	?, \n"
                     + "	?, \n"
                     + "	?, \n"
+                    + "	?, \n"
                     + "	NOW(), \n"
                     + "	NULL\n"
                     + "	)");
             ps.setString(index++, mobile_no);
+            ps.setString(index++, name);
             ps.setString(index++, receiver_mobile);
             ps.setString(index++, type);
             System.out.println(ps);
@@ -488,21 +494,21 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-
+                
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-
+                
             }
         }
         return false;

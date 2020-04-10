@@ -68,6 +68,11 @@
                             <span class="errorSpan" id="searchError"></span>
                         </div>
                         <div class="col-xs-9">
+                            <label class="eng">Enter Your Name<br/>আপোনাৰ নাম লিখক</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Your Name here" id="name"/>
+                            <span class="errorSpan" id="nameError"></span>
+                        </div>
+                        <div class="col-xs-9">
                             <label class="eng">Enter Your Mobile<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
                             <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No here" id="mobile"/>
                             <span class="errorSpan" id="mobileError"></span>
@@ -113,6 +118,10 @@
             } else if (!$("#mobile").val().match(/^\d{10}$/)) {
                 $("#mobileError").html("Enter a valid Mobile No");
                 $("#mobileError").show();
+                return false;
+            }else if ($("#name").val() === "") {
+                $("#nameError").html("Enter your name");
+                $("#nameError").show();
                 return false;
             } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 $("#captchaError").html("Enter a valid Captcha Code");

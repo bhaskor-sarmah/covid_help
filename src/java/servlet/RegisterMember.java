@@ -7,6 +7,9 @@ package servlet;
 
 import dao.MemberDao;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,14 +47,28 @@ public class RegisterMember extends HttpServlet {
             request.setAttribute("type", type);
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
-            String name = request.getParameter("name").toUpperCase();
+            String name = request.getParameter("name");
+            name = getUTF8(name).toUpperCase();
+            
             String mobile = request.getParameter("mobile");
-            String ps = request.getParameter("ps").toUpperCase();
-            String locality = request.getParameter("locality").toUpperCase();
-            String road = request.getParameter("road").toUpperCase();
-            String house = request.getParameter("house_no").toUpperCase();
+            
+            String ps = request.getParameter("ps");
+            ps = getUTF8(ps).toUpperCase();
+            
+            String locality = request.getParameter("locality");
+            locality = getUTF8(locality).toUpperCase();
+            
+            String road = request.getParameter("road");
+            road = getUTF8(road).toUpperCase();
+            
+            String house = request.getParameter("house_no");
+            house = getUTF8(house).toUpperCase();
+            
             String pin = request.getParameter("pincode");
+            
             String sex = request.getParameter("gender").toUpperCase();
+//            sex = getUTF8(sex).toUpperCase();
+            
             String age = request.getParameter("age");
             String email = request.getParameter("email");
             String type_of_help = request.getParameter("type_of_help").toUpperCase();
@@ -122,5 +139,16 @@ public class RegisterMember extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String getUTF8(String text) {
+        try {
+            byte textArr[] = text.getBytes("ISO-8859-1");
+            text = new String(textArr, "UTF-8");
+            return text;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(RegisterMember.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
 
 }

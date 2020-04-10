@@ -35,7 +35,7 @@
                             <th>
                                 Action<br/>
                                 <c:if test="${searchType == 'PINCODE'}">
-                                    <button class="btn btn-sm btn-primary" onclick="doContactAll('${pin}', '${mobile}', '${captcha}', '${type}');">Contact All</button>
+                                    <button class="btn btn-sm btn-primary" onclick="doContactAll('${pin}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact All</button>
                                 </c:if>
                             </th>
                         </tr>
@@ -53,7 +53,7 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}');">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
                                         <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top: 5px;">View In Map</button>
                                     </td>
                                 </c:if>
@@ -66,7 +66,7 @@
                                     </td>
                                     <td>${obj.type_of_help}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}');">Contact</button>
+                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
                                     </td>
                                 </c:if>
                             </tr>
@@ -90,11 +90,11 @@
         $(document).ajaxStop(function() {
             $(".loader").fadeOut('slow');
         });
-        function doContact(mm, str, c, t) {
+        function doContact(mm, str, c, t, n) {
             $.ajax({
                 url: './Contact',
                 type: 'POST',
-                data: 'mm=' + encodeURIComponent(mm) + '&m=' + str + '&c=' + c + '&t=' + t,
+                data: 'mm=' + encodeURIComponent(mm) + '&m=' + str + '&c=' + c + '&t=' + t + '&n=' + n,
                 success: function(data) {
                     //called when successful
                     $.alert({
@@ -108,11 +108,11 @@
                 }
             });
         }
-        function doContactAll(pin, str, c, t) {
+        function doContactAll(pin, str, c, t, n) {
             $.ajax({
                 url: './ContactAll',
                 type: 'POST',
-                data: 'p=' + pin + '&m=' + str + '&c=' + c + '&t=' + t,
+                data: 'p=' + pin + '&m=' + str + '&c=' + c + '&t=' + t + '&n=' + n,
                 success: function(data) {
                     //called when successful
                     $.alert({
@@ -129,7 +129,7 @@
         }
 
         function doViewInMap(mob) {
-            var url = "https://covirudh.in:8443/Map/GetMap?mno=";
+            var url = "https://covirudh.in:8443/Map/Map?mno=";
             $("#mapFrame").attr("src", url + mob);
         }
     </script>

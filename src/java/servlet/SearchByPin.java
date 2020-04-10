@@ -7,7 +7,10 @@ package servlet;
 
 import dao.MemberDao;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,7 +49,9 @@ public class SearchByPin extends HttpServlet {
             String pin = request.getParameter("search");
             String mobile = request.getParameter("mobile");
             String state = request.getParameter("state");
-            dao.doSaveSearchDetails(pin, mobile, state, type, captcha);
+            String name = request.getParameter("name");
+            name = getUTF8(name).toUpperCase();
+            dao.doSaveSearchDetails(pin, mobile, state, type, captcha, name);
             if (type.equals("HELP SEEKER")) {
                 List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
                 if (memberList == null || memberList.isEmpty()) {
@@ -62,6 +67,7 @@ public class SearchByPin extends HttpServlet {
                     
                     }
                     request.setAttribute("mobile", mobile);
+                    request.setAttribute("name", name);
                     request.setAttribute("searchType", state);
                     request.setAttribute("pin", pin);
                     request.setAttribute("type", type);
@@ -82,6 +88,7 @@ public class SearchByPin extends HttpServlet {
                     
                     }
                     request.setAttribute("mobile", mobile);
+                    request.setAttribute("name", name);
                     request.setAttribute("searchType", state);
                     request.setAttribute("pin", pin);
                     request.setAttribute("type", type);
@@ -134,4 +141,14 @@ public class SearchByPin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private String getUTF8(String text) {
+        try {
+            byte textArr[] = text.getBytes("ISO-8859-1");
+            text = new String(textArr, "UTF-8");
+            return text;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(RegisterMember.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
 }

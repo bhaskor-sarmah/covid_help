@@ -39,6 +39,17 @@
             </div>
         </c:if>
         <div class="row">
+            <div class="col-sm-0 col-md-2"></div>
+            <div class="col-sm-12 col-md-8">
+                <div class="alert alert-warning alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Please Note that the portal will accept data in English Language Only.</strong><br/>
+                    <strong>মন কৰিব, এই ৱেব পৰ্টেল টোত কেৱল মাত্ৰ ইংৰাজী ভাষাতহে তথ্য লিখিব পাৰিব ।</strong>
+                </div>
+            </div>
+            <div class="col-sm-0 col-md-2"></div>
+        </div>
+        <div class="row">
             <div class="col-sm-12 col-md-12 mainboxshadow">
                 <div class="col-xs-12 col-md-6" style="margin-top:10px;">
                     <form action="./Register" method="POST">
@@ -141,7 +152,18 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-md-12" style="margin-top:10px;display: none;">
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal fade" role="dialog" style="font-size: small;">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Note</h4>
+                </div>
+                <div class="modal-body">
                     <h2>Android Application Installation Instruction</h2>
                     <ul>
                         <li>While the App is being published on <pre>Play Store</pre> you can download the Android App from our server</li>
@@ -154,12 +176,17 @@
                         <li>Tap "Install" to install the app. </li>
                     </ul>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
+
         </div>
     </div>
     <jsp:include page='./template/footer.jsp' />
     <script type="text/javascript">
         $(document).ready(function() {
+            //$("#myModal").modal('show');
         });
     </script>
 </body>

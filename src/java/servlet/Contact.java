@@ -7,7 +7,10 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,10 +50,12 @@ public class Contact extends HttpServlet {
         } else {
             SmsUtil sms = new SmsUtil();
             String mobile = request.getParameter("m");
+            String name = request.getParameter("n");
+            name = getUTF8(name);
             String receiver_mobile = Encryption.decrypt(request.getParameter("mm"), AppSettings.KEY);
             System.out.println(receiver_mobile);
             String type = request.getParameter("t");
-            if (sms.doFireSms(receiver_mobile.replaceAll("==", ""), mobile, type)) {
+            if (sms.doFireSms(receiver_mobile.replaceAll("==", ""), mobile, type, name)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
 //                response.setCharacterEncoding("UTF-8");
@@ -105,4 +110,14 @@ public class Contact extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+     private String getUTF8(String text) {
+        try {
+            byte textArr[] = text.getBytes("ISO-8859-1");
+            text = new String(textArr, "UTF-8");
+            return text;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(RegisterMember.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
 }

@@ -8,7 +8,10 @@ package servlet;
 import dao.MemberDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,8 +53,10 @@ public class ContactAll extends HttpServlet {
             String mobile = request.getParameter("m");
             String pin = request.getParameter("p");
             String type = request.getParameter("t");
+            String name = request.getParameter("n");
+            name = getUTF8(name);
             List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE");
-            if (sms.doFireSms(memberList, mobile, type)) {
+            if (sms.doFireSms(memberList, mobile, type, name)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
 //                response.setCharacterEncoding("UTF-8");
@@ -106,4 +111,14 @@ public class ContactAll extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+     private String getUTF8(String text) {
+        try {
+            byte textArr[] = text.getBytes("ISO-8859-1");
+            text = new String(textArr, "UTF-8");
+            return text;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(RegisterMember.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
 }
