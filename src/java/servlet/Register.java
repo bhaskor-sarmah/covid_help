@@ -5,8 +5,8 @@
  */
 package servlet;
 
+import dao.MemberDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
 
+    MemberDao dao = new MemberDao();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,10 +35,12 @@ public class Register extends HttpServlet {
         String type = request.getParameter("type");
         if (type.equals("HELP GIVER")) {
             request.setAttribute("type", type);
+            request.setAttribute("helpList", dao.getTypeOfHelp());
             request.setAttribute("registerMsg", "<div class=\"alert alert-info\"><label>Fill up the form below to register as a Help Giver.<br/>সহায়কৰ্ত্তা হিচাপে ৰেজিষ্টাৰ কৰিবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else if(type.equals("HELP SEEKER")){
             request.setAttribute("type", type);
+            request.setAttribute("helpList", dao.getTypeOfHelp());
             request.setAttribute("registerMsg", "<div class=\"alert alert-danger\"><label>Fill up the form below to register as a Help Seeker</br>সহায় বিচাৰোতা হিচাপে ৰেজিষ্টাৰ কৰিবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else{

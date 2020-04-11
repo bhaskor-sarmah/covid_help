@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author Bhaskor
@@ -25,7 +27,7 @@ public class Member {
     private String age;
     private String email;
     private String type;
-    private String type_of_help;
+    private List<HelpPojo> type_of_help;
     private String lon;
     private String lat;
     private String src;
@@ -41,14 +43,14 @@ public class Member {
         this.type = type;
     }
 
-    public String getType_of_help() {
+    public List<HelpPojo> getType_of_help() {
         return type_of_help;
     }
 
-    public void setType_of_help(String type_of_help) {
+    public void setType_of_help(List<HelpPojo> type_of_help) {
         this.type_of_help = type_of_help;
     }
-
+    
     public String getEmail() {
         return email;
     }

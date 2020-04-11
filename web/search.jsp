@@ -51,7 +51,13 @@
                                         ${obj.locality},&nbsp;
                                         ${obj.road}
                                     </td>
-                                    <td>${obj.type_of_help}</td>
+                                    <td>
+                                        <c:forEach var="o" items="${obj.type_of_help}">
+                                            <p>
+                                                Type : ${o.helpId}, Details: ${o.helpDetails}, Quantity: ${o.helpQuantity}
+                                            </p>
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
                                         <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top: 5px;">View In Map</button>
@@ -64,7 +70,13 @@
                                         ${obj.road},&nbsp;
                                         ${obj.house_no},&nbsp;
                                     </td>
-                                    <td>${obj.type_of_help}</td>
+                                    <td>
+                                        <c:forEach var="o" items="${obj.type_of_help}">
+                                            <p>
+                                                Type : ${o.helpId}, Details: ${o.helpDetails}, Quantity: ${o.helpQuantity}
+                                            </p>
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
                                     </td>

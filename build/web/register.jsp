@@ -106,14 +106,33 @@
                             <span class="errorSpan" id="house_noError"></span>
                         </div>
                         <div class="clearfix"></div> 
-                        <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
-                            <select class="form-control" id="type_of_help" name="type_of_help">
-                                <option value="FOOD" selected="selected">FOOD</option>
-                                <option value="MEDICINE">MEDICINE</option>
-                                <option value="SHELTER">SHELTER</option>
-                            </select>
-                            <span class="errorSpan" id="type_of_helpError"></span>
+                        <div class="col-xs-9 col-md-12" id="helpDiv">
+                            <div class="row" id="helpRow_1">
+                                <div class="col-sm-12 col-md-4">
+                                    <span class="mandetory">*</span><label class="eng">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
+                                    <select class="form-control" id="type_of_help_1" name="type_of_help">
+                                        <c:forEach var="obj" items="${helpList}">
+                                            <option value="${obj.id}" <c:if test="${obj.id == '1'}">selected="selected"</c:if>>${obj.helpDetails}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span class="errorSpan" id="type_of_help_1Error"></span>
+                                </div>
+                                <div class="col-sm-12 col-md-4">
+                                    <label class="eng">Help Details<br/>সাহায্যৰ বিবৰণ</label>
+                                    <input type="text" class="form-control" name="help_details" placeholder="Enter Help Details" id="help_details_1"/>
+                                    <span class="errorSpan" id="help_details_1Error"></span>
+                                </div>
+                                <div class="col-sm-12 col-md-4">
+                                    <label class="eng">Quantity<br/>পৰিমাণ</label>
+                                    <input type="text" class="form-control" name="help_quantity" placeholder="Enter Quantity" id="help_quantity_1"/>
+                                    <span class="errorSpan" id="help_quantity_1Error"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-9 col-md-12" id="helpDivBottom">
+                            <button type="button" class="btn btn-sm btn-primary" id="btnAddMore" onclick="doAddRow();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add More</button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-danger" id="btnRemove" onclick="doRemoveRow();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Remove</button>
                         </div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
@@ -123,6 +142,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <input type="hidden" class="form-control" name="type" id="type" value="${type}"/>
+                        <input type="hidden" class="form-control" name="helpDivCount" id="helpDivCount" value="1"/>
                         <div class="col-xs-9 col-md-12 text-center" style="margin-top: 10px;">
                             <input type="submit" name="submit" class="btn btn-success" value="Register(ৰেজিষ্টাৰ)" />
                         </div>
@@ -134,8 +154,17 @@
     </div>
     <jsp:include page='./template/footer.jsp' />
     <script type="text/javascript">
+        var helpDivCount = 1;
+        var helpList = [];
+
         $(document).ready(function() {
             $(".errorSpan").hide();
+        <c:forEach var="obj" items="${helpList}" varStatus="loop">
+            helpList[${loop.index}] = {
+                id: '${obj.id}',
+                help: '${obj.helpDetails}'
+            };
+        </c:forEach>
         });
         $(document).ajaxStart(function() {
             $(".loader").show();
@@ -207,17 +236,68 @@
                 $("#house_noError").show();
                 return false;
             }
+            for (var i = 1; i <= helpDivCount; i++) {
+                if ($("#type_of_help_" + i).val() === "") {
+                    $("#type_of_help_" + i + "Error").html("Select Type of Help");
+                    $("#type_of_help_" + i + "Error").show();
+                    return false;
+                }
+            }
             return true;
         }
 
         function isValidEmail(emailAddress) {
-//            return true;
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
             return pattern.test(emailAddress);
         }
 
         function reloadCaptcha() {
             $("#captchaImage").attr("src", "./CaptchaServlet?t=" + new Date().getTime());
+        }
+
+        function doAddRow() {
+            helpDivCount++;
+            var str = "<div class=\"row\" id=\"helpRow_" + helpDivCount + "\">\n" +
+                    "                                <div class=\"col-sm-12 col-md-4\">\n" +
+                    "                                <span class=\"mandetory\">*</span><label class=\"eng\">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>\n" +
+                    "                                    <select class=\"form-control\" id=\"type_of_help_" + helpDivCount + "\" name=\"type_of_help\">\n";
+            for (var i = 0; i < helpList.length; i++) {
+                str += "<option value = \"" + helpList[i].id + "\">" + helpList[i].help + "</option>\n";
+            }
+
+            str += "                                    </select>\n" +
+                    "                                    <span class=\"errorSpan\" id=\"type_of_help_" + helpDivCount + "Error\"></span>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=\"col-sm-12 col-md-4\">\n" +
+                    "                                <label class=\"eng\">Help Details<br/>সাহায্যৰ বিবৰণ</label>\n" +
+                    "                                    <input type=\"text\" class=\"form-control\" name=\"help_details\" placeholder=\"Enter Help Details\" id=\"help_details_" + helpDivCount + "\"/>\n" +
+                    "                                    <span class=\"errorSpan\" id=\"help_details_" + helpDivCount + "Error\"></span>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=\"col-sm-12 col-md-4\">\n" +
+                    "                                <label class=\"eng\">Quantity<br/>পৰিমাণ</label>\n" +
+                    "                                    <input type=\"text\" class=\"form-control\" name=\"help_quantity\" placeholder=\"Enter Quantity\" id=\"help_quantity_" + helpDivCount + "\"/>\n" +
+                    "                                    <span class=\"errorSpan\" id=\"help_quantity_" + helpDivCount + "Error\"></span>\n" +
+                    "                                </div>\n" +
+                    "                            </div>";
+            $("#helpDiv").append(str);
+            $("#type_of_help_" + helpDivCount).val(helpList[0].id);
+            $("#helpDivCount").val(helpDivCount);
+        }
+
+        function doRemoveRow() {
+            if (helpDivCount <= 1) {
+                $.alert({
+                    title: "Error",
+                    content: "Last Row",
+                    type: "red",
+                    typeAnimated: true
+                });
+                helpDivCount = 1;
+            } else {
+                $("#helpRow_" + helpDivCount).remove();
+                helpDivCount--;
+            }
+            $("#helpDivCount").val(helpDivCount);
         }
     </script>
 </body>

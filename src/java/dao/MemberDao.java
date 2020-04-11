@@ -10,10 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.HelpPojo;
 import model.Member;
 import model.PinPojo;
+import model.TypeOfHelp;
 import util.AppSettings;
 import util.Encryption;
 
@@ -22,7 +25,7 @@ import util.Encryption;
  * @author Bhaskor
  */
 public class MemberDao {
-    
+
     public List<Member> getMemberByPinCode(String pin, String type, String state) {
         Connection conn = null;
         PreparedStatement ps = null, ps1 = null;
@@ -46,7 +49,7 @@ public class MemberDao {
             }
             multiple = true;
         }
-        
+
         try {
             if (multiple) {
                 if (pin_str.equals("")) {
@@ -77,7 +80,7 @@ public class MemberDao {
                 m.setState(rs.getString("state"));
                 m.setDistrict(rs.getString("district"));
                 m.setCircle(rs.getString("circle"));
-                m.setType_of_help(rs.getString("type_of_help"));
+                m.setType_of_help(getHelpList(rs.getString("id")));
                 m.setLat("");
                 m.setLon("");
                 m.setSrc("POR");
@@ -91,14 +94,14 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
         try {
@@ -117,11 +120,11 @@ public class MemberDao {
                 }
             } else {
                 if (type.equals("HELP SEEKER")) {
-                    ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
                     ps.setString(1, pin);
                     ps.setString(2, "1");
                 } else {
-                    ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
                     ps.setString(1, pin);
                     ps.setString(2, "1");
                 }
@@ -135,21 +138,21 @@ public class MemberDao {
                     continue;
                 }
                 m.setName((rs.getString("name") == null) ? "" : rs.getString("name").toUpperCase());
-                m.setSex((rs.getString("gender") == null) ? "" :rs.getString("gender"));
-                m.setAge((rs.getString("age") == null) ? "" :rs.getString("age"));
-                m.setMobile((rs.getString("mobile") == null) ? "" :Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
+                m.setSex((rs.getString("gender") == null) ? "" : rs.getString("gender"));
+                m.setAge((rs.getString("age") == null) ? "" : rs.getString("age"));
+                m.setMobile((rs.getString("mobile") == null) ? "" : Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
 //                m.setEmail(rs.getString("email"));
 //                m.setHouse_no(rs.getString("house_no"));
                 m.setLocality((rs.getString("locality") == null) ? "" : rs.getString("locality").toUpperCase());
                 m.setRoad((rs.getString("road") == null) ? "" : rs.getString("road").toUpperCase());
 //                m.setPolice_station(rs.getString("police_station"));
-                m.setPincode((rs.getString("pincode") == null) ? "" :rs.getString("pincode"));
-                m.setState((p.getState() == null) ? "" :p.getState());
-                m.setDistrict((p.getDistrict() == null) ? "" :p.getDistrict());
+                m.setPincode((rs.getString("pincode") == null) ? "" : rs.getString("pincode"));
+                m.setState((p.getState() == null) ? "" : p.getState());
+                m.setDistrict((p.getDistrict() == null) ? "" : p.getDistrict());
 //                m.setCircle(rs.getString("circle"));
-                m.setType_of_help(type);
-                m.setLat((rs.getString("lat") == null) ? "" :rs.getString("lat"));
-                m.setLon((rs.getString("lng") == null) ? "" :rs.getString("lng"));
+                m.setType_of_help(getHelpListApp(rs.getString("id")));
+                m.setLat((rs.getString("lat") == null) ? "" : rs.getString("lat"));
+                m.setLon((rs.getString("lng") == null) ? "" : rs.getString("lng"));
                 m.setSrc("APP");
                 memberList.add(m);
             }
@@ -161,27 +164,27 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
-        
+
         try {
             if (conn != null) {
                 conn.close();
             }
         } catch (Exception e) {
-            
+
         }
         return memberList;
     }
-    
+
     public PinPojo getState(String pin) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -209,35 +212,37 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
         return p;
     }
-    
+
     public boolean saveMember(Member m) {
-        
+
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        int member_id = 0;
         try {
             conn = ContextListener.dsCovidHelp.getConnection();
         } catch (Exception e) {
             System.out.println("Connection Exception : " + e.getMessage());
+            return false;
         }
         try {
             int index = 1;
@@ -257,7 +262,7 @@ public class MemberDao {
                     + "	`district`, \n"
                     + "	`circle`, \n"
                     + "	`type`, \n"
-                    + "	`type_of_help`, \n"
+                    //                    + "	`type_of_help`, \n"
                     + "	`flag`, \n"
                     + "	`flag1`\n"
                     + "	)\n"
@@ -277,10 +282,10 @@ public class MemberDao {
                     + "	?, \n"
                     + "	?, \n"
                     + "	?, \n"
-                    + "	?, \n"
+                    //                    + "	?, \n"
                     + "	NULL, \n"
                     + "	NULL\n"
-                    + "	)");
+                    + "	)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(index++, m.getName());
             ps.setString(index++, m.getSex());
             ps.setString(index++, m.getAge());
@@ -295,38 +300,99 @@ public class MemberDao {
             ps.setString(index++, m.getDistrict());
             ps.setString(index++, m.getCircle());
             ps.setString(index++, m.getType());
-            ps.setString(index++, m.getType_of_help());
+//            ps.setString(index++, m.getType_of_help());
             System.out.println(ps);
             ps.executeUpdate();
-            return true;
+            ResultSet rsGen = ps.getGeneratedKeys();
+            if (rsGen.next()) {
+                member_id = rsGen.getInt(1);
+            }
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
+            return false;
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
-            }
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                
+
             }
         }
-        return false;
+        if (member_id != 0) {
+            for (HelpPojo h : m.getType_of_help()) {
+                try {
+                    int index = 1;
+                    ps = conn.prepareStatement("INSERT INTO `help_details_new` \n"
+                            + "	(`id`, \n"
+                            + "	`description`, \n"
+                            + "	`quantity`, \n"
+                            + "	`fk_type_of_help`, \n"
+                            + "	`help_seeker_giver`, \n"
+                            + "	`fk_icmr_user_details`, \n"
+                            + "	`fk_member`, \n"
+                            + "	`flag`\n"
+                            + "	)\n"
+                            + "	VALUES\n"
+                            + "	(NULL, \n"
+                            + "	?, \n"
+                            + "	?, \n"
+                            + "	?, \n"
+                            + "	?, \n"
+                            + "	NULL, \n"
+                            + "	?, \n"
+                            + "	NULL\n"
+                            + "	)");
+                    ps.setString(index++, h.getHelpDetails());
+                    ps.setString(index++, h.getHelpQuantity());
+                    ps.setString(index++, h.getHelpId());
+                    if (m.getType().equals("HELP GIVER")) {
+                        ps.setString(index++, "GIVER");
+                    } else if (m.getType().equals("HELP SEEKER")) {
+                        ps.setString(index++, "SEEKER");
+                    }
+                    ps.setInt(index++, member_id);
+                    System.out.println(ps);
+                    ps.executeUpdate();
+//                    return true;
+                } catch (Exception e) {
+                    System.out.println("Exception : " + e.getMessage());
+                    return false;
+                } finally {
+                    try {
+                        if (rs != null) {
+                            rs.close();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        if (ps != null) {
+                            ps.close();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (Exception e) {
+
+        }
+        return true;
     }
-    
+
     public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha, String name) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -377,26 +443,26 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
         return false;
     }
-    
+
     public List<String> getAllPin(String pin, String type) {
         System.out.println("RECEIVED PARAMETER - " + type);
         PinPojo p = getState(pin);
@@ -430,26 +496,26 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
         return pinList;
     }
-    
+
     public boolean doSaveContactDetails(String mobile_no, String receiver_mobile, String type, String name) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -494,23 +560,173 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (Exception e) {
-                
+
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
-                
+
             }
         }
         return false;
+    }
+
+    public List<TypeOfHelp> getTypeOfHelp() {
+        List<TypeOfHelp> helpList = new ArrayList<TypeOfHelp>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT id,type_of_help FROM type_of_help WHERE is_enable = 1");
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                TypeOfHelp h = new TypeOfHelp();
+                h.setId(rs.getString(1));
+                h.setHelpDetails(rs.getString(2));
+                helpList.add(h);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return helpList;
+    }
+
+    private List<HelpPojo> getHelpList(String id) {
+        List<HelpPojo> helpList = new ArrayList<HelpPojo>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT a.description,a.quantity,a.help_seeker_giver,b.type_of_help FROM help_details_new a,type_of_help b WHERE a.fk_type_of_help = b.id AND a.fk_member = ?");
+            ps.setString(1, id);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                HelpPojo h = new HelpPojo();
+                h.setHelpDetails(rs.getString(1));
+                h.setHelpQuantity(rs.getString(2));
+                h.setType(rs.getString(3));
+                h.setHelpId(rs.getString(4));
+                helpList.add(h);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return helpList;
+    }
+
+    private List<HelpPojo> getHelpListApp(String id) {
+        List<HelpPojo> helpList = new ArrayList<HelpPojo>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT a.description,a.quantity,a.help_seeker_giver,b.type_of_help FROM help_details_new a,type_of_help b WHERE a.fk_type_of_help = b.id AND a.fk_icmr_user_details = ?");
+            ps.setString(1, id);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                HelpPojo h = new HelpPojo();
+                h.setHelpDetails(rs.getString(1));
+                h.setHelpQuantity(rs.getString(2));
+                h.setType(rs.getString(3));
+                h.setHelpId(rs.getString(4));
+                helpList.add(h);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return helpList;
     }
 }

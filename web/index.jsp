@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-sm-0 col-md-2"></div>
             <div class="col-sm-12 col-md-8">
-                <div class="alert alert-warning alert-dismissable">
+                <div class="alert alert-warning alert-dismissable text-center">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <strong>Please Note that the portal will accept data in English Language Only.</strong><br/>
                     <strong>মন কৰিব, এই ৱেব পৰ্টেল টোত কেৱল মাত্ৰ ইংৰাজী ভাষাতহে তথ্য লিখিব পাৰিব ।</strong>

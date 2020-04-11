@@ -8,6 +8,8 @@ package servlet;
 import dao.MemberDao;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.HelpPojo;
 import model.Member;
 import model.PinPojo;
 
@@ -45,8 +48,25 @@ public class RegisterMember extends HttpServlet {
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
             request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
             request.setAttribute("type", type);
+            request.setAttribute("helpList", dao.getTypeOfHelp());
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
+            
+//            int helpDivCount = Integer.parseInt(request.getParameter("helpDivCount"));
+            
+            String[] type_of_help = request.getParameterValues("type_of_help");
+            String[] help_details = request.getParameterValues("help_details");
+            String[] help_quantity = request.getParameterValues("help_quantity");
+            List<HelpPojo> helpList = new ArrayList<HelpPojo>();
+            int i= 0;
+            for(String s: type_of_help){
+                HelpPojo h = new HelpPojo();
+                h.setHelpId(s);
+                h.setHelpDetails(help_details[i]);
+                h.setHelpDetails(help_quantity[i]);
+                helpList.add(h);
+                i++;
+            }
             String name = request.getParameter("name");
             name = getUTF8(name).toUpperCase();
             
@@ -71,7 +91,7 @@ public class RegisterMember extends HttpServlet {
             
             String age = request.getParameter("age");
             String email = request.getParameter("email");
-            String type_of_help = request.getParameter("type_of_help").toUpperCase();
+//            String type_of_help = request.getParameter("type_of_help").toUpperCase();
             PinPojo p = dao.getState(pin);
             Member m = new Member();
             m.setName(name);
@@ -88,7 +108,7 @@ public class RegisterMember extends HttpServlet {
             m.setSex(sex);
             m.setState(p.getState());
             m.setType(type);
-            m.setType_of_help(type_of_help);
+            m.setType_of_help(helpList);
 
             if (dao.saveMember(m)) {
                 request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
@@ -96,6 +116,7 @@ public class RegisterMember extends HttpServlet {
             } else {
                 request.setAttribute("type", type);
                 request.setAttribute("msg", "<span style=\"color: reg\"><label>Failed Saving Member</label></span>");
+                request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             }
         }

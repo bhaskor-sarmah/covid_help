@@ -84,3 +84,15 @@ legend {
     font-size: large;
     font-weight: bold;
 }
+
+#helpDiv{
+    margin-top: 10px;
+    border-top: 2px solid darkslateblue;
+}
+
+#helpDivBottom{
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    border-bottom: 2px solid darkslateblue;
+}
