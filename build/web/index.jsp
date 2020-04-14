@@ -8,7 +8,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <jsp:include page='./template/head.jsp'>
-    <jsp:param name="pageTitle" value="Covid Help"/>
+    <jsp:param name="pageTitle" value="Home"/>
 </jsp:include>
 <body style="overflow-x: scroll;margin-bottom: 70px;">
     <style type="text/css">
@@ -38,6 +38,17 @@
                 <div class="col-sm-0 col-md-2"></div>
             </div>
         </c:if>
+        <div class="row">
+            <div class="col-sm-0 col-md-2"></div>
+            <div class="col-sm-12 col-md-8">
+                <div class="alert alert-warning text-center">
+                    <!--<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>-->
+                    <strong>This facility for help is being provided for the people who are currently living in Assam.</strong><br/>
+                    <strong>এই সুবিধা সমুহ, বৰ্তমান সময়ত, কেৱল অসমত থকা মানুহসকলৰ বাবেহে আগবঢ়োৱা হৈছে ।</strong>
+                </div>
+            </div>
+            <div class="col-sm-0 col-md-2"></div>
+        </div>
         <div class="row">
             <div class="col-sm-0 col-md-2"></div>
             <div class="col-sm-12 col-md-8">

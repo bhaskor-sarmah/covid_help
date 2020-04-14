@@ -47,57 +47,74 @@ public class SearchByPin extends HttpServlet {
         } else {
             String type = request.getParameter("type");
             String pin = request.getParameter("search");
-            String mobile = request.getParameter("mobile");
-            String state = request.getParameter("state");
-            String name = request.getParameter("name");
-            name = getUTF8(name).toUpperCase();
-            dao.doSaveSearchDetails(pin, mobile, state, type, captcha, name);
-            if (type.equals("HELP SEEKER")) {
-                List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
-                if (memberList == null || memberList.isEmpty()) {
-                    request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
-                    request.getRequestDispatcher("./index.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("memberList", memberList);
-                    if(state.equals("PINCODE")){
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at pincode - " + pin + "<br/>এই পিনক'ডটোত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
-                    
-                    }else{
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at parent District of pincode - " + pin + "<br/>এই পিনক'ডৰ জিলাত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
-                    
+
+            if (dao.checkPinAssam(pin)) {
+                String mobile = request.getParameter("mobile");
+                String state = request.getParameter("state");
+                String name = request.getParameter("name");
+                name = getUTF8(name).toUpperCase();
+                dao.doSaveSearchDetails(pin, mobile, state, type, captcha, name);
+                if (type.equals("HELP SEEKER")) {
+                    List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
+                    if (memberList == null || memberList.isEmpty()) {
+                        request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
+                        request.getRequestDispatcher("./index.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("memberList", memberList);
+                        if (state.equals("PINCODE")) {
+                            request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at pincode - " + pin + "<br/>এই পিনক'ডটোত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
+
+                        } else {
+                            request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker at parent District of pincode - " + pin + "<br/>এই পিনক'ডৰ জিলাত থকা সহায় বিচাৰোতাৰ তালিকা</div>");
+
+                        }
+                        request.setAttribute("mobile", mobile);
+                        request.setAttribute("name", name);
+                        request.setAttribute("searchType", state);
+                        request.setAttribute("pin", pin);
+                        request.setAttribute("type", type);
+                        request.getRequestDispatcher("./search.jsp").forward(request, response);
                     }
-                    request.setAttribute("mobile", mobile);
-                    request.setAttribute("name", name);
-                    request.setAttribute("searchType", state);
-                    request.setAttribute("pin", pin);
-                    request.setAttribute("type", type);
-                    request.getRequestDispatcher("./search.jsp").forward(request, response);
-                }
-            } else if (type.equals("HELP GIVER")) {
-                List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
-                if (memberList == null || memberList.isEmpty()) {
-                    request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
-                    request.getRequestDispatcher("./index.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("memberList", memberList);
-                    if(state.equals("PINCODE")){
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at pincode - " + pin + "<br/>এই পিনক'ড টোত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
-                    
-                    }else{
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at parent District of pincode - " + pin + "</br>এই পিনক'ডৰ জিলাত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
-                    
+                } else if (type.equals("HELP GIVER")) {
+                    List<Member> memberList = dao.getMemberByPinCode(pin, type, state);
+                    if (memberList == null || memberList.isEmpty()) {
+                        request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
+                        request.getRequestDispatcher("./index.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("memberList", memberList);
+                        if (state.equals("PINCODE")) {
+                            request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at pincode - " + pin + "<br/>এই পিনক'ড টোত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
+
+                        } else {
+                            request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Persons willing to help at parent District of pincode - " + pin + "</br>এই পিনক'ডৰ জিলাত থকা সহায় কৰিব বিচাৰোতাৰ তালিকা</div>");
+
+                        }
+                        request.setAttribute("mobile", mobile);
+                        request.setAttribute("name", name);
+                        request.setAttribute("searchType", state);
+                        request.setAttribute("pin", pin);
+                        request.setAttribute("type", type);
+                        request.getRequestDispatcher("./search.jsp").forward(request, response);
                     }
-                    request.setAttribute("mobile", mobile);
-                    request.setAttribute("name", name);
-                    request.setAttribute("searchType", state);
-                    request.setAttribute("pin", pin);
-                    request.setAttribute("type", type);
-                    request.getRequestDispatcher("./search.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\">Some Error has ocurred</div>");
+                    request.getRequestDispatcher("./index.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("msg", "<div class=\"alert alert-danger\">Some Error has ocurred</div>");
-                request.getRequestDispatcher("./index.jsp").forward(request, response);
+                if (type.equals("HELP GIVER")) {
+                    request.setAttribute("type", type);
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\">Please enter a valid Pin Code of Assam</div>");request.setAttribute("helpMsg", "<div class=\"alert alert-info\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় দাতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
+                    request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);
+                } else if (type.equals("HELP SEEKER")) {
+                    request.setAttribute("type", type);
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\">Please enter a valid Pin Code of Assam</div>");request.setAttribute("helpMsg", "<div class=\"alert alert-info\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় দাতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
+                    request.setAttribute("helpMsg", "<div class=\"alert alert-danger\"><label>Fill up the parameters below to view the list of persons who wants help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় বিচাৰোতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
+                    request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("./error.jsp").forward(request, response);
+                }
             }
+
         }
 
     }

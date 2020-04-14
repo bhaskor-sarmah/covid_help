@@ -8,7 +8,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <jsp:include page='./template/head.jsp'>
-    <jsp:param name="pageTitle" value="Covid Help"/>
+    <jsp:param name="pageTitle" value="Error"/>
 </jsp:include>
 <body style="overflow-x: scroll;">
     <div class="loader"></div>

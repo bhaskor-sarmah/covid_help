@@ -235,6 +235,10 @@
                 $("#house_noError").html("Enter House No");
                 $("#house_noError").show();
                 return false;
+            } else if ($("#state").html() === "---" || $("#state").html() === "") {
+                $("#pincodeError").html("Enter a valid Pin Code of Assam");
+                $("#pincodeError").show();
+                return false;
             }
             for (var i = 1; i <= helpDivCount; i++) {
                 if ($("#type_of_help_" + i).val() === "") {

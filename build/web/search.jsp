@@ -8,7 +8,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <jsp:include page='./template/head.jsp'>
-    <jsp:param name="pageTitle" value="Search Result"/>
+    <jsp:param name="pageTitle" value="Result"/>
 </jsp:include>
 <body style="overflow-x: scroll;margin-bottom: 55px;">
     <div class="loader"></div>
@@ -142,7 +142,8 @@
 
         function doViewInMap(mob) {
             var url = "https://covirudh.in:8443/Map/Map?mno=";
-            $("#mapFrame").attr("src", url + mob);
+            alert(encodeURIComponent(mob));//l+FlOTxqJL6sCSfOUiuqeA==
+            $("#mapFrame").attr("src", url + encodeURIComponent(mob));
         }
     </script>
 </body>

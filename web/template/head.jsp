@@ -15,7 +15,7 @@
         </noscript>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><c:out value="${param.pageTitle}"/></title>
-        <link rel="shortcut icon" href="images/covid.png" type="image/x-icon">
+        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap/css/dataTables.bootstrap.min.css">
         <link href="js/jqueryUI/jquery-ui.min.css" rel="stylesheet" type="text/css" />

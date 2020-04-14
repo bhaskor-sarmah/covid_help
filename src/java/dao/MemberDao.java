@@ -729,4 +729,100 @@ public class MemberDao {
         }
         return helpList;
     }
+
+    public boolean checkPinAssam(String pin) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT * FROM pincode WHERE pincode = ? AND statename = ?");
+            ps.setString(1, pin);
+            ps.setString(2, "ASSAM");
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return false;
+    }
+
+    public boolean doCheckSms(String mobile, String mobile_no) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+            return false;
+        }
+        try {
+            ps = conn.prepareStatement("SELECT count(*) FROM contact_details WHERE contact_by = ? AND contact_to = ?");
+            ps.setString(1, mobile);
+            ps.setString(2, mobile_no);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(1) >= 2) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return true;
+    }
 }
