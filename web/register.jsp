@@ -10,7 +10,7 @@
 <jsp:include page='./template/head.jsp'>
     <jsp:param name="pageTitle" value="Register"/>
 </jsp:include>
-<body style="overflow-x: scroll;margin-bottom: 55px;">
+<body style="margin-bottom: 55px;">
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
     <div class="container" style="margin-top: 10px;">

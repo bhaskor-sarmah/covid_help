@@ -10,7 +10,7 @@
 <jsp:include page='./template/head.jsp'>
     <jsp:param name="pageTitle" value="Search"/>
 </jsp:include>
-<body style="overflow-x: scroll;margin-bottom: 70px;">
+<body style="margin-bottom: 70px;">
     <style type="text/css">
         @media screen and (max-width: 400px) {
             .mainContainerDiv {

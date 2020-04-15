@@ -16,6 +16,9 @@ public class HelpPojo {
     private String type;
     private String helpQuantity;
 
+    public HelpPojo() {
+    }
+    
     public String getHelpId() {
         return helpId;
     }
@@ -32,6 +35,14 @@ public class HelpPojo {
         this.helpDetails = helpDetails;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getHelpQuantity() {
         return helpQuantity;
     }
@@ -40,13 +51,5 @@ public class HelpPojo {
         this.helpQuantity = helpQuantity;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    
+ 
 }

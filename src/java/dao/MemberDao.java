@@ -109,50 +109,50 @@ public class MemberDao {
                 if (pin_str.equals("")) {
                 } else {
                     if (type.equals("HELP SEEKER")) {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND help_required = ?");
+                        ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND help_required = ?");
 //                        ps.setString(1, pin_str);
-                        ps.setString(1, "1");
+                        ps1.setString(1, "1");
                     } else {
-                        ps = conn.prepareStatement("SELECT a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND willing_to_volunteer = ?");
+                        ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND willing_to_volunteer = ?");
 //                        ps.setString(1, pin_str);
-                        ps.setString(1, "1");
+                        ps1.setString(1, "1");
                     }
                 }
             } else {
                 if (type.equals("HELP SEEKER")) {
-                    ps = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
-                    ps.setString(1, pin);
-                    ps.setString(2, "1");
+                    ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
+                    ps1.setString(1, pin);
+                    ps1.setString(2, "1");
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
-                    ps.setString(1, pin);
-                    ps.setString(2, "1");
+                    ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
+                    ps1.setString(1, pin);
+                    ps1.setString(2, "1");
                 }
             }
-            System.out.println(ps);
-            rs = ps.executeQuery();
-            while (rs.next()) {
+            System.out.println(ps1);
+            rs1 = ps1.executeQuery();
+            while (rs1.next()) {
                 Member m = new Member();
-                PinPojo p = getState(rs.getString("pincode"));
-                if ((rs.getString("name") == null) || rs.getString("name").equals("")) {
+                PinPojo p = getState(rs1.getString("pincode"));
+                if ((rs1.getString("name") == null) || rs1.getString("name").equals("")) {
                     continue;
                 }
-                m.setName((rs.getString("name") == null) ? "" : rs.getString("name").toUpperCase());
-                m.setSex((rs.getString("gender") == null) ? "" : rs.getString("gender"));
-                m.setAge((rs.getString("age") == null) ? "" : rs.getString("age"));
-                m.setMobile((rs.getString("mobile") == null) ? "" : Encryption.encrypt(rs.getString("mobile"), AppSettings.KEY));
-//                m.setEmail(rs.getString("email"));
-//                m.setHouse_no(rs.getString("house_no"));
-                m.setLocality((rs.getString("locality") == null) ? "" : rs.getString("locality").toUpperCase());
-                m.setRoad((rs.getString("road") == null) ? "" : rs.getString("road").toUpperCase());
-//                m.setPolice_station(rs.getString("police_station"));
-                m.setPincode((rs.getString("pincode") == null) ? "" : rs.getString("pincode"));
+                m.setName((rs1.getString("name") == null) ? "" : rs1.getString("name").toUpperCase());
+                m.setSex((rs1.getString("gender") == null) ? "" : rs1.getString("gender"));
+                m.setAge((rs1.getString("age") == null) ? "" : rs1.getString("age"));
+                m.setMobile((rs1.getString("mobile") == null) ? "" : Encryption.encrypt(rs1.getString("mobile"), AppSettings.KEY));
+//                m.setEmail(rs1.getString("email"));
+//                m.setHouse_no(rs1.getString("house_no"));
+                m.setLocality((rs1.getString("locality") == null) ? "" : rs1.getString("locality").toUpperCase());
+                m.setRoad((rs1.getString("road") == null) ? "" : rs1.getString("road").toUpperCase());
+//                m.setPolice_station(rs1.getString("police_station"));
+                m.setPincode((rs1.getString("pincode") == null) ? "" : rs1.getString("pincode"));
                 m.setState((p.getState() == null) ? "" : p.getState());
                 m.setDistrict((p.getDistrict() == null) ? "" : p.getDistrict());
-//                m.setCircle(rs.getString("circle"));
-                m.setType_of_help(getHelpListApp(rs.getString("id")));
-                m.setLat((rs.getString("lat") == null) ? "" : rs.getString("lat"));
-                m.setLon((rs.getString("lng") == null) ? "" : rs.getString("lng"));
+//                m.setCircle(rs1.getString("circle"));
+                m.setType_of_help(getHelpListApp(rs1.getString("id")));
+                m.setLat((rs1.getString("lat") == null) ? "" : rs1.getString("lat"));
+                m.setLon((rs1.getString("lng") == null) ? "" : rs1.getString("lng"));
                 m.setSrc("APP");
                 memberList.add(m);
             }
@@ -160,15 +160,15 @@ public class MemberDao {
             System.out.println("Exception : " + e.getMessage());
         } finally {
             try {
-                if (rs != null) {
-                    rs.close();
+                if (rs1 != null) {
+                    rs1.close();
                 }
             } catch (Exception e) {
 
             }
             try {
-                if (ps != null) {
-                    ps.close();
+                if (ps1 != null) {
+                    ps1.close();
                 }
             } catch (Exception e) {
 

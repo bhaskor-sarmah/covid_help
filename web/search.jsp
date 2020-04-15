@@ -10,7 +10,7 @@
 <jsp:include page='./template/head.jsp'>
     <jsp:param name="pageTitle" value="Result"/>
 </jsp:include>
-<body style="overflow-x: scroll;margin-bottom: 55px;">
+<body style="margin-bottom: 55px;">
     <div class="loader"></div>
     <jsp:include page="./template/header.jsp"/>
     <div class="container-fluid" style="margin-top: 10px;">
@@ -142,7 +142,7 @@
 
         function doViewInMap(mob) {
             var url = "https://covirudh.in:8443/Map/Map?mno=";
-            alert(encodeURIComponent(mob));//l+FlOTxqJL6sCSfOUiuqeA==
+//            alert(encodeURIComponent(mob));//l+FlOTxqJL6sCSfOUiuqeA==
             $("#mapFrame").attr("src", url + encodeURIComponent(mob));
         }
     </script>
