@@ -16,7 +16,7 @@
         testOnBorrow="true"
         timeBetweenEvictionRunsMillis="34000"
         type="javax.sql.DataSource"
-        url="jdbc:mysql://localhost:3308/bsurvey?characterEncoding=UTF-8"
+        url="jdbc:mysql://localhost:3306/bsurvey?characterEncoding=UTF-8"
         username="root"
         validationInterval="34000"
         validationQuery="SELECT

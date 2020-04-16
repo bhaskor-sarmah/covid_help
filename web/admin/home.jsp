@@ -46,7 +46,7 @@
     </style>
     <div class="loader"></div>
     <jsp:include page='../template/admin/header.jsp'>
-        <jsp:param name="user" value="${fn:toUpperCase(fn:substring(username, 0, 1))}${fn:toLowerCase(fn:substring(username, 1,fn:length(username)))}"/>
+        <jsp:param name="pageTitle" value="SAHODAR"/>
     </jsp:include>
     <div class="container mainContainerDiv" style="margin-top: 30px;">
         <c:if test="${not empty msg}">
@@ -127,7 +127,8 @@
                                     <td>
                                         <button class="btn btn-sm btn-default" onclick="doDone('${obj.id}');">Done</button>
                                         <%--<c:if test="${obj.src == 'APP'}">--%>
-                                            <a href="#" onclick="window.open('https://covirudh.in:8443/Map/Map?mno='+encodeURIComponent('${obj.mobile}'), '_blank');return false;" class="btn btn-sm btn-primary">View In Map</a>
+                                        <a href="#" onclick="window.open('https://covirudh.in:8443/Map/Map?mno=' + encodeURIComponent('${obj.mobile}'), '_blank');
+                                                return false;" class="btn btn-sm btn-primary">View In Map</a>
                                         <%--</c:if>--%>
                                     </td>
                                 </tr>
@@ -180,8 +181,8 @@
                 }
             });
         }
-        function doDone(id){
-            
+        function doDone(id) {
+
         }
     </script>
 </body>

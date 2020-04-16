@@ -52,21 +52,22 @@
 
 })(jQuery);
 
-function doSubmitForm(type, help) {
-    if (type === "REGISTER") {
-        if (help === "SEEKING") {
-            $("#registerSeeker").submit();
-        } else if (type === "GIVING") {
-            $("#registergiver").submit();
-        }
-    } else if (type === "SEARCH") {
-        if (help === "SEEKING") {
-            $("#searchSeeker").submit();
-        } else if (type === "GIVING") {
-            $("#searchGiver").submit();
-        }
-    }
-}
+//function doSubmitForm(type, help) {
+//    alert('enter');
+//    if (type === "REGISTER") {
+//        if (help === "SEEKING") {
+//            $("#registerSeeker").submit();
+//        } else if (type === "GIVING") {
+//            $("#registergiver").submit();
+//        }
+//    } else if (type === "SEARCH") {
+//        if (help === "SEEKING") {
+//            $("#searchSeeker").submit();
+//        } else if (type === "GIVING") {
+//            $("#searchGiver").submit();
+//        }
+//    }
+//}
 $(document).ready(function() {
     $('.accordion-toggle').on('click', function() {
         $(this).find('.fa').toggleClass('fa-angle-down').toggleClass('fa-angle-up');
