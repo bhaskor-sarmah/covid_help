@@ -39,37 +39,37 @@ public class ContactAll extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String c = request.getParameter("c");
-        HttpSession session = request.getSession();
-        if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(c)) {
-            PrintWriter out = response.getWriter();
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out.print("{message: false}");
-            out.flush();
-        } else {
-            SmsUtil sms = new SmsUtil();
-            MemberDao dao = new MemberDao();
-            String mobile = request.getParameter("m");
-            String pin = request.getParameter("p");
-            String type = request.getParameter("t");
-            String name = request.getParameter("n");
-            name = getUTF8(name);
-            List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE");
-            if (sms.doFireSms(memberList, mobile, type, name)) {
-                PrintWriter out = response.getWriter();
-//                response.setContentType("application/json");
-//                response.setCharacterEncoding("UTF-8");
-                out.print("{message: true}");
-                out.flush();
-            } else {
-                PrintWriter out = response.getWriter();
-//                response.setContentType("application/json");
-//                response.setCharacterEncoding("UTF-8");
-                out.print("{message: false}");
-                out.flush();
-            }
-        }
+//        String c = request.getParameter("c");
+//        HttpSession session = request.getSession();
+//        if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(c)) {
+//            PrintWriter out = response.getWriter();
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+//            out.print("{message: false}");
+//            out.flush();
+//        } else {
+//            SmsUtil sms = new SmsUtil();
+//            MemberDao dao = new MemberDao();
+//            String mobile = request.getParameter("m");
+//            String pin = request.getParameter("p");
+//            String type = request.getParameter("t");
+//            String name = request.getParameter("n");
+//            name = getUTF8(name);
+//            List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE");
+//            if (sms.doFireSms(memberList, mobile, type, name)) {
+//                PrintWriter out = response.getWriter();
+////                response.setContentType("application/json");
+////                response.setCharacterEncoding("UTF-8");
+//                out.print("{message: true}");
+//                out.flush();
+//            } else {
+//                PrintWriter out = response.getWriter();
+////                response.setContentType("application/json");
+////                response.setCharacterEncoding("UTF-8");
+//                out.print("{message: false}");
+//                out.flush();
+//            }
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

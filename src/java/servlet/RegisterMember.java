@@ -20,7 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.HelpPojo;
 import model.Member;
-import model.PinPojo;
+import model.RegisterPojo;
+import model.ThanaPojo;
 
 /**
  *
@@ -43,86 +44,78 @@ public class RegisterMember extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String captcha = request.getParameter("captcha");
+        String name = request.getParameter("name");
+        name = getUTF8(name).toUpperCase();
+
+        String mobile = request.getParameter("mobile");
+
+        String address = request.getParameter("address");
+        address = getUTF8(address).toUpperCase();
+
+        String road = request.getParameter("road");
+        road = getUTF8(road).toUpperCase();
+
+        String house = request.getParameter("house_no");
+        house = getUTF8(house).toUpperCase();
+        RegisterPojo rp = new RegisterPojo();
+        rp.setName(name);
+        rp.setMobile(mobile);
+        rp.setAddress(address);
+        rp.setRoad(road);
+        rp.setHouse(house);
+        
         HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
             request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
+            request.setAttribute("distList", dao.getDistList());
+            request.setAttribute("register", rp);
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
-            String pin = request.getParameter("pincode");
-            if (dao.checkPinAssam(pin)) {
-                String[] type_of_help = request.getParameterValues("type_of_help");
-                String[] help_details = request.getParameterValues("help_details");
-                String[] help_quantity = request.getParameterValues("help_quantity");
-                List<HelpPojo> helpList = new ArrayList<HelpPojo>();
-                int i = 0;
-                for (String s : type_of_help) {
-                    HelpPojo h = new HelpPojo();
-                    h.setHelpId(s);
-                    h.setHelpDetails(help_details[i]);
-                    h.setHelpQuantity(help_quantity[i]);
-                    helpList.add(h);
-                    i++;
-                }
-                String name = request.getParameter("name");
-                name = getUTF8(name).toUpperCase();
-
-                String mobile = request.getParameter("mobile");
-
-                String ps = request.getParameter("ps");
-                ps = getUTF8(ps).toUpperCase();
-
-                String locality = request.getParameter("locality");
-                locality = getUTF8(locality).toUpperCase();
-
-                String road = request.getParameter("road");
-                road = getUTF8(road).toUpperCase();
-
-                String house = request.getParameter("house_no");
-                house = getUTF8(house).toUpperCase();
-
-                String sex = request.getParameter("gender").toUpperCase();
-//            sex = getUTF8(sex).toUpperCase();
-
-                String age = request.getParameter("age");
-                String email = request.getParameter("email");
-//            String type_of_help = request.getParameter("type_of_help").toUpperCase();
-                PinPojo p = dao.getState(pin);
-                Member m = new Member();
-                m.setName(name);
-                m.setPolice_station(ps);
-                m.setPincode(pin);
-                m.setLocality(locality);
-                m.setRoad(road);
-                m.setHouse_no(house);
-                m.setAge(age);
-                m.setCircle("");
-                m.setDistrict(p.getDistrict());
-                m.setEmail(email);
-                m.setMobile(mobile);
-                m.setSex(sex);
-                m.setState(p.getState());
-                m.setType(type);
-                m.setType_of_help(helpList);
-
-                if (dao.saveMember(m)) {
-                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
-                    request.getRequestDispatcher("./index.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("type", type);
-                    request.setAttribute("msg", "<span style=\"color: reg\"><label>Failed Saving Member</label></span>");
-                    request.setAttribute("helpList", dao.getTypeOfHelp());
-                    request.getRequestDispatcher("./register.jsp").forward(request, response);
-                }
-            } else {
-                request.setAttribute("type", type);
-                request.setAttribute("msg", "<span style=\"color: reg\"><label>Please enter a valid pincode from Assam</label></span>");
-                request.setAttribute("helpList", dao.getTypeOfHelp());
-                request.getRequestDispatcher("./register.jsp").forward(request, response);
+//            String pin = request.getParameter("pincode");
+//            if (dao.checkPinAssam(pin)) {
+            String[] type_of_help = request.getParameterValues("type_of_help");
+            String[] help_details = request.getParameterValues("help_details");
+            String[] help_quantity = request.getParameterValues("help_quantity");
+            List<HelpPojo> helpList = new ArrayList<HelpPojo>();
+            int i = 0;
+            for (String s : type_of_help) {
+                HelpPojo h = new HelpPojo();
+                h.setHelpId(s);
+                h.setHelpDetails(help_details[i]);
+                h.setHelpQuantity(help_quantity[i]);
+                helpList.add(h);
+                i++;
             }
 
+            String dist_code = request.getParameter("district");
+
+            String thana_code = request.getParameter("thana");
+
+            Member m = new Member();
+            m.setName(name);
+            m.setMobile(mobile);
+            m.setThana_code(thana_code);
+            m.setDist_code(dist_code);
+            m.setAddress(address);
+            m.setRoad(road);
+            m.setHouse_no(house);
+            m.setType(type);
+            m.setHelp_details(helpList);
+
+            if (dao.saveMember(m)) {
+                request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
+                request.getRequestDispatcher("./index.jsp").forward(request, response);
+            } else {
+                request.setAttribute("type", type);
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member</label></div>");
+                request.setAttribute("helpList", dao.getTypeOfHelp());
+                request.setAttribute("distList", dao.getDistList());
+                request.setAttribute("register", rp);
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+            }
         }
     }
 

@@ -51,30 +51,32 @@
                 <div class="col-sm-12 col-md-6 borderDiv">
                     <div class="row">
                         <input type="hidden" value="${type}" name="type" />
-                        <div class="col-xs-9" style="margin-top: 10px;">
-                            <input type="radio" id="pinRadio" value="PINCODE" name="state" />&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
-                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন ক'ডৰ জিলাৰে অনুসন্ধান কৰক</label>
-                            <!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
-                                                        <select class="form-control" id="state" name="state">
-                                                            <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
-                                                            <option value="DISTRICT">DISTRICT (জিলা)</option>
-                                                            <option value="STATE">STATE (ৰাজ্য)</option>
-                                                        </select>-->
-                            <span class="stateSpan" id="searchError"></span>
-                        </div>
                         <div class="col-xs-9">
-                            <label class="eng">Enter Pin Code<br/>পিন ক'ডটো লিখক</label>
-                            <input type="text" class="form-control" name="search" placeholder="Type the Pin Code here" id="search"/>
-                            <span class="errorSpan" id="searchError"></span>
+                            <span class="mandetory">*</span><label class="ass" style='font-size: small;'>District<br/>জিলা </label>
+                            <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
+                                <option value="-1">--SELECT DISTRICT--</option>
+                                <c:forEach var="obj" items="${distList}">
+                                    <option value="${obj.distCode}">${obj.distName}</option>
+                                </c:forEach>
+                            </select>
+                            <span class="errorSpan" id="districtError"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-9">
+                            <label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
+                            <select class="form-control" name="thana" id="thana">
+                                <option value="-1">--SELECT PS--</option>
+                            </select>
+                            <span class="errorSpan" id="psError"></span>
                         </div>
                         <div class="col-xs-9">
                             <label class="eng">Enter Your Name<br/>আপোনাৰ নাম লিখক</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Your Name here" id="name"/>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Your Name here" id="name" value="${name}"/>
                             <span class="errorSpan" id="nameError"></span>
                         </div>
                         <div class="col-xs-9">
                             <label class="eng">Enter Your Mobile<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
-                            <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No here" id="mobile"/>
+                            <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No here" id="mobile" value="${mobile}"/>
                             <span class="errorSpan" id="mobileError"></span>
                         </div>
                         <div class="col-xs-9">
@@ -95,31 +97,23 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $(".errorSpan").hide();
-            $("#pinRadio").prop("checked", true);
-//            $("#langSelect").val("eng");
-//            $(".ass").hide();
         });
-//        function doChangeRadio(str) {
-//            $(".loader").show();
-//            if (str === "eng") {
-//                $(".eng").show();
-//                $(".ass").hide();
-//            } else {
-//                $(".eng").hide();
-//                $(".ass").show();
-//            }
-//            $(".loader").hide();
-//        }
+        $(document).ajaxStart(function() {
+            $(".loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $(".loader").fadeOut('slow');
+        });
         function doValidateForm() {
-            if (!$("#search").val().match(/[1-9][0-9]{5}/)) {
-                $("#searchError").html("Enter a valid Pin Code");
-                $("#searchError").show();
+            if ($("#district").val() === "-1") {
+                $("#districtError").html("Select a District");
+                $("#districtError").show();
                 return false;
             } else if (!$("#mobile").val().match(/^\d{10}$/)) {
                 $("#mobileError").html("Enter a valid Mobile No");
                 $("#mobileError").show();
                 return false;
-            }else if ($("#name").val() === "") {
+            } else if ($("#name").val() === "") {
                 $("#nameError").html("Enter your name");
                 $("#nameError").show();
                 return false;
@@ -134,6 +128,32 @@
         }
         function reloadCaptcha() {
             $("#captchaImage").attr("src", "./CaptchaServlet?t=" + new Date().getTime());
+        }
+
+        function doGetThana(str) {
+            $.ajax({
+                url: './GetThana',
+                type: 'POST',
+                data: 'dist=' + str,
+                success: function(data) {
+//                    console.log(data);
+//                    console.log(JSON.stringify(data));
+                    //called when successful
+                    var b = "<option value=\"-1\">--SELECT PS--</option>\n";
+                    data.forEach(function(obj) {
+                        b += "<option value=\"" + obj.code + "\">" + obj.name + "</option>\n";
+                    });
+                    $("#thana").html(b);
+                },
+                error: function(e) {
+                    $.alert({
+                        title: "Error",
+                        content: "Error fetching Thana List",
+                        type: "red",
+                        typeAnimated: true
+                    });
+                }
+            });
         }
     </script>
 </body>

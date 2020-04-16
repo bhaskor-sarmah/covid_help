@@ -11,7 +11,7 @@
                     <span style="">
                         <b>
                             <span style="font-size: large">An Initiative by Assam Police....</span>&nbsp;&nbsp;<i> Let’s Help Each Other</i>
-                            <br/><span style="font-size: large">অসম পুলিচৰ এক প্ৰচেষ্টা……</span>&nbsp;&nbsp;<i> আহক ইজনে সিজনক সহায় কৰো ।</i>
+                            <br/><span style="font-size: large">অসম আৰক্ষীৰ এক পদক্ষেপ……</span>&nbsp;&nbsp;<i> আহক ইজনে সিজনক সহায় কৰো ।</i>
                         </b></span>
                 </center>
             </div>

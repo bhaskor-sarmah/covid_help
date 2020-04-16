@@ -36,11 +36,13 @@ public class Register extends HttpServlet {
         if (type.equals("HELP GIVER")) {
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
+            request.setAttribute("distList", dao.getDistList());
             request.setAttribute("registerMsg", "<div class=\"alert alert-info\"><label>Fill up the form below to register as a Help Giver.<br/>সহায়কৰ্ত্তা হিচাপে ৰেজিষ্টাৰ কৰিবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else if(type.equals("HELP SEEKER")){
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
+            request.setAttribute("distList", dao.getDistList());
             request.setAttribute("registerMsg", "<div class=\"alert alert-danger\"><label>Fill up the form below to register as a Help Seeker</br>সহায় বিচাৰোতা হিচাপে ৰেজিষ্টাৰ কৰিবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         }else{

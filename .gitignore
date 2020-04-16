@@ -11,6 +11,8 @@ dist/
 lib/
 nbproject/
 test/
+web/bootstrap/
+web/font-awesome/
 
 ### VisualStudioCode ###
 .vscode/*

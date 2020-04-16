@@ -33,6 +33,16 @@
             font-size: 15px;
             font-weight: bold;
         }
+        @media only screen and (max-width: 990px) {
+            #searchDiv {
+                padding-top: 10px;
+            }
+        }
+        @media only screen and (min-width: 991px) {
+            #searchDiv {
+                padding-top: 50px;
+            }
+        }
     </style>
     <div class="loader"></div>
     <jsp:include page='../template/admin/header.jsp'>
@@ -51,68 +61,92 @@
         <div class="row">
             <div class="col-sm-0 col-md-1"></div>
             <div class="col-sm-12 col-md-10 borderDiv">
-                <div class="col-sm-12 col-md-4">
-                    <label>Search By District</label>
-                    <div class="input-group">
-                        <select class="form-control" id="district" name="district">
-                            <option value="-1">--SELECT--</option>
-                            <option value="Barpeta">Barpeta</option>
-                            <option value="Bongaigaon">Bongaigaon</option>
-                            <option value="Cachar">Cachar</option>
-                            <option value="Darrang">Darrang</option>
-                            <option value="Dhemaji">Dhemaji</option>
-                            <option value="Dhubri">Dhubri</option>
-                            <option value="Dibrugarh">Dibrugarh</option>
-                            <option value="Goalpara">Goalpara</option>
-                            <option value="Golaghat">Golaghat</option>
-                            <option value="Hailakandi">Hailakandi</option>
-                            <option value="Jorhat">Jorhat</option>
-                            <option value="Kamrup">Kamrup</option>
-                            <option value="Karbi Anglong">Karbi Anglong</option>
-                            <option value="Karimganj">Karimganj</option>
-                            <option value="Kokrajhar">Kokrajhar</option>
-                            <option value="Lakhimpur">Lakhimpur</option>
-                            <option value="Marigaon">Marigaon</option>
-                            <option value="Nagaon">Nagaon</option>
-                            <option value="Nalbari">Nalbari</option>
-                            <option value="North Cachar Hills">North Cachar Hills</option>
-                            <option value="Sibsagar">Sibsagar</option>
-                            <option value="Sonitpur">Sonitpur</option>
-                            <option value="Tinsukia">Tinsukia</option>
+                <form action="./AdminSearch" method="POST">
+                    <div class="col-xs-12 col-md-4">
+                        <span class="mandetory">*</span><label class="ass" style='font-size: small;'>District<br/>জিলা </label>
+                        <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
+                            <option value="-1">--SELECT DISTRICT--</option>
+                            <c:forEach var="obj" items="${distList}">
+                                <option value="${obj.distCode}">${obj.distName}</option>
+                            </c:forEach>
                         </select>
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="button" id="districtSearch"><i class="glyphicon glyphicon-search"></i>&nbsp; Go!</button>
-                        </span>
+                        <span class="errorSpan" id="districtError"></span>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <label>Search By Pin Code</label>
-                    <div class="input-group">
-                        <input type='text' class="form-control" id='pincode' name="pin" placeholder="Enter Pin Code to search"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="button" id="pinSearch"><i class="glyphicon glyphicon-search"></i>&nbsp; Go!</button>
-                        </span>
+                    <div class="col-xs-12 col-md-4">
+                        <span class="mandetory">*</span><label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
+                        <select class="form-control" name="thana" id="thana">
+                            <option value="-1">--SELECT PS--</option>
+                        </select>
+                        <span class="errorSpan" id="psError"></span>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <label>Search By Date</label>
-                    <div class="input-group">
-                        <input type='text' class="form-control" id='datepicker' name="date" readonly="readonly" placeholder="Select Date to search"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="button" id="dateSearch"><i class="glyphicon glyphicon-search"></i>&nbsp; Go!</button>
-                        </span>
+                    <div class="col-xs-12 col-md-4" id="searchDiv">
+                        <input type="submit" name="submit" class="btn btn-success" value="Search" />
                     </div>
-                </div>
+                    <div class="clearfix"></div> 
+                </form>
             </div>
             <div class="col-sm-0 col-md-1"></div>
         </div>
         <div class="row" id="resultDiv">
-
+            <c:choose>
+                <c:when test="${not empty memList}">
+                    <table class="table table-striped table-responsive" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Name<br/>নাম</th>
+                                <th>Address<br/>ঠিকনা</th>
+                                <th>Mobile<br/></th>
+                                <th>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</th>
+                                <th>Remarks<br/></th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="obj" items="${memList}">
+                                <tr>
+                                    <td>${obj.name}</td>
+                                    <td>${obj.address}</td>
+                                    <td>${obj.mob}</td>
+                                    <td>
+                                        <select class="form-control" name="remark_${obj.id}" id="remark_${obj.id}">
+                                            <option value="-1">--SELECT REMARK--</option>
+                                            <option value="0">CONTACTED</option>
+                                            <option value="1">PENDING</option>
+                                            <option value="3">SOLVED</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <c:forEach var="o" items="${obj.help_details}" varStatus="list">
+                                            <p>
+                                                <b>${list.count}. HELP ${o.type}</b><br>Type : ${o.helpId},<br>Details: ${o.helpDetails},<br>Quantity: ${o.helpQuantity}
+                                            </p><br>
+                                        </c:forEach>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-default" onclick="doDone('${obj.id}');">Done</button>
+                                        <%--<c:if test="${obj.src == 'APP'}">--%>
+                                            <a href="#" onclick="window.open('https://covirudh.in:8443/Map/Map?mno='+encodeURIComponent('${obj.mobile}'), '_blank');return false;" class="btn btn-sm btn-primary">View In Map</a>
+                                        <%--</c:if>--%>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-sm-12">
+                        Select District, Thana and Click search to view records.
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     <jsp:include page='../template/admin/footer.jsp' />
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#myTable").dataTable();
         });
         $(document).ajaxStart(function() {
             $(".loader").show();
@@ -120,6 +154,35 @@
         $(document).ajaxStop(function() {
             $(".loader").fadeOut('slow');
         });
+
+        function doGetThana(str) {
+            $.ajax({
+                url: './GetThana',
+                type: 'POST',
+                data: 'dist=' + str,
+                success: function(data) {
+//                    console.log(data);
+//                    console.log(JSON.stringify(data));
+                    //called when successful
+                    var b = "<option value=\"-1\">--SELECT PS--</option>\n";
+                    data.forEach(function(obj) {
+                        b += "<option value=\"" + obj.code + "\">" + obj.name + "</option>\n";
+                    });
+                    $("#thana").html(b);
+                },
+                error: function(e) {
+                    $.alert({
+                        title: "Error",
+                        content: "Error fetching Thana List",
+                        type: "red",
+                        typeAnimated: true
+                    });
+                }
+            });
+        }
+        function doDone(id){
+            
+        }
     </script>
 </body>
 </html>

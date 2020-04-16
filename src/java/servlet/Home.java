@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import dao.MemberDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Home", urlPatterns = {"/Home"})
 public class Home extends HttpServlet {
 
+    MemberDao memDao = new MemberDao();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,6 +37,7 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("username") != null && session.getAttribute("userLogged").toString().equals("1")) {
+            request.setAttribute("distList", memDao.getDistList());
             request.getRequestDispatcher("./admin/home.jsp").forward(request, response);
         } else {
             request.setAttribute("msg", "<div class=\"alert alert-danger\">Unauthorised ! Please Log In.</div>");

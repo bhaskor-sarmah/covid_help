@@ -28,15 +28,10 @@
                     <thead>
                         <tr>
                             <th>Name<br/>নাম</th>
-                            <th>State<br/>ৰাজ্য</th>
-                            <th>District<br/>জিলা</th>
                             <th>Address<br/>ঠিকনা</th>
                             <th>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</th>
                             <th>
-                                Action<br/>
-                                <c:if test="${searchType == 'PINCODE'}">
-                                    <button class="btn btn-sm btn-primary" onclick="doContactAll('${pin}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact All</button>
-                                </c:if>
+                                Action
                             </th>
                         </tr>
                     </thead>
@@ -44,43 +39,20 @@
                         <c:forEach var="obj" items="${memberList}">
                             <tr>
                                 <td>${obj.name}</td>
-                                <td>${obj.state}</td>
-                                <td>${obj.district}</td>
-                                <c:if test="${obj.src == 'APP'}">
-                                    <td>
-                                        ${obj.locality},&nbsp;
-                                        ${obj.road}
-                                    </td>
-                                    <td>
-                                        <c:forEach var="o" items="${obj.type_of_help}">
-                                            <p>
-                                                Type : ${o.helpId}, Details: ${o.helpDetails}, Quantity: ${o.helpQuantity}
-                                            </p>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
-                                        <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top: 5px;">View In Map</button>
-                                    </td>
-                                </c:if>
-                                <c:if test="${obj.src == 'POR'}">
-                                    <td>
-                                        PS - ${obj.police_station}<br/>
-                                        ${obj.locality},&nbsp;
-                                        ${obj.road},&nbsp;
-                                        ${obj.house_no},&nbsp;
-                                    </td>
-                                    <td>
-                                        <c:forEach var="o" items="${obj.type_of_help}">
-                                            <p>
-                                                Type : ${o.helpId}, Details: ${o.helpDetails}, Quantity: ${o.helpQuantity}
-                                            </p>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
-                                    </td>
-                                </c:if>
+                                <td>${obj.address}</td>
+                                <td>
+                                    <c:forEach var="o" items="${obj.help_details}" varStatus="list">
+                                        <p>
+                                            <b>${list.count}. HELP ${o.type}</b><br>Type : ${o.helpId},<br>Details: ${o.helpDetails},<br>Quantity: ${o.helpQuantity}
+                                        </p><br>
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
+                                    <c:if test="${obj.src == 'APP'}">
+                                        <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');">View In Map</button>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -120,25 +92,25 @@
                 }
             });
         }
-        function doContactAll(pin, str, c, t, n) {
-            $.ajax({
-                url: './ContactAll',
-                type: 'POST',
-                data: 'p=' + pin + '&m=' + str + '&c=' + c + '&t=' + t + '&n=' + n,
-                success: function(data) {
-                    //called when successful
-                    $.alert({
-                        title: "Success",
-                        content: "All Person's contacted through SMS successfully",
-                        type: "green",
-                        typeAnimated: true
-                    });
-                },
-                error: function(e) {
-                    console.log(e);
-                }
-            });
-        }
+//        function doContactAll(pin, str, c, t, n) {
+//            $.ajax({
+//                url: './ContactAll',
+//                type: 'POST',
+//                data: 'p=' + pin + '&m=' + str + '&c=' + c + '&t=' + t + '&n=' + n,
+//                success: function(data) {
+//                    //called when successful
+//                    $.alert({
+//                        title: "Success",
+//                        content: "All Person's contacted through SMS successfully",
+//                        type: "green",
+//                        typeAnimated: true
+//                    });
+//                },
+//                error: function(e) {
+//                    console.log(e);
+//                }
+//            });
+//        }
 
         function doViewInMap(mob) {
             var url = "https://covirudh.in:8443/Map/Map?mno=";

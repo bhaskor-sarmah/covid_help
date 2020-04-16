@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servlet;
 
+import dao.MemberDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "GetSearch", urlPatterns = {"/GetSearch"})
 public class GetSearch extends HttpServlet {
 
+    MemberDao dao = new MemberDao();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,15 +35,15 @@ public class GetSearch extends HttpServlet {
         String type = request.getParameter("type");
         if (type.equals("HELP GIVER")) {
             request.setAttribute("type", type);
-//            request.setAttribute("helpMsg", "<div class=\"alert alert-success\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.</label></div>");
+            request.setAttribute("distList", dao.getDistList());
             request.setAttribute("helpMsg", "<div class=\"alert alert-info\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় দাতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);
-        }else if(type.equals("HELP SEEKER")){
+        } else if (type.equals("HELP SEEKER")) {
             request.setAttribute("type", type);
-//            request.setAttribute("helpMsg", "<div class=\"alert alert-success\"><label>Fill up the parameters below to view the list of persons who wants help in your locality or District.</label></div>");
+            request.setAttribute("distList", dao.getDistList());
             request.setAttribute("helpMsg", "<div class=\"alert alert-danger\"><label>Fill up the parameters below to view the list of persons who wants help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় বিচাৰোতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);
-        }else{
+        } else {
             request.getRequestDispatcher("./error.jsp").forward(request, response);
         }
     }
