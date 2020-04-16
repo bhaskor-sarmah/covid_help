@@ -33,7 +33,7 @@
             <jsp:param name="pageTitle" value="HOME"/>
         </jsp:include>
         <div class="container mainContainerDiv">
-            <form action="./SearchByPin" method="POST" onsubmit="return doValidateForm();" autocomplete="off">
+            <form action="./Search" method="POST" onsubmit="return doValidateForm();" autocomplete="off">
                 <div class="row" style="margin-top: 10px;">
                     <c:if test="${not empty msg}">
                         <div class="col-sm-12 col-md-12">
@@ -56,7 +56,7 @@
                         <div class="row">
                             <input type="hidden" value="${type}" name="type" />
                             <div class="col-xs-9">
-                                <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>জিলা </label>
+                                <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>আপোনাৰ জিলা বাচক </label>
                                 <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
                                     <option value="-1">--SELECT DISTRICT--</option>
                                     <c:forEach var="obj" items="${distList}">
@@ -67,9 +67,9 @@
                             </div>
                             <div class="clearfix"></div>
                             <div class="col-xs-9">
-                                <label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
+                                <label class="eng">Thana<br/>আপোনাৰ থানা বাচক</label>
                                 <select class="form-control" name="thana" id="thana">
-                                    <option value="-1">--SELECT PS--</option>
+                                    <option value="-1">--SELECT THANA--</option>
                                 </select>
                                 <span class="errorSpan" id="psError"></span>
                             </div>
@@ -143,7 +143,7 @@
                         //                    console.log(data);
                         //                    console.log(JSON.stringify(data));
                         //called when successful
-                        var b = "<option value=\"-1\">--SELECT PS--</option>\n";
+                        var b = "<option value=\"-1\">--SELECT THANA--</option>\n";
                         data.forEach(function(obj) {
                             b += "<option value=\"" + obj.code + "\">" + obj.name + "</option>\n";
                         });

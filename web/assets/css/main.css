@@ -2,7 +2,7 @@
 @import url(font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,700");
 
-/* Reset */
+/* Reset */ 
 
 	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 		margin: 0;
@@ -1898,10 +1898,6 @@
 	input[type="email"],
 	select,
 	textarea {
-/*		-moz-appearance: none;
-		-webkit-appearance: none;
-		-ms-appearance: none;
-		appearance: none;*/
 		border-radius: 4px;
 		border-style: solid;
 		border-width: 1px;
@@ -2708,6 +2704,9 @@
 		-ms-align-items: center;
 		align-items: center;
 		margin-bottom: 6em;
+		flex:0 50%;
+		height: 350px;
+		justify-content: center;
 	}
 
 		.feature:last-child {
@@ -2740,8 +2739,12 @@
 			}
 
 		.feature .content {
-			padding: 2em 3em 0.1em 3em;
-			width: 52%;
+			padding: 5em 3em 5em 3em;
+			/* width: 52%; */
+			text-align: center;
+			background-color: white;
+			border-radius: 10px;
+			
 		}
 
 		@media screen and (max-width: 1280px) {
@@ -2757,7 +2760,11 @@
 		}
 
 		@media screen and (max-width: 980px) {
-
+			.feature {
+				/* height: auto; */
+				height: 410px;
+				border:1px solid #eee;
+			}
 			.feature.left, .feature.right {
 				-moz-flex-direction: column;
 				-webkit-flex-direction: column;
@@ -2774,8 +2781,10 @@
 				}
 
 			.feature .content {
-				padding: 2em 2em 0.1em 2em;
+				padding: 5em 2em 5em 2em;
 				width: 100%;
+				background-color: white;
+				border-radius: 10px;
 			}
 
 		}
@@ -2784,6 +2793,7 @@
 
 			.feature {
 				margin-bottom: 2em;
+				height: auto;
 			}
 
 				.feature .content {
@@ -2793,7 +2803,7 @@
 		}
 
 	.feature {
-		background-color: rgba(144, 144, 144, 0.075);
+		/* background-color: rgba(144, 144, 144, 0.075); */
 	}
 
 /* Image Grid */
@@ -2852,7 +2862,9 @@
 
 		.wrapper > .inner {
 			margin: 0 auto;
-			width: 70em;
+			padding: 1em;
+			display: flex;
+			flex-wrap: wrap;
 		}
 
 		.wrapper.style0{
@@ -2911,7 +2923,7 @@
 			}
 
 			.wrapper.style1 .feature {
-				background-color: #fff;
+				/* background-color: #fff; */
 			}
 
 			.wrapper.style1 label {
@@ -3594,7 +3606,7 @@
 			}
 
 				.wrapper > .inner {
-					width: 65em;
+					width: 100%;
 				}
 
 		}
@@ -3615,6 +3627,9 @@
 
 			.wrapper {
 				padding: 3em 2em 1em 2em;
+			}
+			.wrapper > .inner {
+				display: block;
 			}
 
 		}

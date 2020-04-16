@@ -23,7 +23,7 @@ import model.Member;
  *
  * @author Bhaskor
  */
-@WebServlet(name = "SearchByPin", urlPatterns = {"/SearchByPin"})
+@WebServlet(name = "SearchByPin", urlPatterns = {"/Search"})
 public class SearchByPin extends HttpServlet {
 
     MemberDao dao = new MemberDao();
@@ -42,7 +42,7 @@ public class SearchByPin extends HttpServlet {
         String captcha = request.getParameter("captcha");
         HttpSession session = request.getSession();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
-            request.setAttribute("msg", "<div class=\"alert alert-danger\">Invalid Captcha Code</div>");
+            request.setAttribute("msg", "<div class=\"alert alert-danger\">Invalid Captcha Code  (অশুদ্ধ ক্যাপচা কোড)</div>");
             request.getRequestDispatcher("./index.jsp").forward(request, response);
         } else {
             String type = request.getParameter("type");
@@ -66,9 +66,9 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if (thana_code.equals("-1")) {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at district - " + dao.getDistName(district_code) + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at district - " + dao.getDistName(district_code) + " <br>উক্ত জিলাত  সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
                     } else {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at thana - " + dao.getThanaName(thana_code) + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত  সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
                     }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("name", name);
@@ -79,7 +79,7 @@ public class SearchByPin extends HttpServlet {
             } else if (type.equals("HELP GIVER")) {
                 List<Member> memberList = dao.getMemberByDist(type, district_code, thana_code);
                 if (memberList == null || memberList.isEmpty()) {
-                    request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found (কোনো ফলাফল পোৱা নগল)</div>");
                     request.setAttribute("type", type);
                     request.setAttribute("distList", dao.getDistList());
                     request.setAttribute("name", name);
@@ -89,9 +89,9 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if (thana_code.equals("-1")) {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at district - " + dao.getDistName(district_code) + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at district - " + dao.getDistName(district_code) + "<br>উক্ত জিলাত  সহায় বিচাৰোতা ব্যক্তিৰ তালিকা</div>");
                     } else {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at thana - " + dao.getThanaName(thana_code) + "</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত  সহায় বিচাৰোতা ব্যক্তিৰ তালিকা</div>");
                     }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("name", name);

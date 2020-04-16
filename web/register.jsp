@@ -51,7 +51,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>জিলা </label>
+                            <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>আপোনাৰ জিলা বাচক</label>
                             <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
                                 <option value="-1">--SELECT DISTRICT--</option>
                                 <c:forEach var="obj" items="${distList}">
@@ -61,15 +61,15 @@
                             <span class="errorSpan" id="districtError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng"><span class="mandetory">*</span>Police Station<br/>আপোনাৰ থানা লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Thana<br/>আপোনাৰ থানা বাচক</label>
                             <select class="form-control" name="thana" id="thana">
-                                <option value="-1">--SELECT PS--</option>
+                                <option value="-1">--SELECT THANA--</option>
                             </select>
                             <span class="errorSpan" id="psError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng"><span class="mandetory">*</span>Address<br/>ঠিকনা</label>
+                            <label class="eng"><span class="mandetory">*</span>Address<br/>আপোনাৰ ঠিকনা</label>
                             <input type="text" class="form-control" name="address" placeholder="Enter Address" id="address" value="${register.address}"/>
                             <span class="errorSpan" id="addressError"></span>
                         </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng"><span class="mandetory">*</span>House No<br/>ঘৰ নং</label>
+                            <label class="eng">House No<br/>ঘৰ নং</label>
                             <input type="text" class="form-control" name="house_no" placeholder="Enter House No" id="house_no" value="${register.house}"/>
                             <span class="errorSpan" id="house_noError"></span>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="col-xs-9 col-md-12" id="helpDiv">
                             <div class="row" id="helpRow_1">
                                 <div class="col-sm-12 col-md-4">
-                                    <label class="eng"><span class="mandetory">*</span>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
+                                    <label class="eng"><span class="mandetory">*</span>Type of Help<br/>সহায় কৰাৰ/বিচৰাৰ পদ্ধতি</label>
                                     <select class="form-control" id="type_of_help_1" name="type_of_help">
                                         <c:forEach var="obj" items="${helpList}">
                                             <option value="${obj.id}" <c:if test="${obj.id == '1'}">selected="selected"</c:if>>${obj.helpDetails}</option>
@@ -172,7 +172,7 @@
                 $("#districtError").show();
                 res = false;
             } else if ($("#thana").val() === "-1") {
-                msg = "Select Police Station";
+                msg = "Select Thana";
                 $("#psError").html(msg);
                 $("#psError").show();
                 res = false;
@@ -186,12 +186,14 @@
                 $("#roadError").html(msg);
                 $("#roadError").show();
                 res = false;
-            } else if ($("#house_no").val() === "") {
-                msg = "Enter House No";
-                $("#house_noError").html(msg);
-                $("#house_noError").show();
-                res = false;
-            } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
+            } 
+//            else if ($("#house_no").val() === "") {
+//                msg = "Enter House No";
+//                $("#house_noError").html(msg);
+//                $("#house_noError").show();
+//                res = false;
+//            }
+            else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 msg = "Enter a valid Captcha Code";
                 $("#captchaError").html(msg);
                 $("#captchaError").show();
@@ -273,7 +275,7 @@
 //                    console.log(data);
 //                    console.log(JSON.stringify(data));
                     //called when successful
-                    var b = "<option value=\"-1\">--SELECT PS--</option>\n";
+                    var b = "<option value=\"-1\">--SELECT THANA--</option>\n";
                     data.forEach(function(obj) {
                         b += "<option value=\"" + obj.code + "\">" + obj.name + "</option>\n";
                     });

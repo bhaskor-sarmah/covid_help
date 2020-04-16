@@ -34,9 +34,9 @@
                             <tr>
                                 <th>Name<br/>নাম</th>
                                 <th>Address<br/>ঠিকনা</th>
-                                <th>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</th>
+                                <th>Type of Help<br/>সহায় কৰাৰ/বিচৰাৰ পদ্ধতি</th>
                                 <th>
-                                    Action
+                                    Action<br>ক্রিয়া
                                 </th>
                             </tr>
                         </thead>

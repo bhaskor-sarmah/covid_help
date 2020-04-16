@@ -190,11 +190,11 @@
                                     <h5><span class="label label-primary">Answer 4:</span></h5>
                                     <p>
                                         You can download the app Sahodar from the Play Store or visit our website https://sahodar.org/
-                                        You will find the option "Search for Help Seekers", where you can search by pincode or by district to view the list of people who are willing to help.
+                                        You will find the option "Search for Help Seekers", where you can search by thana or by district to view the list of people who are willing to help.
                                     </p>
                                     <h5><span class="label label-primary">উত্তৰ ৪:</span></h5>
                                     <p>
-                                        আপুনি সহোদৰ এপটো গুগল প্লে ষ্ট'ৰৰ পৰা  ডাউনল'ড  কৰিব পাৰে  বা আমাৰ ৱেৱছাইট https://sahodar.org/  ত চাব পাৰে । এই এপ টোত "সহায় বিচাৰোতাৰ সন্ধান"   বুলি এটা বুটন পাব য'ত আপুনি পিন কডৰ সহায়েৰে বা জিলাৰ নামেৰে সহায় বিচাৰোতাৰ তালিকা খন চাব পাৰিব ।
+                                        আপুনি সহোদৰ এপটো গুগল প্লে ষ্ট'ৰৰ পৰা  ডাউনল'ড  কৰিব পাৰে  বা আমাৰ ৱেৱছাইট https://sahodar.org/  ত চাব পাৰে । এই এপ টোত "সহায় বিচাৰোতাৰ সন্ধান"   বুলি এটা বুটন পাব য'ত আপুনি থানা সহায়েৰে বা জিলাৰ নামেৰে সহায় বিচাৰোতাৰ তালিকা খন চাব পাৰিব ।
                                     </p>
                                 </div>
                             </div>

@@ -67,7 +67,7 @@ public class RegisterMember extends HttpServlet {
         HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
-            request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
+            request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code (অশুদ্ধ ক্যাপচা কোড)</label></div>");
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
             request.setAttribute("distList", dao.getDistList());
@@ -107,11 +107,11 @@ public class RegisterMember extends HttpServlet {
             String msg = dao.checkMobile(m.getMobile());
             if (msg.equals("")) {
                 if (dao.saveMember(m)) {
-                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
+                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful ! (পঞ্জীয়ন সম্পন্ন)</label></div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("type", type);
-                    request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member</label></div>");
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member (পঞ্জীয়ন অসফল)</label></div>");
                     request.setAttribute("helpList", dao.getTypeOfHelp());
                     request.setAttribute("distList", dao.getDistList());
                     request.setAttribute("register", rp);

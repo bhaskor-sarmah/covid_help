@@ -7,17 +7,17 @@
         <ul class="icons">
             <li>
                 <a href="#">
-                    <span class="label">About</span>
+                    <span class="label">About&nbsp;(সম্পর্কে)</span>
                 </a>
             </li>
             <li>
                 <a href="./DownloadApk" style="color: white;">
-                    <span class="label">Download mobile app</span>
+                    <span class="label">Download mobile app&nbsp;(মবাইল এ'পটো ডাউনল'ড কৰক ।)</span>
                 </a>
             </li>
             <li>
                 <a href="./FAQ">
-                    <span class="label">FAQ</span>
+                    <span class="label">FAQ&nbsp;(এফ এ কিউ)</span>
                 </a>
             </li>
         </ul>
