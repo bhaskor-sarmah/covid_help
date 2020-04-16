@@ -55,7 +55,7 @@ public class ContactAll extends HttpServlet {
             String type = request.getParameter("t");
             String name = request.getParameter("n");
             name = getUTF8(name);
-            List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE");
+            List<Member> memberList = dao.getMemberByPinCode(pin, type, "PINCODE", "");
             if (sms.doFireSms(memberList, mobile, type, name)) {
                 PrintWriter out = response.getWriter();
 //                response.setContentType("application/json");
@@ -111,7 +111,7 @@ public class ContactAll extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-     private String getUTF8(String text) {
+    private String getUTF8(String text) {
         try {
             byte textArr[] = text.getBytes("ISO-8859-1");
             text = new String(textArr, "UTF-8");

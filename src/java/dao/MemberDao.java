@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.DistrictModel;
 import model.HelpPojo;
 import model.Member;
 import model.PinPojo;
@@ -26,7 +27,7 @@ import util.Encryption;
  */
 public class MemberDao {
 
-    public List<Member> getMemberByPinCode(String pin, String type, String state) {
+    public List<Member> getMemberByPinCode(String pin, String type, String state, String dist) {
         Connection conn = null;
         PreparedStatement ps = null, ps1 = null;
         ResultSet rs = null, rs1 = null;
@@ -36,31 +37,14 @@ public class MemberDao {
         } catch (Exception e) {
             System.out.println("Connection Exception : " + e.getMessage());
         }
-        String pin_str = pin;
-        boolean multiple = false;
-        if (state.equals("DISTRICT") || state.equals("STATE")) {
-            List<String> pinList = getAllPin(pin, state);
-            pin_str = "";
-            for (String s : pinList) {
-                pin_str += "" + s + ",";
-            }
-            if (pin_str.length() > 1) {
-                pin_str = pin_str.substring(0, pin_str.length() - 1);
-            }
-            multiple = true;
-        }
-
         try {
-            if (multiple) {
-                if (pin_str.equals("")) {
-                } else {
-                    ps = conn.prepareStatement("SELECT * FROM member WHERE pincode IN (" + pin_str + ") AND type = ?");
-//                    ps.setString(1, pin_str);
-                    ps.setString(1, type);
-                }
+            if (state.equals("DISTRICT")) {
+                ps = conn.prepareStatement("SELECT * FROM member WHERE district = ? AND type = ?");
+                ps.setString(1, dist);
+                ps.setString(2, type);
             } else {
                 ps = conn.prepareStatement("SELECT * FROM member WHERE pincode = ? AND type = ?");
-                ps.setString(1, pin_str);
+                ps.setString(1, pin);
                 ps.setString(2, type);
             }
             System.out.println(ps);
@@ -78,7 +62,7 @@ public class MemberDao {
                 m.setPolice_station(rs.getString("police_station"));
                 m.setPincode(rs.getString("pincode"));
                 m.setState(rs.getString("state"));
-                m.setDistrict(rs.getString("district"));
+                m.setDistrict(getDistrictByCode(rs.getString("district")));
                 m.setCircle(rs.getString("circle"));
                 m.setType_of_help(getHelpList(rs.getString("id")));
                 m.setLat("");
@@ -105,26 +89,23 @@ public class MemberDao {
             }
         }
         try {
-            if (multiple) {
-                if (pin_str.equals("")) {
+            if (state.equals("DISTRICT")) {
+                if (type.equals("HELP SEEKER")) {
+                    ps1 = conn.prepareStatement("SELECT a.`fk_address_code`, a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a LEFT OUTER JOIN address_code b ON a.fk_address_code=b.id WHERE b.district_code = ? AND help_required = ?");
+                    ps1.setString(1, dist);
+                    ps1.setString(2, "1");
                 } else {
-                    if (type.equals("HELP SEEKER")) {
-                        ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND help_required = ?");
-//                        ps.setString(1, pin_str);
-                        ps1.setString(1, "1");
-                    } else {
-                        ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode IN (" + pin_str + ") AND willing_to_volunteer = ?");
-//                        ps.setString(1, pin_str);
-                        ps1.setString(1, "1");
-                    }
+                    ps1 = conn.prepareStatement("SELECT a.`fk_address_code`,a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a LEFT OUTER JOIN address_code b ON a.fk_address_code=b.id WHERE b.district_code = ? AND willing_to_volunteer = ?");
+                    ps1.setString(1, dist);
+                    ps1.setString(2, "1");
                 }
             } else {
                 if (type.equals("HELP SEEKER")) {
-                    ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
+                    ps1 = conn.prepareStatement("SELECT a.`fk_address_code`,a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND help_required = ?");
                     ps1.setString(1, pin);
                     ps1.setString(2, "1");
                 } else {
-                    ps1 = conn.prepareStatement("SELECT a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
+                    ps1 = conn.prepareStatement("SELECT a.`fk_address_code`,a.id,a.`name`,a.address AS road,a.village_ward_name AS locality,a.pincode,IF(a.age = 0,\"---\",a.age) AS age,a.mobile_number AS mobile,IF(a.gender = \"1\",\"MALE\",IF(a.gender = \"2\",\"FEMALE\",IF(a.gender IS NULL,\"---\",\"OTHER\"))) AS gender,a.lat,a.lng FROM icmr_user_details a WHERE pincode = ? AND willing_to_volunteer = ?");
                     ps1.setString(1, pin);
                     ps1.setString(2, "1");
                 }
@@ -133,7 +114,7 @@ public class MemberDao {
             rs1 = ps1.executeQuery();
             while (rs1.next()) {
                 Member m = new Member();
-                PinPojo p = getState(rs1.getString("pincode"));
+//                PinPojo p = getState(rs1.getString("pincode"));
                 if ((rs1.getString("name") == null) || rs1.getString("name").equals("")) {
                     continue;
                 }
@@ -147,8 +128,8 @@ public class MemberDao {
                 m.setRoad((rs1.getString("road") == null) ? "" : rs1.getString("road").toUpperCase());
 //                m.setPolice_station(rs1.getString("police_station"));
                 m.setPincode((rs1.getString("pincode") == null) ? "" : rs1.getString("pincode"));
-                m.setState((p.getState() == null) ? "" : p.getState());
-                m.setDistrict((p.getDistrict() == null) ? "" : p.getDistrict());
+                m.setState("ASSAM");
+                m.setDistrict(getDistrictById(rs1.getInt("fk_address_code")));
 //                m.setCircle(rs1.getString("circle"));
                 m.setType_of_help(getHelpListApp(rs1.getString("id")));
                 m.setLat((rs1.getString("lat") == null) ? "" : rs1.getString("lat"));
@@ -393,7 +374,7 @@ public class MemberDao {
         return true;
     }
 
-    public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha, String name) {
+    public boolean doSaveSearchDetails(String pin, String mobile, String search_type, String search_for, String captcha, String name, String dist) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -411,12 +392,14 @@ public class MemberDao {
                     + "	`mobile`, \n"
                     + "	`search_type`, \n"
                     + "	`search_for`, \n"
+                    + "	`district`, \n"
                     + "	`captcha`, \n"
                     + "	`datetime`, \n"
                     + "	`flag`\n"
                     + "	)\n"
                     + "	VALUES\n"
                     + "	(NULL, \n"
+                    + "	?, \n"
                     + "	?, \n"
                     + "	?, \n"
                     + "	?, \n"
@@ -431,6 +414,7 @@ public class MemberDao {
             ps.setString(index++, mobile);
             ps.setString(index++, search_type);
             ps.setString(index++, search_for);
+            ps.setString(index++, dist);
             ps.setString(index++, captcha);
             System.out.println(ps);
             ps.executeUpdate();
@@ -824,5 +808,147 @@ public class MemberDao {
             }
         }
         return true;
+    }
+
+    public List<DistrictModel> getDistList() {
+        List<DistrictModel> distList = new ArrayList<DistrictModel>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT district_code, UPPER(address) FROM address_code ORDER BY address");
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+//                if (rs.getString("district_code").equals("000") || rs.getString("district_code").equals("999")) {
+//                    continue;
+//                }
+                DistrictModel d = new DistrictModel();
+                d.setDistCode(rs.getString(1));
+                d.setDistName(rs.getString(2));
+                distList.add(d);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return distList;
+    }
+
+    private String getDistrictByCode(String dist) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT UPPER(address) FROM address_code WHERE district_code = ?");
+            ps.setString(1, dist);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return "";
+    }
+
+    private String getDistrictById(int aInt) {
+       Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT UPPER(address) FROM address_code WHERE id = ?");
+            ps.setInt(1, aInt);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return "";
     }
 }

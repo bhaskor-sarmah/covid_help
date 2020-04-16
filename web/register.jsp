@@ -68,20 +68,24 @@
                             <span class="errorSpan" id="ageError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Pin Code<br/>আপোনাৰ পিন ক'ড লিখক</label>
-                            <input type="text" class="form-control" name="pincode" placeholder="Enter Pin Code" id="pincode" onblur="doGetState(this.value);"/>
-                            <span class="errorSpan" id="pincodeError"></span>
+                            <label class="ass">State<br/>ৰাজ্য</label><br/>
+                            <label id="state">ASSAM</label>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">State: </label>
-                            <label class="ass" style='font-size: small;'>State (ৰাজ্য): </label>
-                            <label id="state">---</label>
+                            <label class="eng">District: </label>
+                            <select class="form-control" name="district" id="district">
+                                <option value="-1">--SELECT--</option>
+                                <c:forEach var="obj" items="${distList}">
+                                    <option value="${obj.distCode}">${obj.distName}</option>
+                                </c:forEach>
+                            </select>
+                            <span class="errorSpan" id="districtError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">District: </label>
-                            <label class="ass" style='font-size: small;'>District (জিলা): </label>
-                            <label id="district">---</label>
+                            <span class="mandetory">*</span><label class="eng">Pin Code<br/>আপোনাৰ পিন ক'ড লিখক</label>
+                            <input type="text" class="form-control" name="pincode" placeholder="Enter Pin Code" id="pincode"/>
+                            <span class="errorSpan" id="pincodeError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
@@ -134,6 +138,7 @@
                             <button type="button" class="btn btn-sm btn-primary" id="btnAddMore" onclick="doAddRow();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add More</button>&nbsp;
                             <button type="button" class="btn btn-sm btn-danger" id="btnRemove" onclick="doRemoveRow();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Remove</button>
                         </div>
+                        <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
                             <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
@@ -166,32 +171,10 @@
             };
         </c:forEach>
         });
-        $(document).ajaxStart(function() {
-            $(".loader").show();
-        });
-        $(document).ajaxStop(function() {
-            $(".loader").fadeOut('slow');
-        });
-        function doGetState(str) {
-            $.ajax({
-                url: './GetState',
-                type: 'POST',
-                data: 'pincode=' + str,
-                success: function(data) {
-                    //called when successful
-                    $("#district").html(data.district);
-                    $("#state").html(data.state);
-                },
-                error: function(e) {
-                    $("#district").html("");
-                    $("#state").html("");
-                }
-            });
-        }
 
         function doValidateForm() {
             $(".errorSpan").hide();
-            if ($("#name").val().length < 5) {
+            if ($("#name").val().length < 2) {
                 $("#nameError").html("Enter Name");
                 $("#nameError").show();
                 return false;
@@ -214,6 +197,10 @@
             } else if (Number($("#age").val()) < 0 || Number($("#age").val()) > 120) {
                 $("#ageError").html("Enter a valid Age");
                 $("#ageError").show();
+                return false;
+            } else if ($("#district").val() === "-1") {
+                $("#districtError").html("Please select district");
+                $("#districtError").show();
                 return false;
             } else if (!$("#pincode").val().match(/[1-9][0-9]{5}/)) {
                 $("#pincodeError").html("Enter a valid Pin Code");

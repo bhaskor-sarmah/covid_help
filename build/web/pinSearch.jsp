@@ -52,15 +52,15 @@
                     <div class="row">
                         <input type="hidden" value="${type}" name="type" />
                         <div class="col-xs-9" style="margin-top: 10px;">
-                            <input type="radio" id="pinRadio" value="PINCODE" name="state" />&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
-                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" />&nbsp<label class="eng">Search by pin code District <br/>পিন ক'ডৰ জিলাৰে অনুসন্ধান কৰক</label>
-                            <!--                            <label class="eng">Select Exact Pin/District/State<br/>ঠিক পিনকোড/জিলা নির্বাচন কৰক</label>
-                                                        <select class="form-control" id="state" name="state">
-                                                            <option value="PINCODE" selected="selected">PINCODE (পিনকোড)</option>
-                                                            <option value="DISTRICT">DISTRICT (জিলা)</option>
-                                                            <option value="STATE">STATE (ৰাজ্য)</option>
-                                                        </select>-->
-                            <span class="stateSpan" id="searchError"></span>
+                            <input type="radio" id="pinRadio" value="PINCODE" name="state" onclick="handleClick(this);"/>&nbsp<label class="eng">Search by pin code<br/>পিন কোডৰে অনুসন্ধান কৰক</label><br/>
+                            <input type="radio" id="districtRadio" value="DISTRICT" name="state" onclick="handleClick(this);"/>&nbsp<label class="eng">Search by pin code District <br/>পিন ক'ডৰ জিলাৰে অনুসন্ধান কৰক</label>
+                            <select class="form-control" name="district" id="district" style="display:none;">
+                                <option value="-1">--SELECT--</option>
+                                <c:forEach var="obj" items="${distList}">
+                                    <option value="${obj.distCode}">${obj.distName}</option>
+                                </c:forEach>
+                            </select>
+                            <span class="errorSpan" id="radioError"></span>
                         </div>
                         <div class="col-xs-9">
                             <label class="eng">Enter Pin Code<br/>পিন ক'ডটো লিখক</label>
@@ -96,20 +96,8 @@
         $(document).ready(function() {
             $(".errorSpan").hide();
             $("#pinRadio").prop("checked", true);
-//            $("#langSelect").val("eng");
-//            $(".ass").hide();
+            $("#district").hide();
         });
-//        function doChangeRadio(str) {
-//            $(".loader").show();
-//            if (str === "eng") {
-//                $(".eng").show();
-//                $(".ass").hide();
-//            } else {
-//                $(".eng").hide();
-//                $(".ass").show();
-//            }
-//            $(".loader").hide();
-//        }
         function doValidateForm() {
             if (!$("#search").val().match(/[1-9][0-9]{5}/)) {
                 $("#searchError").html("Enter a valid Pin Code");
@@ -119,9 +107,13 @@
                 $("#mobileError").html("Enter a valid Mobile No");
                 $("#mobileError").show();
                 return false;
-            }else if ($("#name").val() === "") {
+            } else if ($("#name").val() === "") {
                 $("#nameError").html("Enter your name");
                 $("#nameError").show();
+                return false;
+            } else if(("#districtRadio").is(':checked') && $("#district").val() === "-1"){
+                $("#radioError").html("Please select a district");
+                $("#radioError").show();
                 return false;
             } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 $("#captchaError").html("Enter a valid Captcha Code");
@@ -134,6 +126,16 @@
         }
         function reloadCaptcha() {
             $("#captchaImage").attr("src", "./CaptchaServlet?t=" + new Date().getTime());
+        }
+
+        function handleClick() {
+            if ($("#pinRadio").is(':checked')) {
+                $("#district").hide();
+            } else if ($("#districtRadio").is(':checked')) {
+                $("#district").show();
+            } else {
+                $("#district").hide();
+            }
         }
     </script>
 </body>

@@ -28,7 +28,7 @@ public class SmsUtil {
             String mobile_no = Encryption.decrypt(m.getMobile(), AppSettings.KEY);
             mobile_no = mobile_no.replaceAll("==", "");
             System.out.println("RECEIVER - " + mobile_no);
-            if (type.equals("HELP SEEKER")) {
+            if (type.equals("HELP GIVER")) {
                 if (dao.doCheckSms(mobile, mobile_no)) {
                     String provide_help = mobile + " (" + name + ") is willing to help in your locality.\nwww.covirudh.com";
                     String encodeURL = "";
@@ -51,7 +51,7 @@ public class SmsUtil {
                     res = false;
                     System.out.println("More than two SMS has been already fired from " + mobile + " to " + mobile_no);
                 }
-            } else if (type.equals("HELP GIVER")) {
+            } else if (type.equals("HELP SEEKER")) {
                 if (dao.doCheckSms(mobile, mobile_no)) {
                     String seek_help = mobile + " (" + name + ") is seeking help in your locality.\nwww.covirudh.com";
                     String encodeURL = "";
@@ -83,7 +83,7 @@ public class SmsUtil {
 
     public boolean doFireSms(String receiver_mobile, String mobile, String type, String name) {
         boolean res = true;
-        if (type.equals("HELP SEEKER")) {
+        if (type.equals("HELP GIVER")) {
             if (dao.doCheckSms(mobile, receiver_mobile)) {
                 String provide_help = mobile + " (" + name + ") is willing to help in your locality.\nwww.covirudh.com";
                 String encodeURL = "";
@@ -106,7 +106,7 @@ public class SmsUtil {
                 System.out.println("More than two SMS has been already fired from " + mobile + " to " + receiver_mobile);
                 res = false;
             }
-        } else if (type.equals("HELP GIVER")) {
+        } else if (type.equals("HELP SEEKER")) {
             if (dao.doCheckSms(mobile, receiver_mobile)) {
                 String seek_help = mobile + " (" + name + ") is seeking help in your locality.\nwww.covirudh.com";
                 String encodeURL = "";

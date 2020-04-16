@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="col-sm-0 col-md-2">
-                <form action="./DownloadApk" method="POST" target="_blank">
+                <form action="./DownloadApk" method="POST">
                     <button class="btn btn-primary" id="mobileApp" type="submit"><i class="glyphicon glyphicon-phone"></i>&nbsp;Download Mobile App</button>
                 </form>
             </div>

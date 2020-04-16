@@ -49,10 +49,12 @@ public class RegisterMember extends HttpServlet {
             request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
+            request.setAttribute("distList", dao.getDistList());
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
             String pin = request.getParameter("pincode");
             if (dao.checkPinAssam(pin)) {
+                String dist = request.getParameter("district");
                 String[] type_of_help = request.getParameterValues("type_of_help");
                 String[] help_details = request.getParameterValues("help_details");
                 String[] help_quantity = request.getParameterValues("help_quantity");
@@ -89,7 +91,7 @@ public class RegisterMember extends HttpServlet {
                 String age = request.getParameter("age");
                 String email = request.getParameter("email");
 //            String type_of_help = request.getParameter("type_of_help").toUpperCase();
-                PinPojo p = dao.getState(pin);
+//                PinPojo p = dao.getState(pin);
                 Member m = new Member();
                 m.setName(name);
                 m.setPolice_station(ps);
@@ -99,11 +101,11 @@ public class RegisterMember extends HttpServlet {
                 m.setHouse_no(house);
                 m.setAge(age);
                 m.setCircle("");
-                m.setDistrict(p.getDistrict());
+                m.setDistrict(dist);
                 m.setEmail(email);
                 m.setMobile(mobile);
                 m.setSex(sex);
-                m.setState(p.getState());
+                m.setState("ASSAM");
                 m.setType(type);
                 m.setType_of_help(helpList);
 
@@ -114,12 +116,14 @@ public class RegisterMember extends HttpServlet {
                     request.setAttribute("type", type);
                     request.setAttribute("msg", "<span style=\"color: reg\"><label>Failed Saving Member</label></span>");
                     request.setAttribute("helpList", dao.getTypeOfHelp());
+                    request.setAttribute("distList", dao.getDistList());
                     request.getRequestDispatcher("./register.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("type", type);
                 request.setAttribute("msg", "<span style=\"color: reg\"><label>Please enter a valid pincode from Assam</label></span>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
+                request.setAttribute("distList", dao.getDistList());
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             }
 
