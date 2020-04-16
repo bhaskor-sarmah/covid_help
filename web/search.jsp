@@ -15,7 +15,7 @@
     <body class="landing">
         <div class="loader"></div>
         <jsp:include page='./template/header.jsp'>
-            <jsp:param name="pageTitle" value="SAHODAR"/>
+            <jsp:param name="pageTitle" value="HOME"/>
         </jsp:include>
         <div class="container-fluid" style="margin-top: 10px;">
             <div class="row">

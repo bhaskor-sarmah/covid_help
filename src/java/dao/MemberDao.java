@@ -572,7 +572,7 @@ public class MemberDao {
                     ps.setString(1, "SEEKER");
                     ps.setString(2, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
                     ps.setString(1, "SEEKER");
                     ps.setString(2, thana_code);
                 }
@@ -690,6 +690,55 @@ public class MemberDao {
             rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Exception : " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+
+            }
+        }
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+
+        }
+        return "";
+    }
+
+    public String checkMobile(String mobile) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ContextListener.dsCovidHelp.getConnection();
+        } catch (Exception e) {
+            System.out.println("Connection Exception : " + e.getMessage());
+        }
+        try {
+            ps = conn.prepareStatement("SELECT is_app_data FROM icmr_user_details WHERE mobile_number = ?");
+            ps.setString(1, mobile);
+            System.out.println(ps);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                if(rs.getString(1).equals("0")){
+                    return "WEB";
+                }else{
+                    return "APP";
+                }
             }
         } catch (SQLException e) {
             System.out.println("Exception : " + e.getMessage());

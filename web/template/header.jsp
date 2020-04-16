@@ -3,8 +3,8 @@
 
     <!-- Header -->
     <header id="header" class="alt">
-        <h1><a href="./Index"><c:out value="${param.pageTitle}"/></a></h1>
-        <a href="#nav">Menu</a>
+        <h1><a href="./Index" style="color:#385E5F"><c:out value="${param.pageTitle}"/></a></h1>
+        <a href="#nav" style="color: #385E5F">Menu</a>
     </header>
 
     <!-- Nav -->

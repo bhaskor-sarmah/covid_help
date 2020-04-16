@@ -9,7 +9,7 @@
     <body class="landing">
         <div class="loader"></div>
         <jsp:include page='./template/header.jsp'>
-            <jsp:param name="pageTitle" value="SAHODAR"/>
+            <jsp:param name="pageTitle" value="HOME"/>
         </jsp:include>
         <!-- Two -->
         <section id="two" class="wrapper special">

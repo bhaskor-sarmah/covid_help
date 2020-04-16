@@ -63,7 +63,7 @@ public class RegisterMember extends HttpServlet {
         rp.setAddress(address);
         rp.setRoad(road);
         rp.setHouse(house);
-        
+
         HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
@@ -104,13 +104,29 @@ public class RegisterMember extends HttpServlet {
             m.setHouse_no(house);
             m.setType(type);
             m.setHelp_details(helpList);
-
-            if (dao.saveMember(m)) {
-                request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
-                request.getRequestDispatcher("./index.jsp").forward(request, response);
-            } else {
+            String msg = dao.checkMobile(m.getMobile());
+            if (msg.equals("")) {
+                if (dao.saveMember(m)) {
+                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
+                    request.getRequestDispatcher("./index.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("type", type);
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member</label></div>");
+                    request.setAttribute("helpList", dao.getTypeOfHelp());
+                    request.setAttribute("distList", dao.getDistList());
+                    request.setAttribute("register", rp);
+                    request.getRequestDispatcher("./register.jsp").forward(request, response);
+                }
+            } else if (msg.equals("WEB")) {
                 request.setAttribute("type", type);
-                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member</label></div>");
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in web portal.</label></div>");
+                request.setAttribute("helpList", dao.getTypeOfHelp());
+                request.setAttribute("distList", dao.getDistList());
+                request.setAttribute("register", rp);
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+            } else if (msg.equals("APP")) {
+                request.setAttribute("type", type);
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in Mobile App.</label></div>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
                 request.setAttribute("register", rp);
