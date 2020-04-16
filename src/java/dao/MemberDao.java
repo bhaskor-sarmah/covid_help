@@ -582,7 +582,7 @@ public class MemberDao {
                     ps.setString(1, "GIVER");
                     ps.setString(2, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
                     ps.setString(1, "GIVER");
                     ps.setString(2, thana_code);
                 }

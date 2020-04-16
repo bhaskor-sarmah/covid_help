@@ -12,13 +12,10 @@
         <ul class="links">
             <li><a href="./Index">Home</a></li>
             <li><a href="#" onClick="doSubmitForm('REGISTER', 'SEEKING');">Register for seeking help</a></li>
-            <li><a href="#" onClick="doSubmitForm('REGISTER', 'GIVING');
-                    ;">Register for giving help</a></li>
-            <li><a href="#" onClick="doSubmitForm('SEARCH', 'SEEKING');
-                    ;">Search for help seeker</a></li>
-            <li><a href="#" onClick="doSubmitForm('SEARCH', 'GIVING');
-                    ;">Search for help giver</a></li>
-            <li><a href="#">FAQ</a></li>
+            <li><a href="#" onClick="doSubmitForm('REGISTER', 'GIVING');">Register for giving help</a></li>
+            <li><a href="#" onClick="doSubmitForm('SEARCH', 'SEEKING');">Search for help seeker</a></li>
+            <li><a href="#" onClick="doSubmitForm('SEARCH', 'GIVING');">Search for help giver</a></li>
+            <li><a href="./FAQ">FAQ</a></li>
         </ul>
     </nav>
 

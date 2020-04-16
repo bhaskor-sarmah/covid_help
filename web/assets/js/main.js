@@ -51,11 +51,7 @@
     });
 
 })(jQuery);
-$(document).ready(function() {
-    $('.accordion-toggle').on('click', function() {
-        $(this).find('.fa').toggleClass('fa-angle-down').toggleClass('fa-angle-up');
-    });
-});
+
 function doSubmitForm(type, help) {
     if (type === "REGISTER") {
         if (help === "SEEKING") {
@@ -71,3 +67,8 @@ function doSubmitForm(type, help) {
         }
     }
 }
+$(document).ready(function() {
+    $('.accordion-toggle').on('click', function() {
+        $(this).find('.fa').toggleClass('fa-angle-down').toggleClass('fa-angle-up');
+    });
+});

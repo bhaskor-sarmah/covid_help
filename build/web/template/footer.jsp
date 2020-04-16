@@ -16,7 +16,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="./FAQ">
                     <span class="label">FAQ</span>
                 </a>
             </li>

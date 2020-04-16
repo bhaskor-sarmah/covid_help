@@ -7,12 +7,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
-<jsp:include page='./template/head.jsp'>
-    <jsp:param name="pageTitle" value="Register"/>
-</jsp:include>
-<body style="margin-bottom: 55px;">
-    <div class="loader"></div>
-    <jsp:include page="./template/header.jsp"/>
+<!DOCTYPE html>
+<html>
+    <jsp:include page='./template/head.jsp'>
+        <jsp:param name="pageTitle" value="REGISTER"/>
+    </jsp:include>
+    <body class="landing">
+        <div class="loader"></div>
+        <jsp:include page='./template/header.jsp'>
+            <jsp:param name="pageTitle" value="SAHODAR"/>
+        </jsp:include>
     <div class="container" style="margin-top: 10px;">
         <c:if test="${not empty msg}">
             <div class="row">
@@ -36,18 +40,18 @@
                 <div class="row">
                     <form action="./RegisterMember" method="POST" onsubmit="return doValidateForm()"  autocomplete="off">
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Enter Name<br/>আপোনাৰ নাম লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Enter Name<br/>আপোনাৰ নাম লিখক</label>
                             <input type="text" class="form-control" name="name" placeholder="Enter Name" id="name" value="${register.name}"/>
                             <span class="errorSpan" id="nameError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Mobile No<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Mobile No<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
                             <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No" id="mobile" value="${register.mobile}"/>
                             <span class="errorSpan" id="mobileError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="ass" style='font-size: small;'>District<br/>জিলা </label>
+                            <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>জিলা </label>
                             <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
                                 <option value="-1">--SELECT DISTRICT--</option>
                                 <c:forEach var="obj" items="${distList}">
@@ -57,7 +61,7 @@
                             <span class="errorSpan" id="districtError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Police Station<br/>আপোনাৰ থানা লিখক</label>
                             <select class="form-control" name="thana" id="thana">
                                 <option value="-1">--SELECT PS--</option>
                             </select>
@@ -65,18 +69,18 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Address<br/>ঠিকনা</label>
+                            <label class="eng"><span class="mandetory">*</span>Address<br/>ঠিকনা</label>
                             <input type="text" class="form-control" name="address" placeholder="Enter Address" id="address" value="${register.address}"/>
                             <span class="errorSpan" id="addressError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Road/Street<br/>পথ</label>
+                            <label class="eng"><span class="mandetory">*</span>Road/Street<br/>পথ</label>
                             <input type="text" class="form-control" name="road" placeholder="Enter Road/Street" id="road" value="${register.road}"/>
                             <span class="errorSpan" id="roadError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">House No<br/>ঘৰ নং</label>
+                            <label class="eng"><span class="mandetory">*</span>House No<br/>ঘৰ নং</label>
                             <input type="text" class="form-control" name="house_no" placeholder="Enter House No" id="house_no" value="${register.house}"/>
                             <span class="errorSpan" id="house_noError"></span>
                         </div>
@@ -84,7 +88,7 @@
                         <div class="col-xs-9 col-md-12" id="helpDiv">
                             <div class="row" id="helpRow_1">
                                 <div class="col-sm-12 col-md-4">
-                                    <span class="mandetory">*</span><label class="eng">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
+                                    <label class="eng"><span class="mandetory">*</span>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
                                     <select class="form-control" id="type_of_help_1" name="type_of_help">
                                         <c:forEach var="obj" items="${helpList}">
                                             <option value="${obj.id}" <c:if test="${obj.id == '1'}">selected="selected"</c:if>>${obj.helpDetails}</option>
@@ -111,7 +115,7 @@
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Enter Captcha<br/>কেপচা লিখক</label>
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
                             <span class="errorSpan" id="captchaError"></span>
                             <img src="./CaptchaServlet" id="captchaImage"/>&nbsp;<a href="#" onclick="reloadCaptcha();"><i class="glyphicon glyphicon-refresh"></i></a>
