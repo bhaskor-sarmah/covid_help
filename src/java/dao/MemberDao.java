@@ -493,7 +493,7 @@ public class MemberDao {
         return false;
     }
 
-    public List<HelpPojo> getHelpListApp(String id, Connection conn) {
+    public List<HelpPojo> getHelpListApp(String id, Connection conn, String type) {
         List<HelpPojo> helpList = new ArrayList<HelpPojo>();
 //        Connection conn = null;
         PreparedStatement ps = null;
@@ -504,7 +504,11 @@ public class MemberDao {
 //            System.out.println("Connection Exception : " + e.getMessage());
 //        }
         try {
-            ps = conn.prepareStatement("SELECT a.description,a.quantity,a.help_seeker_giver,b.type_of_help FROM help_details_new a,type_of_help b WHERE a.fk_type_of_help = b.id AND a.fk_icmr_user_details = ?");
+            if (type.equals("HELP SEEKER")) {
+                ps = conn.prepareStatement("SELECT a.description,a.quantity,a.help_seeker_giver,b.type_of_help FROM help_details_new a,type_of_help b WHERE a.fk_type_of_help = b.id AND a.fk_icmr_user_details = ? AND a.help_seeker_giver = \"SEEKER\"");
+            } else {
+                ps = conn.prepareStatement("SELECT a.description,a.quantity,a.help_seeker_giver,b.type_of_help FROM help_details_new a,type_of_help b WHERE a.fk_type_of_help = b.id AND a.fk_icmr_user_details = ? AND a.help_seeker_giver = \"GIVER\"");
+            }
             ps.setString(1, id);
             System.out.println(ps);
             rs = ps.executeQuery();
@@ -625,7 +629,7 @@ public class MemberDao {
                 m.setName(rs.getString("name"));
                 m.setMobile(Encryption.encrypt(rs.getString("mobile_number"), AppSettings.KEY));
                 m.setAddress(rs.getString("address"));
-                m.setHelp_details(getHelpListApp(rs.getString("id"), conn));
+                m.setHelp_details(getHelpListApp(rs.getString("id"), conn, type));
                 m.setSrc((rs.getString("is_app_data") != null && rs.getString("is_app_data").equals("0")) ? "WEB" : "APP");
                 memList.add(m);
             }
