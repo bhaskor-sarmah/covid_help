@@ -6,6 +6,7 @@
 package servlet;
 
 import dao.AdminDao;
+import dao.MemberDao;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class AdminLogin extends HttpServlet {
 
     AdminDao dao = new AdminDao();
+    MemberDao memDao = new MemberDao();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,6 +46,7 @@ public class AdminLogin extends HttpServlet {
             session = request.getSession(true);
             session.setAttribute("userLogged", "1");
             session.setAttribute("username", username);
+            request.setAttribute("distList", memDao.getDistList());
             request.getRequestDispatcher("./admin/home.jsp").forward(request, response);
         } else {
             request.setAttribute("msg", "<div class=\"alert alert-danger\">Invalid Username or Password !</div>");

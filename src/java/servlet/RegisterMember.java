@@ -20,7 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.HelpPojo;
 import model.Member;
-import model.PinPojo;
+import model.RegisterPojo;
+import model.ThanaPojo;
 
 /**
  *
@@ -43,13 +44,34 @@ public class RegisterMember extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String captcha = request.getParameter("captcha");
+        String name = request.getParameter("name");
+        name = getUTF8(name).toUpperCase();
+
+        String mobile = request.getParameter("mobile");
+
+        String address = request.getParameter("address");
+        address = getUTF8(address).toUpperCase();
+
+        String road = request.getParameter("road");
+        road = getUTF8(road).toUpperCase();
+
+        String house = request.getParameter("house_no");
+        house = getUTF8(house).toUpperCase();
+        RegisterPojo rp = new RegisterPojo();
+        rp.setName(name);
+        rp.setMobile(mobile);
+        rp.setAddress(address);
+        rp.setRoad(road);
+        rp.setHouse(house);
+
         HttpSession session = request.getSession();
         String type = request.getParameter("type").toUpperCase();
         if (session.getAttribute("captcha") == null || !session.getAttribute("captcha").toString().equals(captcha)) {
-            request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code</label></div>");
+            request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Invalid Captcha Code (অশুদ্ধ ক্যাপচা কোড)</label></div>");
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
             request.setAttribute("distList", dao.getDistList());
+<<<<<<< HEAD
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
             String pin = request.getParameter("pincode");
@@ -108,25 +130,75 @@ public class RegisterMember extends HttpServlet {
                 m.setState("ASSAM");
                 m.setType(type);
                 m.setType_of_help(helpList);
+=======
+            request.setAttribute("register", rp);
+            request.getRequestDispatcher("./register.jsp").forward(request, response);
+        } else {
+//            String pin = request.getParameter("pincode");
+//            if (dao.checkPinAssam(pin)) {
+            String[] type_of_help = request.getParameterValues("type_of_help");
+            String[] help_details = request.getParameterValues("help_details");
+            String[] help_quantity = request.getParameterValues("help_quantity");
+            List<HelpPojo> helpList = new ArrayList<HelpPojo>();
+            int i = 0;
+            for (String s : type_of_help) {
+                HelpPojo h = new HelpPojo();
+                h.setHelpId(s);
+                h.setHelpDetails(help_details[i]);
+                h.setHelpQuantity(help_quantity[i]);
+                helpList.add(h);
+                i++;
+            }
+>>>>>>> new_ui
 
+            String dist_code = request.getParameter("district");
+
+            String thana_code = request.getParameter("thana");
+
+            Member m = new Member();
+            m.setName(name);
+            m.setMobile(mobile);
+            m.setThana_code(thana_code);
+            m.setDist_code(dist_code);
+            m.setAddress(address);
+            m.setRoad(road);
+            m.setHouse_no(house);
+            m.setType(type);
+            m.setHelp_details(helpList);
+            String msg = dao.checkMobile(m.getMobile());
+            if (msg.equals("")) {
                 if (dao.saveMember(m)) {
-                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful !</label></div>");
+                    request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful ! (পঞ্জীয়ন সম্পন্ন)</label></div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("type", type);
-                    request.setAttribute("msg", "<span style=\"color: reg\"><label>Failed Saving Member</label></span>");
+                    request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member (পঞ্জীয়ন অসফল)</label></div>");
                     request.setAttribute("helpList", dao.getTypeOfHelp());
                     request.setAttribute("distList", dao.getDistList());
+<<<<<<< HEAD
+=======
+                    request.setAttribute("register", rp);
+>>>>>>> new_ui
                     request.getRequestDispatcher("./register.jsp").forward(request, response);
                 }
-            } else {
+            } else if (msg.equals("WEB")) {
                 request.setAttribute("type", type);
-                request.setAttribute("msg", "<span style=\"color: reg\"><label>Please enter a valid pincode from Assam</label></span>");
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in web portal.</label></div>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
+<<<<<<< HEAD
+=======
+                request.setAttribute("register", rp);
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+            } else if (msg.equals("APP")) {
+                request.setAttribute("type", type);
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in Mobile App.</label></div>");
+                request.setAttribute("helpList", dao.getTypeOfHelp());
+                request.setAttribute("distList", dao.getDistList());
+                request.setAttribute("register", rp);
+>>>>>>> new_ui
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             }
-
         }
     }
 

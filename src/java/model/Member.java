@@ -15,48 +15,20 @@ public class Member {
 
     private String name;
     private String mobile;
-    private String police_station;
-    private String locality;
+    private String thana_code;
+    private String dist_code;
+    private String address;
     private String road;
     private String house_no;
-    private String pincode;
-    private String circle;
-    private String district;
-    private String state;
-    private String sex;
-    private String age;
-    private String email;
     private String type;
-    private List<HelpPojo> type_of_help;
+    private List<HelpPojo> help_details;
     private String lon;
     private String lat;
     private String src;
+    private String mob;
+    private int id;
 
     public Member() {
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<HelpPojo> getType_of_help() {
-        return type_of_help;
-    }
-
-    public void setType_of_help(List<HelpPojo> type_of_help) {
-        this.type_of_help = type_of_help;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getName() {
@@ -75,20 +47,28 @@ public class Member {
         this.mobile = mobile;
     }
 
-    public String getPolice_station() {
-        return police_station;
+    public String getThana_code() {
+        return thana_code;
     }
 
-    public void setPolice_station(String police_station) {
-        this.police_station = police_station;
+    public void setThana_code(String thana_code) {
+        this.thana_code = thana_code;
     }
 
-    public String getLocality() {
-        return locality;
+    public String getDist_code() {
+        return dist_code;
     }
 
-    public void setLocality(String locality) {
-        this.locality = locality;
+    public void setDist_code(String dist_code) {
+        this.dist_code = dist_code;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getRoad() {
@@ -107,54 +87,22 @@ public class Member {
         this.house_no = house_no;
     }
 
-    public String getPincode() {
-        return pincode;
+    public String getType() {
+        return type;
     }
 
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getCircle() {
-        return circle;
+    public List<HelpPojo> getHelp_details() {
+        return help_details;
     }
 
-    public void setCircle(String circle) {
-        this.circle = circle;
+    public void setHelp_details(List<HelpPojo> help_details) {
+        this.help_details = help_details;
     }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
+    
     public String getLon() {
         return lon;
     }
@@ -177,6 +125,22 @@ public class Member {
 
     public void setSrc(String src) {
         this.src = src;
+    }
+
+    public String getMob() {
+        return mob;
+    }
+
+    public void setMob(String mob) {
+        this.mob = mob;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     

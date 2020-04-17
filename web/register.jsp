@@ -7,12 +7,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
-<jsp:include page='./template/head.jsp'>
-    <jsp:param name="pageTitle" value="Register"/>
-</jsp:include>
-<body style="margin-bottom: 55px;">
-    <div class="loader"></div>
-    <jsp:include page="./template/header.jsp"/>
+<!DOCTYPE html>
+<html>
+    <jsp:include page='./template/head.jsp'>
+        <jsp:param name="pageTitle" value="REGISTER"/>
+    </jsp:include>
+    <body class="landing">
+        <div class="loader"></div>
+        <jsp:include page='./template/header.jsp'>
+            <jsp:param name="pageTitle" value="HOME"/>
+        </jsp:include>
     <div class="container" style="margin-top: 10px;">
         <c:if test="${not empty msg}">
             <div class="row">
@@ -36,33 +40,28 @@
                 <div class="row">
                     <form action="./RegisterMember" method="POST" onsubmit="return doValidateForm()"  autocomplete="off">
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Enter Name<br/>আপোনাৰ নাম লিখক</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name" id="name"/>
+                            <label class="eng"><span class="mandetory">*</span>Enter Name<br/>আপোনাৰ নাম লিখক</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Name" id="name" value="${register.name}"/>
                             <span class="errorSpan" id="nameError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Mobile No<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
-                            <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No" id="mobile"/>
+                            <label class="eng"><span class="mandetory">*</span>Mobile No<br/>আপোনাৰ মবাইল নম্বৰ লিখক</label>
+                            <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile No" id="mobile" value="${register.mobile}"/>
                             <span class="errorSpan" id="mobileError"></span>
                         </div>
-
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">Email<br/>আপোনাৰ ইমেইল লিখক</label>
-                            <input type="text" class="form-control" name="email" placeholder="Enter Email" id="email"/>
-                            <span class="errorSpan" id="emailError"></span>
-                        </div>
-                        <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Gender<br/>আপোনাৰ লিংগ নির্বাচন কৰক</label>
-                            <select class="form-control" id="gender" name="gender">
-                                <option value="MALE" selected="selected">MALE</option>
-                                <option value="FEMALE">FEMALE</option>
-                                <option value="OTHER">OTHER</option>
+                            <label class="ass" style='font-size: small;'><span class="mandetory">*</span>District<br/>আপোনাৰ জিলা বাচক</label>
+                            <select class="form-control" name="district" id="district" onchange="doGetThana(this.value);">
+                                <option value="-1">--SELECT DISTRICT--</option>
+                                <c:forEach var="obj" items="${distList}">
+                                    <option value="${obj.distCode}">${obj.distName}</option>
+                                </c:forEach>
                             </select>
-                            <span class="errorSpan" id="genderError"></span>
+                            <span class="errorSpan" id="districtError"></span>
                         </div>
-                        <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
+<<<<<<< HEAD
                             <span class="mandetory">*</span><label class="eng">Age<br/>আপোনাৰ বয়স লিখক</label>
                             <input type="text" class="form-control" name="age" placeholder="Enter Age" id="age"/>
                             <span class="errorSpan" id="ageError"></span>
@@ -91,29 +90,36 @@
                         <div class="col-xs-9 col-md-6">
                             <span class="mandetory">*</span><label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
                             <input type="text" class="form-control" name="ps" placeholder="Enter PS" id="ps"/>
+=======
+                            <label class="eng"><span class="mandetory">*</span>Thana<br/>আপোনাৰ থানা বাচক</label>
+                            <select class="form-control" name="thana" id="thana">
+                                <option value="-1">--SELECT THANA--</option>
+                            </select>
+>>>>>>> new_ui
                             <span class="errorSpan" id="psError"></span>
-                        </div>
-                        <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Locality<br/>আপুনি থকা স্থান</label>
-                            <input type="text" class="form-control" name="locality" placeholder="Enter Locality" id="locality"/>
-                            <span class="errorSpan" id="localityError"></span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Road/Street<br/>পথ</label>
-                            <input type="text" class="form-control" name="road" placeholder="Enter Road/Street" id="road"/>
-                            <span class="errorSpan" id="roadError"></span>
+                            <label class="eng"><span class="mandetory">*</span>Address<br/>আপোনাৰ ঠিকনা</label>
+                            <input type="text" class="form-control" name="address" placeholder="Enter Address" id="address" value="${register.address}"/>
+                            <span class="errorSpan" id="addressError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">House No<br/>ঘৰ নং</label>
-                            <input type="text" class="form-control" name="house_no" placeholder="Enter House No" id="house_no"/>
+                            <label class="eng"><span class="mandetory">*</span>Road/Street<br/>পথ</label>
+                            <input type="text" class="form-control" name="road" placeholder="Enter Road/Street" id="road" value="${register.road}"/>
+                            <span class="errorSpan" id="roadError"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-9 col-md-6">
+                            <label class="eng">House No<br/>ঘৰ নং</label>
+                            <input type="text" class="form-control" name="house_no" placeholder="Enter House No" id="house_no" value="${register.house}"/>
                             <span class="errorSpan" id="house_noError"></span>
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-xs-9 col-md-12" id="helpDiv">
                             <div class="row" id="helpRow_1">
                                 <div class="col-sm-12 col-md-4">
-                                    <span class="mandetory">*</span><label class="eng">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>
+                                    <label class="eng"><span class="mandetory">*</span>Type of Help<br/>সহায় কৰাৰ/বিচৰাৰ পদ্ধতি</label>
                                     <select class="form-control" id="type_of_help_1" name="type_of_help">
                                         <c:forEach var="obj" items="${helpList}">
                                             <option value="${obj.id}" <c:if test="${obj.id == '1'}">selected="selected"</c:if>>${obj.helpDetails}</option>
@@ -138,14 +144,17 @@
                             <button type="button" class="btn btn-sm btn-primary" id="btnAddMore" onclick="doAddRow();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add More</button>&nbsp;
                             <button type="button" class="btn btn-sm btn-danger" id="btnRemove" onclick="doRemoveRow();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Remove</button>
                         </div>
+<<<<<<< HEAD
                         <div class="clearfix"></div>
+=======
+                        <div class="clearfix"></div> 
+>>>>>>> new_ui
                         <div class="col-xs-9 col-md-6">
-                            <label class="eng">Enter Captcha<br/>কেপচা লিখক</label>
+                            <label class="eng"><span class="mandetory">*</span>Enter Captcha<br/>কেপচা লিখক</label>
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
                             <span class="errorSpan" id="captchaError"></span>
                             <img src="./CaptchaServlet" id="captchaImage"/>&nbsp;<a href="#" onclick="reloadCaptcha();"><i class="glyphicon glyphicon-refresh"></i></a>
                         </div>
-                        <div class="clearfix"></div>
                         <input type="hidden" class="form-control" name="type" id="type" value="${type}"/>
                         <input type="hidden" class="form-control" name="helpDivCount" id="helpDivCount" value="1"/>
                         <div class="col-xs-9 col-md-12 text-center" style="margin-top: 10px;">
@@ -171,20 +180,35 @@
             };
         </c:forEach>
         });
+<<<<<<< HEAD
 
         function doValidateForm() {
             $(".errorSpan").hide();
             if ($("#name").val().length < 2) {
                 $("#nameError").html("Enter Name");
+=======
+        $(document).ajaxStart(function() {
+            $(".loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $(".loader").fadeOut('slow');
+        });
+
+        function doValidateForm() {
+            $(".errorSpan").hide();
+            var res = true;
+            var msg = "";
+            if ($("#name").val() === "") {
+                msg = "Enter Name";
+                $("#nameError").html(msg);
+>>>>>>> new_ui
                 $("#nameError").show();
-                return false;
-            } else if ($("#email").val() !== "" && !isValidEmail($("#email").val())) {
-                $("#emailError").html("Enter a valid Email");
-                $("#emailError").show();
-                return false;
+                res = false;
             } else if (!$("#mobile").val().match(/^\d{10}$/)) {
-                $("#mobileError").html("Enter a valid Mobile No.");
+                msg = "Enter a valid Mobile No.";
+                $("#mobileError").html(msg);
                 $("#mobileError").show();
+<<<<<<< HEAD
                 return false;
             } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
                 $("#captchaError").html("Enter a valid Captcha Code");
@@ -208,38 +232,58 @@
                 return false;
             } else if ($("#ps").val() === "") {
                 $("#psError").html("Enter Police Station");
+=======
+                res = false;
+            } else if ($("#district").val() === "-1") {
+                msg = "Select District";
+                $("#districtError").html(msg);
+                $("#districtError").show();
+                res = false;
+            } else if ($("#thana").val() === "-1") {
+                msg = "Select Thana";
+                $("#psError").html(msg);
+>>>>>>> new_ui
                 $("#psError").show();
-                return false;
-            } else if ($("#locality").val() === "") {
-                $("#localityError").html("Enter Locality");
-                $("#localityError").show();
-                return false;
+                res = false;
+            } else if ($("#address").val() === "") {
+                msg = "Enter Address";
+                $("#addressError").html(msg);
+                $("#addressError").show();
+                res = false;
             } else if ($("#road").val() === "") {
-                $("#roadError").html("Enter Road/Street");
+                msg = "Enter Road/Street";
+                $("#roadError").html(msg);
                 $("#roadError").show();
-                return false;
-            } else if ($("#house_no").val() === "") {
-                $("#house_noError").html("Enter House No");
-                $("#house_noError").show();
-                return false;
-            } else if ($("#state").html() === "---" || $("#state").html() === "") {
-                $("#pincodeError").html("Enter a valid Pin Code of Assam");
-                $("#pincodeError").show();
-                return false;
+                res = false;
+            } 
+//            else if ($("#house_no").val() === "") {
+//                msg = "Enter House No";
+//                $("#house_noError").html(msg);
+//                $("#house_noError").show();
+//                res = false;
+//            }
+            else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
+                msg = "Enter a valid Captcha Code";
+                $("#captchaError").html(msg);
+                $("#captchaError").show();
+                res = false;
             }
             for (var i = 1; i <= helpDivCount; i++) {
                 if ($("#type_of_help_" + i).val() === "") {
                     $("#type_of_help_" + i + "Error").html("Select Type of Help");
                     $("#type_of_help_" + i + "Error").show();
-                    return false;
+                    res = false;
                 }
             }
-            return true;
-        }
-
-        function isValidEmail(emailAddress) {
-            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-            return pattern.test(emailAddress);
+            if (!res) {
+                $.alert({
+                    title: "Error",
+                    content: msg,
+                    type: "red",
+                    typeAnimated: true
+                });
+            }
+            return res;
         }
 
         function reloadCaptcha() {
@@ -289,6 +333,32 @@
                 helpDivCount--;
             }
             $("#helpDivCount").val(helpDivCount);
+        }
+
+        function doGetThana(str) {
+            $.ajax({
+                url: './GetThana',
+                type: 'POST',
+                data: 'dist=' + str,
+                success: function(data) {
+//                    console.log(data);
+//                    console.log(JSON.stringify(data));
+                    //called when successful
+                    var b = "<option value=\"-1\">--SELECT THANA--</option>\n";
+                    data.forEach(function(obj) {
+                        b += "<option value=\"" + obj.code + "\">" + obj.name + "</option>\n";
+                    });
+                    $("#thana").html(b);
+                },
+                error: function(e) {
+                    $.alert({
+                        title: "Error",
+                        content: "Error fetching Thana List",
+                        type: "red",
+                        typeAnimated: true
+                    });
+                }
+            });
         }
     </script>
 </body>

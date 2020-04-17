@@ -64,15 +64,16 @@ public class CaptchaServlet extends HttpServlet {
 //        int index = Math.abs(r.nextInt()) % 5;
 
         String captcha = getAlphaNumericString(6);
-        request.getSession().setAttribute("captcha", captcha);
+        request.getSession().setAttribute("captcha", captcha.replaceAll(" ", ""));
 
-        int x = 0;
-        int y = 0;
-        for (int i = 0; i < captcha.length(); i++) {
-            x += 10 + (Math.abs(r.nextInt()) % 15);
-            y = 20 + Math.abs(r.nextInt()) % 20;
-            g2d.drawChars(captcha.toCharArray(), i, 1, x, y);
-        }
+        int x = 20;
+        int y = 30;
+//        for (int i = 0; i < captcha.length(); i++) {
+//            x += 10 + (Math.abs(r.nextInt()) % 15);
+//            y = 20 + Math.abs(r.nextInt()) % 20;
+//            g2d.drawChars(captcha.toCharArray(), i, 1, x, y);
+//        }
+        g2d.drawString(captcha, x, y);
         g2d.dispose();
 
         response.setContentType("image/png");
@@ -96,7 +97,7 @@ public class CaptchaServlet extends HttpServlet {
     static String getAlphaNumericString(int n) {
 
         // chose a Character random from this String 
-        String AlphaNumericString = "ABCDE2345FGHIJKLM89NOPQRST67UVWXYZ01";
+        String AlphaNumericString = "ABCDE2345FGHIJKLM89NPQRST67UVWXYZ1";
 
         // create StringBuffer size of AlphaNumericString 
         StringBuilder sb = new StringBuilder(n);
@@ -112,6 +113,7 @@ public class CaptchaServlet extends HttpServlet {
             // add Character one by one in end of sb 
             sb.append(AlphaNumericString
                     .charAt(index));
+            sb.append(' ');
         }
 
         return sb.toString();
