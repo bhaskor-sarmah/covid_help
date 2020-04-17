@@ -34,6 +34,6 @@
     </section>
     <section id="zero" class="wrapper style0">
 
-        <i class="fa fa-mobile fa-2x"></i><a href="./DownloadApk" style="font-size: x-large;"><span class="label">Download our mobile app ( আমাৰ মবাইল এ'পটো ডাউনল'ড কৰক ।)</span></a>
+        <i class="fa fa-mobile fa-2x"></i><a href="./DownloadApk" style="font-size: x-large;"><span class="label">Download our mobile app<br> আমাৰ মবাইল এ'পটো ডাউনল'ড কৰক</span></a>
         <!--</a>-->
     </section>

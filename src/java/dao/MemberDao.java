@@ -568,23 +568,19 @@ public class MemberDao {
         try {
             if (type.equals("HELP SEEKER")) {
                 if (thana_code.equals("-1")) {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.district_id = ?");
-                    ps.setString(1, "SEEKER");
-                    ps.setString(2, district_code);
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker WHERE b.district_id = ?");
+                    ps.setString(1, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
-                    ps.setString(1, "SEEKER");
-                    ps.setString(2, thana_code);
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker WHERE b.thana_code = ?");
+                    ps.setString(1, thana_code);
                 }
             } else {
                 if (thana_code.equals("-1")) {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.district_id = ?");
-                    ps.setString(1, "GIVER");
-                    ps.setString(2, district_code);
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver WHERE b.district_id = ?");
+                    ps.setString(1, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM icmr_user_details a,address_code b,help_details_new c WHERE a.fk_address_code = b.id AND a.id = c.fk_icmr_user_details AND c.help_seeker_giver = ? AND b.thana_code = ?");
-                    ps.setString(1, "GIVER");
-                    ps.setString(2, thana_code);
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver WHERE b.thana_code = ?");
+                    ps.setString(1, thana_code);
                 }
             }
             System.out.println(ps);
@@ -734,9 +730,9 @@ public class MemberDao {
             System.out.println(ps);
             rs = ps.executeQuery();
             if (rs.next()) {
-                if(rs.getString(1).equals("0")){
+                if (rs.getString(1).equals("0")) {
                     return "WEB";
-                }else{
+                } else {
                     return "APP";
                 }
             }

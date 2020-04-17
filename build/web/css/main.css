@@ -116,3 +116,17 @@ legend {
     /*font-weight: bold;*/
     font-size: small;
 }
+
+.cardDiv{
+    background-color: #FFF;
+    width:100%;
+    height: 100%;
+    margin: 0px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.cardCol{
+    padding: 5px;
+    margin-top: 10px;
+}
