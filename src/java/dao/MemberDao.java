@@ -568,18 +568,18 @@ public class MemberDao {
         try {
             if (type.equals("HELP SEEKER")) {
                 if (thana_code.equals("-1")) {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker WHERE b.district_id = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker a WHERE a.district_id = ?");
                     ps.setString(1, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker WHERE b.thana_code = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_seeker a WHERE a.thana_code = ?");
                     ps.setString(1, thana_code);
                 }
             } else {
                 if (thana_code.equals("-1")) {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver WHERE b.district_id = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver a WHERE a.district_id = ?");
                     ps.setString(1, district_code);
                 } else {
-                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver WHERE b.thana_code = ?");
+                    ps = conn.prepareStatement("SELECT a.id,a.name,a.mobile_number,a.address,a.is_app_data FROM help_giver a WHERE a.thana_code = ?");
                     ps.setString(1, thana_code);
                 }
             }
