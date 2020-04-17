@@ -225,7 +225,7 @@
             helpDivCount++;
             var str = "<div class=\"row\" id=\"helpRow_" + helpDivCount + "\">\n" +
                     "                                <div class=\"col-sm-12 col-md-4\">\n" +
-                    "                                <span class=\"mandetory\">*</span><label class=\"eng\">Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>\n" +
+                    "                                <label class=\"eng\"><span class=\"mandetory\">*</span>Type of Help<br/>সহায় কৰাৰ/বিচৰা পদ্ধতি</label>\n" +
                     "                                    <select class=\"form-control\" id=\"type_of_help_" + helpDivCount + "\" name=\"type_of_help\">\n";
             for (var i = 0; i < helpList.length; i++) {
                 str += "<option value = \"" + helpList[i].id + "\">" + helpList[i].help + "</option>\n";

@@ -55,7 +55,7 @@
                                     <td>
                                         <button class="btn btn-sm btn-primary" onclick="doContact('${obj.mobile}', '${mobile}', '${captcha}', '${type}', '${name}');">Contact</button>
                                         <c:if test="${obj.src == 'APP'}">
-                                            <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');">View In Map</button>
+                                            <button class="btn btn-sm btn-primary" onclick="doViewInMap('${obj.mobile}');" style="margin-top:5px;">View In Map</button>
                                         </c:if>
                                     </td>
                                 </tr>

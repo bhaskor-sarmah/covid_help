@@ -55,6 +55,9 @@ public class SearchByPin extends HttpServlet {
             dao.doSaveSearchDetails(name, mobile, type, captcha, district_code, thana_code);
             if (type.equals("HELP SEEKER")) {
                 List<Member> memberList = dao.getMemberByDist(type, district_code, thana_code);
+                for (Member m : memberList) {
+                    System.out.println(m.getSrc());
+                }
                 if (memberList == null || memberList.isEmpty()) {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found</div>");
                     request.setAttribute("type", type);
@@ -66,9 +69,9 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if (thana_code.equals("-1")) {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at district - " + dao.getDistName(district_code) + " <br>উক্ত জিলাত  সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at district - " + dao.getDistName(district_code) + " <br>উক্ত জিলাত  সহায় বিচাৰোতা ব্যক্তিৰ তালিকা</div>");
                     } else {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত  সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of Help Seeker(s) at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত  সহায় বিচাৰোতা  ব্যক্তিৰ তালিকা</div>");
                     }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("name", name);
@@ -78,6 +81,9 @@ public class SearchByPin extends HttpServlet {
                 }
             } else if (type.equals("HELP GIVER")) {
                 List<Member> memberList = dao.getMemberByDist(type, district_code, thana_code);
+                for (Member m : memberList) {
+                    System.out.println(m.getSrc());
+                }
                 if (memberList == null || memberList.isEmpty()) {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\">No Data Found (কোনো ফলাফল পোৱা নগল)</div>");
                     request.setAttribute("type", type);
@@ -89,9 +95,9 @@ public class SearchByPin extends HttpServlet {
                 } else {
                     request.setAttribute("memberList", memberList);
                     if (thana_code.equals("-1")) {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at district - " + dao.getDistName(district_code) + "<br>উক্ত জিলাত  সহায় বিচাৰোতা ব্যক্তিৰ তালিকা</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at district - " + dao.getDistName(district_code) + "<br>উক্ত জিলাত সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
                     } else {
-                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত  সহায় বিচাৰোতা ব্যক্তিৰ তালিকা</div>");
+                        request.setAttribute("msg", "<div class=\"alert alert-success alertHeader\">List of people willing to Help at thana - " + dao.getThanaName(thana_code) + "<br>উক্ত থানাত সহায় কৰিব খোজা ব্যক্তিৰ তালিকা</div>");
                     }
                     request.setAttribute("mobile", mobile);
                     request.setAttribute("name", name);

@@ -594,7 +594,7 @@ public class MemberDao {
                 m.setMobile(Encryption.encrypt(rs.getString("mobile_number"), AppSettings.KEY));
                 m.setAddress(rs.getString("address"));
                 m.setHelp_details(getHelpListApp(rs.getString("id"), conn));
-                m.setSrc((rs.getInt("is_app_data") == 1) ? "APP" : "WEB");
+                m.setSrc((rs.getString("is_app_data") != null && rs.getString("is_app_data").equals("0")) ? "WEB" : "APP");
                 memList.add(m);
             }
         } catch (SQLException e) {
