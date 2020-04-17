@@ -35,19 +35,11 @@ public class GetSearch extends HttpServlet {
         String type = request.getParameter("type");
         if (type.equals("HELP GIVER")) {
             request.setAttribute("type", type);
-<<<<<<< HEAD
-//            request.setAttribute("helpMsg", "<div class=\"alert alert-success\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.</label></div>");
-=======
->>>>>>> new_ui
             request.setAttribute("distList", dao.getDistList());
             request.setAttribute("helpMsg", "<div class=\"alert alert-info\"><label>Fill up the parameters below to view the list of persons willing to help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় দাতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);
         } else if (type.equals("HELP SEEKER")) {
             request.setAttribute("type", type);
-<<<<<<< HEAD
-//            request.setAttribute("helpMsg", "<div class=\"alert alert-success\"><label>Fill up the parameters below to view the list of persons who wants help in your locality or District.</label></div>");
-=======
->>>>>>> new_ui
             request.setAttribute("distList", dao.getDistList());
             request.setAttribute("helpMsg", "<div class=\"alert alert-danger\"><label>Fill up the parameters below to view the list of persons who wants help in your locality or District.<br/>একে জিলাৰে বা অঞ্ছলৰে সহায় বিচাৰোতাৰ তালিকাখন চাবলৈ নিম্নোক্ত ফৰ্ম খন ভৰ্তি কৰক</label></div>");
             request.getRequestDispatcher("./pinSearch.jsp").forward(request, response);

@@ -71,66 +71,6 @@ public class RegisterMember extends HttpServlet {
             request.setAttribute("type", type);
             request.setAttribute("helpList", dao.getTypeOfHelp());
             request.setAttribute("distList", dao.getDistList());
-<<<<<<< HEAD
-            request.getRequestDispatcher("./register.jsp").forward(request, response);
-        } else {
-            String pin = request.getParameter("pincode");
-            if (dao.checkPinAssam(pin)) {
-                String dist = request.getParameter("district");
-                String[] type_of_help = request.getParameterValues("type_of_help");
-                String[] help_details = request.getParameterValues("help_details");
-                String[] help_quantity = request.getParameterValues("help_quantity");
-                List<HelpPojo> helpList = new ArrayList<HelpPojo>();
-                int i = 0;
-                for (String s : type_of_help) {
-                    HelpPojo h = new HelpPojo();
-                    h.setHelpId(s);
-                    h.setHelpDetails(help_details[i]);
-                    h.setHelpQuantity(help_quantity[i]);
-                    helpList.add(h);
-                    i++;
-                }
-                String name = request.getParameter("name");
-                name = getUTF8(name).toUpperCase();
-
-                String mobile = request.getParameter("mobile");
-
-                String ps = request.getParameter("ps");
-                ps = getUTF8(ps).toUpperCase();
-
-                String locality = request.getParameter("locality");
-                locality = getUTF8(locality).toUpperCase();
-
-                String road = request.getParameter("road");
-                road = getUTF8(road).toUpperCase();
-
-                String house = request.getParameter("house_no");
-                house = getUTF8(house).toUpperCase();
-
-                String sex = request.getParameter("gender").toUpperCase();
-//            sex = getUTF8(sex).toUpperCase();
-
-                String age = request.getParameter("age");
-                String email = request.getParameter("email");
-//            String type_of_help = request.getParameter("type_of_help").toUpperCase();
-//                PinPojo p = dao.getState(pin);
-                Member m = new Member();
-                m.setName(name);
-                m.setPolice_station(ps);
-                m.setPincode(pin);
-                m.setLocality(locality);
-                m.setRoad(road);
-                m.setHouse_no(house);
-                m.setAge(age);
-                m.setCircle("");
-                m.setDistrict(dist);
-                m.setEmail(email);
-                m.setMobile(mobile);
-                m.setSex(sex);
-                m.setState("ASSAM");
-                m.setType(type);
-                m.setType_of_help(helpList);
-=======
             request.setAttribute("register", rp);
             request.getRequestDispatcher("./register.jsp").forward(request, response);
         } else {
@@ -149,7 +89,6 @@ public class RegisterMember extends HttpServlet {
                 helpList.add(h);
                 i++;
             }
->>>>>>> new_ui
 
             String dist_code = request.getParameter("district");
 
@@ -175,10 +114,7 @@ public class RegisterMember extends HttpServlet {
                     request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Failed Saving Member (পঞ্জীয়ন অসফল)</label></div>");
                     request.setAttribute("helpList", dao.getTypeOfHelp());
                     request.setAttribute("distList", dao.getDistList());
-<<<<<<< HEAD
-=======
                     request.setAttribute("register", rp);
->>>>>>> new_ui
                     request.getRequestDispatcher("./register.jsp").forward(request, response);
                 }
             } else if (msg.equals("WEB")) {
@@ -186,8 +122,6 @@ public class RegisterMember extends HttpServlet {
                 request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in web portal.</label></div>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
-<<<<<<< HEAD
-=======
                 request.setAttribute("register", rp);
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             } else if (msg.equals("APP")) {
@@ -196,7 +130,6 @@ public class RegisterMember extends HttpServlet {
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
                 request.setAttribute("register", rp);
->>>>>>> new_ui
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             }
         }

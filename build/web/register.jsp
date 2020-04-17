@@ -61,41 +61,10 @@
                             <span class="errorSpan" id="districtError"></span>
                         </div>
                         <div class="col-xs-9 col-md-6">
-<<<<<<< HEAD
-                            <span class="mandetory">*</span><label class="eng">Age<br/>আপোনাৰ বয়স লিখক</label>
-                            <input type="text" class="form-control" name="age" placeholder="Enter Age" id="age"/>
-                            <span class="errorSpan" id="ageError"></span>
-                        </div>
-                        <div class="col-xs-9 col-md-6">
-                            <label class="ass">State<br/>ৰাজ্য</label><br/>
-                            <label id="state">ASSAM</label>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-xs-9 col-md-6">
-                            <label class="eng">District: </label>
-                            <select class="form-control" name="district" id="district">
-                                <option value="-1">--SELECT--</option>
-                                <c:forEach var="obj" items="${distList}">
-                                    <option value="${obj.distCode}">${obj.distName}</option>
-                                </c:forEach>
-                            </select>
-                            <span class="errorSpan" id="districtError"></span>
-                        </div>
-                        <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Pin Code<br/>আপোনাৰ পিন ক'ড লিখক</label>
-                            <input type="text" class="form-control" name="pincode" placeholder="Enter Pin Code" id="pincode"/>
-                            <span class="errorSpan" id="pincodeError"></span>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-xs-9 col-md-6">
-                            <span class="mandetory">*</span><label class="eng">Police Station<br/>আপোনাৰ থানা লিখক</label>
-                            <input type="text" class="form-control" name="ps" placeholder="Enter PS" id="ps"/>
-=======
                             <label class="eng"><span class="mandetory">*</span>Thana<br/>আপোনাৰ থানা বাচক</label>
                             <select class="form-control" name="thana" id="thana">
                                 <option value="-1">--SELECT THANA--</option>
                             </select>
->>>>>>> new_ui
                             <span class="errorSpan" id="psError"></span>
                         </div>
                         <div class="clearfix"></div>
@@ -144,11 +113,7 @@
                             <button type="button" class="btn btn-sm btn-primary" id="btnAddMore" onclick="doAddRow();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add More</button>&nbsp;
                             <button type="button" class="btn btn-sm btn-danger" id="btnRemove" onclick="doRemoveRow();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Remove</button>
                         </div>
-<<<<<<< HEAD
-                        <div class="clearfix"></div>
-=======
                         <div class="clearfix"></div> 
->>>>>>> new_ui
                         <div class="col-xs-9 col-md-6">
                             <label class="eng"><span class="mandetory">*</span>Enter Captcha<br/>কেপচা লিখক</label>
                             <input type="text" class="form-control" name="captcha" placeholder="Enter Captcha" id="captcha"/>
@@ -201,38 +166,12 @@
             if ($("#name").val() === "") {
                 msg = "Enter Name";
                 $("#nameError").html(msg);
->>>>>>> new_ui
                 $("#nameError").show();
                 res = false;
             } else if (!$("#mobile").val().match(/^\d{10}$/)) {
                 msg = "Enter a valid Mobile No.";
                 $("#mobileError").html(msg);
                 $("#mobileError").show();
-<<<<<<< HEAD
-                return false;
-            } else if ($("#captcha").val() === "" || $("#captcha").val().length != 6) {
-                $("#captchaError").html("Enter a valid Captcha Code");
-                $("#captchaError").show();
-                return false;
-            } else if (isNaN($("#age").val())) {
-                $("#ageError").html("Enter a valid Age");
-                $("#ageError").show();
-                return false;
-            } else if (Number($("#age").val()) < 0 || Number($("#age").val()) > 120) {
-                $("#ageError").html("Enter a valid Age");
-                $("#ageError").show();
-                return false;
-            } else if ($("#district").val() === "-1") {
-                $("#districtError").html("Please select district");
-                $("#districtError").show();
-                return false;
-            } else if (!$("#pincode").val().match(/[1-9][0-9]{5}/)) {
-                $("#pincodeError").html("Enter a valid Pin Code");
-                $("#pincodeError").show();
-                return false;
-            } else if ($("#ps").val() === "") {
-                $("#psError").html("Enter Police Station");
-=======
                 res = false;
             } else if ($("#district").val() === "-1") {
                 msg = "Select District";
@@ -242,7 +181,6 @@
             } else if ($("#thana").val() === "-1") {
                 msg = "Select Thana";
                 $("#psError").html(msg);
->>>>>>> new_ui
                 $("#psError").show();
                 res = false;
             } else if ($("#address").val() === "") {

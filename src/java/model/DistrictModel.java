@@ -11,28 +11,12 @@ package model;
  * @author Bhaskor
  */
 public class DistrictModel {
-<<<<<<< HEAD
-    private String distName;
-    private String distCode;
-=======
     private String distCode;
     private String distName;
->>>>>>> new_ui
 
     public DistrictModel() {
     }
 
-<<<<<<< HEAD
-    public String getDistName() {
-        return distName;
-    }
-
-    public void setDistName(String distName) {
-        this.distName = distName;
-    }
-
-=======
->>>>>>> new_ui
     public String getDistCode() {
         return distCode;
     }
@@ -40,8 +24,6 @@ public class DistrictModel {
     public void setDistCode(String distCode) {
         this.distCode = distCode;
     }
-<<<<<<< HEAD
-=======
 
     public String getDistName() {
         return distName;
@@ -51,6 +33,5 @@ public class DistrictModel {
         this.distName = distName;
     }
     
->>>>>>> new_ui
     
 }
