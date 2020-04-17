@@ -104,9 +104,9 @@ public class RegisterMember extends HttpServlet {
             m.setHouse_no(house);
             m.setType(type);
             m.setHelp_details(helpList);
-            String msg = dao.checkMobile(m.getMobile());
+            String msg = dao.checkMobile(m.getMobile(),type);
             if (msg.equals("")) {
-                if (dao.saveMember(m)) {
+                if (dao.saveMember(m,msg)) {
                     request.setAttribute("msg", "<div class=\"alert alert-success\"><label>Registration Successful ! (পঞ্জীয়ন সম্পন্ন)</label></div>");
                     request.getRequestDispatcher("./index.jsp").forward(request, response);
                 } else {
@@ -119,14 +119,14 @@ public class RegisterMember extends HttpServlet {
                 }
             } else if (msg.equals("WEB")) {
                 request.setAttribute("type", type);
-                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in web portal.</label></div>");
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered as "+type.toLowerCase()+" in web portal.</label></div>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
                 request.setAttribute("register", rp);
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
             } else if (msg.equals("APP")) {
                 request.setAttribute("type", type);
-                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered in Mobile App.</label></div>");
+                request.setAttribute("msg", "<div class=\"alert alert-danger\"><label>Error ! Mobile Number Already registered as "+type.toLowerCase()+" in Mobile App.</label></div>");
                 request.setAttribute("helpList", dao.getTypeOfHelp());
                 request.setAttribute("distList", dao.getDistList());
                 request.setAttribute("register", rp);

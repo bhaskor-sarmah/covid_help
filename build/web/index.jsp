@@ -75,7 +75,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-6 cardCol">
+<!--                            <div class="col-xs-12 col-md-6 cardCol">
                                 <div class="cardDiv text-center">
                                     <h2 style="margin-bottom: 5px;">Frequently Asked Questions (FAQ)</h2>
                                     <span>
@@ -85,7 +85,7 @@
                                         <button type="submit" class="button alt">View</button>
                                     </form>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="col-xs-0 col-md-2"></div>

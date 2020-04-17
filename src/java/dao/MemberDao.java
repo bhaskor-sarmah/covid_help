@@ -173,7 +173,7 @@ public class MemberDao {
         return distList;
     }
 
-    public boolean saveMember(Member m) {
+    public boolean saveMember(Member m, String msg) {
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -185,55 +185,87 @@ public class MemberDao {
             System.out.println("Connection Exception : " + e.getMessage());
             return false;
         }
-        try {
-            int index = 1;
-            ps = conn.prepareStatement("INSERT INTO `icmr_user_details` \n"
-                    + "	(`id`, \n"
-                    + "	`address`,\n"
-                    + "	`mobile_number`, \n"
-                    + "	`name`, \n"
-                    + "	`fk_address_code`, \n"
-                    + "	`is_app_data`\n"
-                    + "	)\n"
-                    + "	VALUES\n"
-                    + "	("
-                    + "NULL,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?"
-                    + ")", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(index++, m.getAddress() + ", " + m.getRoad() + ", " + m.getHouse_no());
-            ps.setString(index++, m.getMobile());
-            ps.setString(index++, m.getName());
-            ps.setInt(index++, getAddressCode(m.getDist_code(), m.getThana_code(), conn));
-            ps.setInt(index++, 0);
-            System.out.println(ps);
-            ps.executeUpdate();
-            ResultSet rsGen = ps.getGeneratedKeys();
-            if (rsGen.next()) {
-                member_id = rsGen.getInt(1);
-            }
-        } catch (SQLException e) {
-            System.out.println("Exception : " + e.getMessage());
-            return false;
-        } finally {
+        if (msg.equals("")) {
             try {
-                if (rs != null) {
-                    rs.close();
+                int index = 1;
+                ps = conn.prepareStatement("INSERT INTO `icmr_user_details` \n"
+                        + "	(`id`, \n"
+                        + "	`address`,\n"
+                        + "	`mobile_number`, \n"
+                        + "	`name`, \n"
+                        + "	`fk_address_code`, \n"
+                        + "	`is_app_data`\n"
+                        + "	)\n"
+                        + "	VALUES\n"
+                        + "	("
+                        + "NULL,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?"
+                        + ")", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(index++, m.getAddress() + ", " + m.getRoad() + ", " + m.getHouse_no());
+                ps.setString(index++, m.getMobile());
+                ps.setString(index++, m.getName());
+                ps.setInt(index++, getAddressCode(m.getDist_code(), m.getThana_code(), conn));
+                ps.setInt(index++, 0);
+                System.out.println(ps);
+                ps.executeUpdate();
+                rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    member_id = rs.getInt(1);
                 }
             } catch (SQLException e) {
+                System.out.println("Exception : " + e.getMessage());
+                return false;
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (SQLException e) {
 
+                }
+                try {
+                    if (ps != null) {
+                        ps.close();
+                    }
+                } catch (SQLException e) {
+
+                }
             }
+        } else {
             try {
-                if (ps != null) {
-                    ps.close();
+                int index = 1;
+                ps = conn.prepareStatement("SELECT id FROM `icmr_user_details` WHERE mobile_number = ?");
+                ps.setString(index++, m.getMobile());
+                System.out.println(ps);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    member_id = rs.getInt(1);
                 }
             } catch (SQLException e) {
+                System.out.println("Exception : " + e.getMessage());
+                return false;
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (SQLException e) {
 
+                }
+                try {
+                    if (ps != null) {
+                        ps.close();
+                    }
+                } catch (SQLException e) {
+
+                }
             }
         }
+
         if (member_id != 0) {
             for (HelpPojo h : m.getHelp_details()) {
                 try {
@@ -715,7 +747,7 @@ public class MemberDao {
         return "";
     }
 
-    public String checkMobile(String mobile) {
+    public String checkMobile(String mobile, String type) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -725,7 +757,11 @@ public class MemberDao {
             System.out.println("Connection Exception : " + e.getMessage());
         }
         try {
-            ps = conn.prepareStatement("SELECT is_app_data FROM icmr_user_details WHERE mobile_number = ?");
+            if (type.equals("HELP SEEKER")) {
+                ps = conn.prepareStatement("SELECT is_app_data FROM help_seeker WHERE mobile_number = ?");
+            } else {
+                ps = conn.prepareStatement("SELECT is_app_data FROM help_giver WHERE mobile_number = ?");
+            }
             ps.setString(1, mobile);
             System.out.println(ps);
             rs = ps.executeQuery();
